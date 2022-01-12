@@ -20,7 +20,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier .",
+    "format:check": "yarn prettier --check",
+    "format:fix": "yarn prettier --write",
+    "lint": "eslint --ext .tsx,.ts .",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -42,7 +47,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "postcss": "^8.4.5",
+    "prettier": "^2.5.1",
     "tailwindcss": "^3.0.13"
   }
 }
