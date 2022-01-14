@@ -8,7 +8,7 @@ export function Button({ onClick, label }: TButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center py-3 px-6 text-base font-medium text-white bg-element-primary hover:bg-element-primary-hover rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-element-primary focus:ring-offset-2 shadow-sm"
+      className="items-center py-3 px-6 w-full text-lg font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 shadow-sm"
     >
       {label}
     </button>

@@ -16,12 +16,12 @@
 }
 
 .light {
-  --color-bg-primary: #fbfbfb;
+  --color-bg-primary: rgb(251, 251, 251);
   --color-bg-secondary: #f7f7f7;
   --color-text-primary: #000000;
   --color-text-secondary: #5e6270;
   --color-text-accent: #a0a0a0;
-  --color-element-primary: #6103ea;
+  --color-element-primary: 97 3 234;
   --color-element-primary-hover: #7730fe;
   --color-element-secondary: #888888;
   --color-element-secondary-hover: #636363;

@@ -1,22 +1,32 @@
+function withOpacityValue(variable) {
+  return ({ opacityValue }) => {
+    if (opacityValue === undefined) {
+      return `rgb(var(${variable}))`;
+    }
+    return `rgb(var(${variable}) / ${opacityValue})`;
+  };
+}
+
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {
-      backgroundColor: {
-        primary: "var(--color-bg-primary)",
-        secondary: "var(--color-bg-secondary)",
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      white: "#ffffff",
+      indigo: {
+        100: "#7730fe",
+        200: "#6103ea",
       },
-      textColor: {
-        accent: "var(--color-text-accent)",
-        primary: "var(--color-text-primary)",
-        secondary: "var(--color-text-secondary)",
-      },
-      colors: {
-        "element-primary": "var(--color-element-primary)",
-        "element-primary-hover": "var(--color-element-primary-hover)",
-        "element-secondary": "var(--color-element-secondary)",
-        "element-secondary-hover": "var(--color-element-secondary-hover)",
-        "element-secondary-active": "var(--color-element-secondary-active)",
+      alabaster: "#fbfbfb",
+      black: "#000000",
+      gray: {
+        100: "#f7f7f7",
+        200: "#efefef",
+        300: "#cfcfcf",
+        400: "#636363",
+        500: "#5e6270",
+        600: "#1c1c1c",
       },
     },
   },
