@@ -94,6 +94,7 @@ function App() {
               {tasksThisWeek.map((task) => {
                 return (
                   <ListItem
+                    key={task.id}
                     id={task.id}
                     text={task.task}
                     displayIndex={false}
@@ -105,6 +106,7 @@ function App() {
               <input
                 id="addThisWeek"
                 name="Add task this week"
+                aria-label="add task this week"
                 type="text"
                 className="peer w-full h-10 text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none"
                 placeholder="Add task..."
