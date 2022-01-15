@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 type TListItemProps = {
   text: string;
   id: string;
@@ -5,7 +7,13 @@ type TListItemProps = {
 };
 export function ListItem({ text, id, displayIndex }: TListItemProps) {
   return (
-    <div className="flex items-center">
+    <motion.div
+      className="flex items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+    >
       {displayIndex ? <p className="mr-2 text-sm text-gray-400">{id}</p> : null}
       <li className=" flex flex-auto p-3 w-full text-base font-semibold list-none text-black bg-transparent hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-transparent">
         {text}
@@ -14,7 +22,7 @@ export function ListItem({ text, id, displayIndex }: TListItemProps) {
           <Delete onClick={() => console.log("Delete")} />
         </div>
       </li>
-    </div>
+    </motion.div>
   );
 }
 

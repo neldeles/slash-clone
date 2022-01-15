@@ -4,7 +4,7 @@ import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
 import { ListItem } from "modules/_common/components/ListItem";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { ContainerThisWeek } from "modules/column-this-week/components/ContainerThisWeek";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
@@ -93,16 +93,18 @@ function App() {
           <div>
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
-                {tasksThisWeek.map((task) => {
-                  return (
-                    <ListItem
-                      key={task.id}
-                      id={task.id}
-                      text={task.task}
-                      displayIndex={false}
-                    />
-                  );
-                })}
+                <AnimatePresence initial={false}>
+                  {tasksThisWeek.map((task, index) => {
+                    return (
+                      <ListItem
+                        key={task.id}
+                        id={task.id}
+                        text={task.task}
+                        displayIndex={false}
+                      />
+                    );
+                  })}
+                </AnimatePresence>
                 <AlwaysScrollToBottom dep={tasksThisWeek} />
               </ul>
             </div>
