@@ -1,5 +1,5 @@
 import { Input } from "modules/_common/components/Input";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
@@ -27,15 +27,19 @@ const tasks = {
 
 function App() {
   const [isActive, setIsActive] = useState(true);
-  const [tasksThisweek, setTasksThisWeek] = useState(tasks.thisWeek);
+  const [tasksThisWeek, setTasksThisWeek] = useState(tasks.thisWeek);
+  const [newTask, setNewTask] = useState("");
 
-  const containerVariants = {
-    active: {
-      flexGrow: 1,
-    },
-    inactive: {
-      flexGrow: 0,
-    },
+  const addTaskThisWeek = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    const newTasksThisWeek = [
+      ...tasksThisWeek,
+      { id: Math.floor(Math.random() * 99).toString(), task: newTask },
+    ];
+
+    setNewTask("");
+    setTasksThisWeek(newTasksThisWeek);
   };
 
   useEffect(() => {
@@ -87,7 +91,7 @@ function App() {
         {isActive ? (
           <div>
             <ul>
-              {tasksThisweek.map((task) => {
+              {tasksThisWeek.map((task) => {
                 return (
                   <ListItem
                     id={task.id}
@@ -97,12 +101,15 @@ function App() {
                 );
               })}
             </ul>
-            <form>
-              <Input
+            <form onSubmit={addTaskThisWeek}>
+              <input
                 id="addThisWeek"
                 name="Add task this week"
-                placeholder="Add task..."
                 type="text"
+                className="peer w-full h-10 text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none"
+                placeholder="Add task..."
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
               />
             </form>
           </div>
