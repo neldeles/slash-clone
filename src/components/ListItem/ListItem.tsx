@@ -7,7 +7,7 @@ export function ListItem({ text, id, displayIndex }: TListItemProps) {
   return (
     <div className="flex items-center">
       {displayIndex ? <p className="mr-2 text-sm text-gray-400">{id}</p> : null}
-      <li className=" flex flex-auto p-3 w-full text-lg font-semibold list-none text-black bg-transparent hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-transparent">
+      <li className=" flex flex-auto p-3 w-full text-base font-semibold list-none text-black bg-transparent hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-transparent">
         {text}
         <div className="flex">
           <MarkComplete onClick={() => console.log("Mark Complete")} />

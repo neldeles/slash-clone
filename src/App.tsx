@@ -4,6 +4,7 @@ import { Heading } from "components/Heading";
 import { Button } from "components/Button";
 import { classNames } from "utils/classNames";
 import { ListItem } from "components/ListItem";
+import { motion, AnimatePresence } from "framer-motion";
 
 const tasks = {
   thisWeek: [
@@ -26,6 +27,15 @@ function App() {
   const [isActive, setIsActive] = useState(true);
   const [tasksThisweek, setTasksThisWeek] = useState(tasks.thisWeek);
 
+  const containerVariants = {
+    active: {
+      flexGrow: 1,
+    },
+    inactive: {
+      flexGrow: 0,
+    },
+  };
+
   useEffect(() => {
     document.body.classList.add("bg-alabaster");
 
@@ -33,26 +43,32 @@ function App() {
       document.body.classList.remove("bg-alabaster");
     };
   }, []);
+
   return (
-    <div className="flex ">
-      <div
+    <div className="flex">
+      <motion.div
         onClick={() => {
           if (!isActive) {
             setIsActive(true);
           }
         }}
         className={classNames(
-          "py-2 px-8 h-screen  border-r border-gray-200 group",
+          "py-2 px-8 h-screen border-r border-gray-200 group",
           isActive
-            ? "grow"
-            : "flex-initial hover:cursor-pointer hover:bg-gray-200"
+            ? null
+            : "hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
         )}
+        variants={containerVariants}
+        initial={false}
+        animate={isActive ? "active" : "inactive"}
       >
-        <div className="flex items-center mt-6">
+        <div className={classNames("flex items-center mt-6")}>
           <h1
             className={classNames(
-              "text-lg font-medium mr-auto",
-              isActive ? "text-gray-500" : "text-gray-300",
+              "font-medium mr-auto",
+              isActive
+                ? "text-lg text-gray-500"
+                : "text-gray-300 text-base transition-all duration-75",
               "group-hover:text-gray-500"
             )}
           >
@@ -80,6 +96,7 @@ function App() {
             </button>
           ) : null}
         </div>
+
         {isActive ? (
           <div>
             <ul>
@@ -93,15 +110,17 @@ function App() {
                 );
               })}
             </ul>
-            <Input
-              id="addThisWeek"
-              name="Add task this week"
-              placeholder="Add task..."
-              type="text"
-            />
+            <form>
+              <Input
+                id="addThisWeek"
+                name="Add task this week"
+                placeholder="Add task..."
+                type="text"
+              />
+            </form>
           </div>
         ) : null}
-      </div>
+      </motion.div>
 
       <div className="grow-[2] justify-center py-2 px-8 h-screen border-r border-gray-200">
         <div className="mx-auto max-w-lg">
