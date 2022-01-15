@@ -1,10 +1,12 @@
-import { Input } from "components/Input";
+import { Input } from "modules/_common/components/Input";
 import React, { useEffect, useState } from "react";
-import { Heading } from "components/Heading";
-import { Button } from "components/Button";
+import { Heading } from "modules/_common/components/Heading";
+import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
-import { ListItem } from "components/ListItem";
+import { ListItem } from "modules/_common/components/ListItem";
 import { motion, AnimatePresence } from "framer-motion";
+import { ContainerThisWeek } from "modules/column-this-week/components/ContainerThisWeek";
+import { Header } from "modules/_common/components/Header";
 
 const tasks = {
   thisWeek: [
@@ -46,23 +48,8 @@ function App() {
 
   return (
     <div className="flex">
-      <motion.div
-        onClick={() => {
-          if (!isActive) {
-            setIsActive(true);
-          }
-        }}
-        className={classNames(
-          "py-2 px-8 h-screen border-r border-gray-200 group",
-          isActive
-            ? null
-            : "hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
-        )}
-        variants={containerVariants}
-        initial={false}
-        animate={isActive ? "active" : "inactive"}
-      >
-        <div className={classNames("flex items-center mt-6")}>
+      <ContainerThisWeek isActive={isActive} setIsActive={setIsActive}>
+        <Header>
           <h1
             className={classNames(
               "font-medium mr-auto",
@@ -95,7 +82,7 @@ function App() {
               </svg>
             </button>
           ) : null}
-        </div>
+        </Header>
 
         {isActive ? (
           <div>
@@ -120,7 +107,7 @@ function App() {
             </form>
           </div>
         ) : null}
-      </motion.div>
+      </ContainerThisWeek>
 
       <div className="grow-[2] justify-center py-2 px-8 h-screen border-r border-gray-200">
         <div className="mx-auto max-w-lg">
