@@ -7,6 +7,7 @@ import { ListItem } from "modules/_common/components/ListItem";
 import { motion, AnimatePresence } from "framer-motion";
 import { ContainerThisWeek } from "modules/column-this-week/components/ContainerThisWeek";
 import { Header } from "modules/_common/components/Header";
+import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 
 const tasks = {
   thisWeek: [
@@ -90,19 +91,26 @@ function App() {
 
         {isActive ? (
           <div>
-            <ul>
-              {tasksThisWeek.map((task) => {
-                return (
-                  <ListItem
-                    key={task.id}
-                    id={task.id}
-                    text={task.task}
-                    displayIndex={false}
-                  />
-                );
-              })}
-            </ul>
-            <form onSubmit={addTaskThisWeek}>
+            <div className="overflow-auto max-h-[77vh]">
+              <ul className="px-8">
+                {tasksThisWeek.map((task) => {
+                  return (
+                    <ListItem
+                      key={task.id}
+                      id={task.id}
+                      text={task.task}
+                      displayIndex={false}
+                    />
+                  );
+                })}
+                <AlwaysScrollToBottom dep={tasksThisWeek} />
+              </ul>
+            </div>
+            <form
+              onSubmit={addTaskThisWeek}
+              className="px-8"
+              autoComplete="off"
+            >
               <input
                 id="addThisWeek"
                 name="Add task this week"
