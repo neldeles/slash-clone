@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
+import { Check, LeftArrow, RightArrow, Thrash } from "../Icons";
 
 type TListItemProps = {
   text: string;
   id: string;
   displayIndex: boolean;
+  tasks: any;
+  setTasks: any;
 };
 
 const buttons = [
@@ -87,7 +90,26 @@ const buttons = [
   },
 ];
 
-export function ListItem({ text, id, displayIndex }: TListItemProps) {
+export function ListItem({
+  text,
+  id,
+  displayIndex,
+  tasks,
+  setTasks,
+}: TListItemProps) {
+  const markDone = () => {
+    const updatedTasks = {
+      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
+      today: [...tasks.today],
+      done: [
+        ...tasks.done,
+        tasks.thisWeek.filter((task: any) => task.id === id),
+      ],
+    };
+
+    setTasks(updatedTasks);
+  };
+
   return (
     <motion.div
       className="group flex items-center"
@@ -100,7 +122,7 @@ export function ListItem({ text, id, displayIndex }: TListItemProps) {
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-transparent">
         <p>{text}</p>
         <div className="hidden group-hover:flex absolute top-1/2 right-0 justify-around items-center px-3 w-2/5 h-full group-hover:bg-gray-100 -translate-y-1/2">
-          {buttons.map((button) => (
+          {/* {buttons.map((button) => (
             <button
               key={button.name + id}
               className="text-gray-300 hover:text-black align-middle"
@@ -108,9 +130,36 @@ export function ListItem({ text, id, displayIndex }: TListItemProps) {
             >
               {button.icon}
             </button>
-          ))}
+          ))} */}
+          <ButtonIcon onClick={markDone}>
+            <Check />
+          </ButtonIcon>
+          <ButtonIcon onClick={markDone}>
+            <LeftArrow />
+          </ButtonIcon>
+          <ButtonIcon onClick={markDone}>
+            <RightArrow />
+          </ButtonIcon>
+          <ButtonIcon onClick={markDone}>
+            <Thrash />
+          </ButtonIcon>
         </div>
       </li>
     </motion.div>
+  );
+}
+
+type TProps = React.ComponentPropsWithoutRef<"button"> & {
+  children: React.ReactNode;
+};
+function ButtonIcon(props: TProps) {
+  const { children, ...buttonProps } = props;
+  return (
+    <button
+      className="text-gray-300 hover:text-black align-middle"
+      {...buttonProps}
+    >
+      {children}
+    </button>
   );
 }

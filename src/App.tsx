@@ -9,7 +9,7 @@ import { ContainerThisWeek } from "modules/column-this-week/components/Container
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 
-const tasks = {
+const initialTasks = {
   thisWeek: [
     {
       id: "1",
@@ -24,38 +24,36 @@ const tasks = {
       task: "Water the plants",
     },
   ],
+  today: [],
+  done: [],
 };
 
 function App() {
   const [isActive, setIsActive] = useState(true);
-  const [tasksThisWeek, setTasksThisWeek] = useState(tasks.thisWeek);
+  const [tasks, setTasks] = useState(initialTasks);
+  console.log("🚀 ~ file: App.tsx ~ line 34 ~ App ~ tasks", tasks);
   const [newTask, setNewTask] = useState("");
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleTextarea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const addTaskThisWeek = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      const newTasksThisWeek = [
-        ...tasksThisWeek,
-        { id: Math.floor(Math.random() * 99).toString(), task: newTask },
-      ];
+
+      const newTaskThisWeek = {
+        id: Math.floor(Math.random() * 99).toString(),
+        task: newTask,
+      };
+
+      const updatedTasks = {
+        thisWeek: [...tasks.thisWeek, newTaskThisWeek],
+        today: [...tasks.today],
+        done: [...tasks.done],
+      };
 
       setNewTask("");
-      setTasksThisWeek(newTasksThisWeek);
+      setTasks(updatedTasks);
     }
-  };
-
-  const addTaskThisWeek = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    const newTasksThisWeek = [
-      ...tasksThisWeek,
-      { id: Math.floor(Math.random() * 99).toString(), task: newTask },
-    ];
-
-    setNewTask("");
-    setTasksThisWeek(newTasksThisWeek);
   };
 
   useLayoutEffect(() => {
@@ -117,25 +115,27 @@ function App() {
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
                 <AnimatePresence initial={false}>
-                  {tasksThisWeek.map((task) => {
+                  {tasks.thisWeek.map((task) => {
                     return (
                       <ListItem
                         key={task.id}
                         id={task.id}
                         text={task.task}
                         displayIndex={false}
+                        tasks={tasks}
+                        setTasks={setTasks}
                       />
                     );
                   })}
                 </AnimatePresence>
-                <AlwaysScrollToBottom dep={tasksThisWeek} />
+                {/*
+                  TODO: might need to memoize this to prevent scrolling
+                  to bottom if another container is updated.
+                */}
+                <AlwaysScrollToBottom dep={tasks.thisWeek} />
               </ul>
             </div>
-            <form
-              onSubmit={addTaskThisWeek}
-              className="px-8 mt-1"
-              autoComplete="off"
-            >
+            <form className="px-8 mt-1" autoComplete="off">
               <textarea
                 id="addThisWeek"
                 name="Add task this week"
@@ -145,7 +145,7 @@ function App() {
                 placeholder="Add task..."
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
-                onKeyPress={handleTextarea}
+                onKeyPress={addTaskThisWeek}
                 ref={textareaRef}
               />
             </form>
