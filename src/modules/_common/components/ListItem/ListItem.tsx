@@ -134,7 +134,7 @@ export function ListItem({
       today: [...tasks.today],
       done: [
         ...tasks.done,
-        tasks.thisWeek.filter((task: any) => task.id === id),
+        ...tasks.thisWeek.filter((task: any) => task.id === id),
       ],
     };
 
