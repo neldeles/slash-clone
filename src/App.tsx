@@ -133,7 +133,7 @@ function App() {
             </div>
             <form
               onSubmit={addTaskThisWeek}
-              className="px-8"
+              className="px-8 mt-1"
               autoComplete="off"
             >
               <textarea
@@ -141,7 +141,7 @@ function App() {
                 name="Add task this week"
                 aria-label="add task this week"
                 maxLength={140}
-                className="w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
+                className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
                 placeholder="Add task..."
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
