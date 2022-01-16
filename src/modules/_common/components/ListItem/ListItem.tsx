@@ -5,34 +5,11 @@ type TListItemProps = {
   id: string;
   displayIndex: boolean;
 };
-export function ListItem({ text, id, displayIndex }: TListItemProps) {
-  return (
-    <motion.div
-      className="flex items-center"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-    >
-      {displayIndex ? <p className="mr-2 text-sm text-gray-400">{id}</p> : null}
-      <li className=" flex flex-auto p-3 w-full text-base font-semibold list-none text-black bg-transparent hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-transparent">
-        {text}
-        <div className="flex">
-          <MarkComplete onClick={() => console.log("Mark Complete")} />
-          <Delete onClick={() => console.log("Delete")} />
-        </div>
-      </li>
-    </motion.div>
-  );
-}
 
-type TIconButton = {
-  onClick: () => void;
-};
-
-function MarkComplete({ onClick }: TIconButton) {
-  return (
-    <button onClick={onClick}>
+const buttons = [
+  {
+    name: "mark complete",
+    icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="w-6 h-6"
@@ -43,17 +20,56 @@ function MarkComplete({ onClick }: TIconButton) {
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={2}
+          strokeWidth={3}
           d="M5 13l4 4L19 7"
         />
       </svg>
-    </button>
-  );
-}
-
-function Delete({ onClick }: TIconButton) {
-  return (
-    <button onClick={onClick}>
+    ),
+    handleClick: () => console.log("mark complete"),
+  },
+  {
+    name: "left arrow",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={3}
+          d="M11 17l-5-5m0 0l5-5m-5 5h12"
+        />
+      </svg>
+    ),
+    handleClick: () => console.log("left arrow"),
+  },
+  {
+    name: "right arrow",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={3}
+          d="M13 7l5 5m0 0l-5 5m5-5H6"
+        />
+      </svg>
+    ),
+    handleClick: () => console.log("right arrow"),
+  },
+  {
+    name: "delete",
+    icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="w-5 h-5"
@@ -66,6 +82,35 @@ function Delete({ onClick }: TIconButton) {
           clipRule="evenodd"
         />
       </svg>
-    </button>
+    ),
+    handleClick: () => console.log("delete"),
+  },
+];
+
+export function ListItem({ text, id, displayIndex }: TListItemProps) {
+  return (
+    <motion.div
+      className="group flex items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+    >
+      {displayIndex ? <p className="mr-2 text-sm text-gray-400">{id}</p> : null}
+      <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-transparent">
+        <p>{text}</p>
+        <div className="hidden group-hover:flex absolute top-1/2 right-0 justify-around items-center px-3 w-2/5 h-full group-hover:bg-gray-100 -translate-y-1/2">
+          {buttons.map((button) => (
+            <button
+              key={button.name + id}
+              className="text-gray-300 hover:text-black align-middle"
+              onClick={button.handleClick}
+            >
+              {button.icon}
+            </button>
+          ))}
+        </div>
+      </li>
+    </motion.div>
   );
 }

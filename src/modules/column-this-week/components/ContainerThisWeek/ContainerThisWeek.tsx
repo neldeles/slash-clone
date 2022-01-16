@@ -24,10 +24,10 @@ export function ContainerThisWeek({ isActive, setIsActive, children }: TProps) {
         }
       }}
       className={classNames(
-        "py-2 h-screen border-r border-gray-200 group",
+        "py-2 h-screen border-r border-gray-200 max-w-md",
         isActive
           ? null
-          : "hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
+          : "group hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
       )}
       variants={containerVariants}
       initial={false}

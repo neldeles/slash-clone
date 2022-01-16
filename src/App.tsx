@@ -1,10 +1,10 @@
 import { Input } from "modules/_common/components/Input";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
 import { ListItem } from "modules/_common/components/ListItem";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { ContainerThisWeek } from "modules/column-this-week/components/ContainerThisWeek";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
@@ -31,6 +31,21 @@ function App() {
   const [tasksThisWeek, setTasksThisWeek] = useState(tasks.thisWeek);
   const [newTask, setNewTask] = useState("");
 
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const handleTextarea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const newTasksThisWeek = [
+        ...tasksThisWeek,
+        { id: Math.floor(Math.random() * 99).toString(), task: newTask },
+      ];
+
+      setNewTask("");
+      setTasksThisWeek(newTasksThisWeek);
+    }
+  };
+
   const addTaskThisWeek = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -42,6 +57,14 @@ function App() {
     setNewTask("");
     setTasksThisWeek(newTasksThisWeek);
   };
+
+  useLayoutEffect(() => {
+    if (textareaRef && textareaRef.current) {
+      textareaRef.current.style.height = "0px";
+      const scrollHeight = textareaRef.current.scrollHeight;
+      textareaRef.current.style.height = scrollHeight + "px";
+    }
+  }, [newTask, isActive]);
 
   useEffect(() => {
     document.body.classList.add("bg-alabaster");
@@ -57,7 +80,7 @@ function App() {
         <Header>
           <h1
             className={classNames(
-              "font-medium mr-auto",
+              "font-medium tracking-wide mr-auto",
               isActive
                 ? "text-lg text-gray-500"
                 : "text-gray-300 text-base transition-all duration-75",
@@ -94,7 +117,7 @@ function App() {
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
                 <AnimatePresence initial={false}>
-                  {tasksThisWeek.map((task, index) => {
+                  {tasksThisWeek.map((task) => {
                     return (
                       <ListItem
                         key={task.id}
@@ -113,15 +136,17 @@ function App() {
               className="px-8"
               autoComplete="off"
             >
-              <input
+              <textarea
                 id="addThisWeek"
                 name="Add task this week"
                 aria-label="add task this week"
-                type="text"
-                className="peer w-full h-10 text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none"
+                maxLength={140}
+                className="w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
                 placeholder="Add task..."
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
+                onKeyPress={handleTextarea}
+                ref={textareaRef}
               />
             </form>
           </div>
