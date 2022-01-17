@@ -1,4 +1,5 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
 import { useState } from "react";
 import { classNames } from "utils/classNames";
@@ -40,7 +41,7 @@ export function ThisWeekListItem({
 
   const [doneIsClicked, setDoneIsClicked] = useState(false);
 
-  const markDone = () => {
+  const markDone = (id: string) => {
     const updatedTasks = {
       thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
       today: [...tasks.today],
@@ -51,6 +52,19 @@ export function ThisWeekListItem({
     };
 
     setDoneIsClicked(true);
+    setTasks(updatedTasks);
+  };
+
+  const moveToToday = (id: string) => {
+    const updatedTasks = {
+      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
+      today: [
+        ...tasks.today,
+        ...tasks.thisWeek.filter((task: any) => task.id === id),
+      ],
+      done: [...tasks.done],
+    };
+
     setTasks(updatedTasks);
   };
 
@@ -99,36 +113,21 @@ export function ThisWeekListItem({
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <button
+          <IconButton
             className="mr-2 text-gray-300 hover:text-black align-middle"
             disabled={doneIsClicked}
-            onClick={markDone}
+            onClick={() => markDone(id)}
           >
             <Check />
-          </button>
-          <ButtonIcon onClick={markDone}>
+          </IconButton>
+          <IconButton onClick={() => moveToToday(id)}>
             <RightArrow />
-          </ButtonIcon>
-          <ButtonIcon onClick={markDone}>
+          </IconButton>
+          <IconButton>
             <Thrash />
-          </ButtonIcon>
+          </IconButton>
         </div>
       </li>
     </motion.div>
-  );
-}
-
-type TProps = React.ComponentPropsWithoutRef<"button"> & {
-  children: React.ReactNode;
-};
-function ButtonIcon(props: TProps) {
-  const { children, ...buttonProps } = props;
-  return (
-    <button
-      className="mr-2 text-gray-300 hover:text-black align-middle"
-      {...buttonProps}
-    >
-      {children}
-    </button>
   );
 }
