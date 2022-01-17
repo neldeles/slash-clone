@@ -53,13 +53,13 @@ export function TodayListItem({
 
   const [doneIsClicked, setDoneIsClicked] = useState(false);
 
-  const markDone = () => {
+  const markDone = (id: string) => {
     const updatedTasks = {
-      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-      today: [...tasks.today],
+      thisWeek: [...tasks.thisWeek],
+      today: tasks.today.filter((task: any) => task.id !== id),
       done: [
         ...tasks.done,
-        ...tasks.thisWeek.filter((task: any) => task.id === id),
+        ...tasks.today.filter((task: any) => task.id === id),
       ],
     };
 
@@ -113,16 +113,16 @@ export function TodayListItem({
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton onClick={markDone}>
+          <IconButton onClick={() => markDone(id)}>
             <Check />
           </IconButton>
-          <IconButton onClick={markDone}>
+          <IconButton>
             <LeftArrow />
           </IconButton>
-          <IconButton onClick={markDone}>
+          <IconButton>
             <RightArrow />
           </IconButton>
-          <IconButton onClick={markDone}>
+          <IconButton>
             <Thrash />
           </IconButton>
         </div>
