@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { IconButton } from "modules/_common/components/IconButton";
 import { LeftArrow, Thrash } from "modules/_common/components/Icons";
 import { classNames } from "utils/classNames";
 
@@ -62,19 +63,16 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
         <p>{text}</p>
         <div
           className={classNames(
-            "absolute top-1/2 right-0 items-center px-3 h-full -translate-y-1/2",
+            "absolute top-1/2 right-0 justify-end items-center px-3 h-full -translate-y-1/2",
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <button
-            className="mr-2 text-gray-300 hover:text-black align-middle"
-            onClick={() => moveToPreviousColumn(id)}
-          >
+          <IconButton onClick={() => moveToPreviousColumn(id)}>
             <LeftArrow />
-          </button>
-          <button className=" text-gray-300 hover:text-black align-middle">
+          </IconButton>
+          <IconButton>
             <Thrash />
-          </button>
+          </IconButton>
         </div>
       </li>
     </motion.div>
