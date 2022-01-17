@@ -12,7 +12,7 @@ test("adds a new task and displays it in This Week column", () => {
   const input = screen.getByRole("textbox", { name: /add task this week/i });
   userEvent.type(input, newTask);
   userEvent.keyboard("{enter}");
-  const list = screen.getByRole("list");
+  const list = screen.getByRole("list", { name: /this week/i });
   const items = within(list).getAllByRole("listitem");
   expect(items[items.length - 1]).toHaveTextContent(newTask);
 });

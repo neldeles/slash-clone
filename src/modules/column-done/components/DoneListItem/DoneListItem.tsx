@@ -40,7 +40,10 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
   const moveToPreviousColumn = (id: string) => {
     const updatedTasks = {
       thisWeek: [...tasks.thisWeek],
-      today: [...tasks.today, tasks.done.filter((task: any) => task.id === id)],
+      today: [
+        ...tasks.today,
+        ...tasks.done.filter((task: any) => task.id === id),
+      ],
       done: [...tasks.done.filter((task: any) => task.id !== id)],
     };
 

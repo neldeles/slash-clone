@@ -11,10 +11,17 @@ type TListItemProps = {
   text: string;
   id: string;
   tasks: any;
+  taskIndex: number;
   setTasks: any;
 };
 
-export function TodayListItem({ text, id, tasks, setTasks }: TListItemProps) {
+export function TodayListItem({
+  text,
+  id,
+  tasks,
+  setTasks,
+  taskIndex,
+}: TListItemProps) {
   const duration = 0.4;
 
   const markCompleteVariants = {
@@ -66,7 +73,7 @@ export function TodayListItem({ text, id, tasks, setTasks }: TListItemProps) {
       exit="exit"
       variants={listParentVariants}
     >
-      <p className="mr-2 text-sm text-gray-400">{id}</p>
+      <p className="mr-2 text-sm text-gray-400">{taskIndex + 1}</p>
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
         <p>{text}</p>
         <div

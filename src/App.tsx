@@ -9,6 +9,7 @@ import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
 import { DoneListItem } from "modules/column-done/components/DoneListItem";
+import { TodayListItem } from "modules/column-today/components/TodayListItem";
 
 type TTask = {
   id: string;
@@ -48,6 +49,10 @@ function App() {
   const [newTask, setNewTask] = useState("");
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const addTaskToday = () => {
+    console.log("add task Today");
+  };
 
   const addTaskThisWeek = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
@@ -96,6 +101,7 @@ function App() {
                 ? "text-lg text-gray-500"
                 : "text-gray-300 text-base transition-all duration-75 group-hover:text-gray-500"
             )}
+            id="this-week-heading"
           >
             This Week
           </h1>
@@ -125,7 +131,7 @@ function App() {
         {isActive ? (
           <div>
             <div className="overflow-auto max-h-[77vh]">
-              <ul className="px-8">
+              <ul className="px-8" aria-labelledby="this-week-heading">
                 <AnimatePresence initial={false}>
                   {tasks.thisWeek.map((task) => {
                     return (
@@ -168,7 +174,31 @@ function App() {
       <div className="grow-[2] justify-center py-2 px-8 h-screen border-r border-gray-200">
         <div className="mx-auto max-w-lg">
           <Heading text="Today" />
-          <Input id="today" name="today" placeholder="Add task" type="text" />
+          <div>
+            <div className="overflow-auto max-h-[77vh]">
+              <ul className="px-8">
+                <AnimatePresence initial={false}>
+                  {tasks.today.map((task, index) => {
+                    return (
+                      <TodayListItem
+                        key={task.id}
+                        id={task.id}
+                        text={task.task}
+                        tasks={tasks}
+                        setTasks={setTasks}
+                        taskIndex={index}
+                      />
+                    );
+                  })}
+                </AnimatePresence>
+                {/*
+                  TODO: might need to memoize this to prevent scrolling
+                  to bottom if another container is updated.
+                */}
+                <AlwaysScrollToBottom dep={tasks.today} />
+              </ul>
+            </div>
+          </div>
           <div className="mt-6">
             <Button
               label="Start Slashing"
