@@ -119,7 +119,7 @@ export function ThisWeekListItem({
         </div>
         <div
           className={classNames(
-            "absolute top-1/2 right-0 justify-end items-center px-3 w-2/5 h-full -translate-y-1/2",
+            "absolute top-1/2 right-0 justify-end items-center gap-2 px-3 h-full -translate-y-1/2",
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >

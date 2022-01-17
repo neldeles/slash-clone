@@ -6,7 +6,7 @@ export function IconButton(props: TProps) {
   const { children, ...buttonProps } = props;
   return (
     <button
-      className="mr-2 text-gray-300 hover:text-black align-middle"
+      className=" text-gray-300 hover:text-black align-middle"
       {...buttonProps}
     >
       {children}

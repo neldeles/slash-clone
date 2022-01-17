@@ -73,7 +73,7 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
         <p>{text}</p>
         <div
           className={classNames(
-            "absolute top-1/2 right-0 justify-end items-center px-3 h-full -translate-y-1/2",
+            "absolute top-1/2 right-0 justify-end gap-2 items-center px-3 h-full -translate-y-1/2",
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
