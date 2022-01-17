@@ -9,7 +9,18 @@ import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
 
-const initialTasks = {
+type TTask = {
+  id: string;
+  task: string;
+};
+
+type TTasks = {
+  thisWeek: TTask[];
+  today: TTask[];
+  done: TTask[];
+};
+
+const initialTasks: TTasks = {
   thisWeek: [
     {
       id: "1",
