@@ -68,6 +68,16 @@ export function ThisWeekListItem({
     setTasks(updatedTasks);
   };
 
+  const deleteFromThisWeek = (id: string) => {
+    const updatedTasks = {
+      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
+      today: [...tasks.today],
+      done: [...tasks.done],
+    };
+
+    setTasks(updatedTasks);
+  };
+
   return (
     <motion.div
       className="group flex items-center"
@@ -113,17 +123,13 @@ export function ThisWeekListItem({
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton
-            className="mr-2 text-gray-300 hover:text-black align-middle"
-            disabled={doneIsClicked}
-            onClick={() => markDone(id)}
-          >
+          <IconButton disabled={doneIsClicked} onClick={() => markDone(id)}>
             <Check />
           </IconButton>
           <IconButton onClick={() => moveToToday(id)}>
             <RightArrow />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => deleteFromThisWeek(id)}>
             <Thrash />
           </IconButton>
         </div>
