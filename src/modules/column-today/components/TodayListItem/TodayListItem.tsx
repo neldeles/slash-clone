@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import {
   Check,
@@ -29,11 +29,6 @@ export function TodayListItem({
   const markCompleteVariants = {
     clicked: { pathLength: 1 },
     unclicked: { pathLength: 0 },
-  };
-
-  const iconVariants = {
-    clicked: { y: [-2, 0] },
-    unclicked: { y: 0 },
   };
 
   const listParentVariants = {
@@ -73,6 +68,16 @@ export function TodayListItem({
         ...tasks.thisWeek,
         ...tasks.today.filter((task: any) => task.id === id),
       ],
+      today: tasks.today.filter((task: any) => task.id !== id),
+      done: [...tasks.done],
+    };
+
+    setTasks(updatedTasks);
+  };
+
+  const deleteTask = (id: string) => {
+    const updatedTasks = {
+      thisWeek: [...tasks.thisWeek],
       today: tasks.today.filter((task: any) => task.id !== id),
       done: [...tasks.done],
     };
@@ -132,10 +137,10 @@ export function TodayListItem({
           <IconButton onClick={() => moveToThisWeek(id)}>
             <LeftArrow />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => markDone(id)}>
             <RightArrow />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => deleteTask(id)}>
             <Thrash />
           </IconButton>
         </div>
