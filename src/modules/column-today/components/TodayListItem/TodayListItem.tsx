@@ -1,5 +1,7 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { IconButton } from "modules/_common/components/IconButton";
 import {
+  Check,
   LeftArrow,
   RightArrow,
   Thrash,
@@ -107,60 +109,24 @@ export function TodayListItem({
         </div>
         <div
           className={classNames(
-            "absolute top-1/2 right-0 justify-around items-center px-3 w-2/5 h-full  -translate-y-1/2",
+            "absolute top-1/2 right-0 justify-end items-center px-3 w-2/5 h-full  -translate-y-1/2",
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <button
-            className=" text-gray-300 hover:text-black align-middle"
-            disabled={doneIsClicked}
-            onClick={markDone}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <motion.path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={3}
-                stroke="currentColor"
-                d="M5 13l4 4L19 7"
-                initial={false}
-                animate={doneIsClicked ? "clicked" : "unclicked"}
-                variants={iconVariants}
-                transition={{ duration: duration }}
-              />
-            </svg>
-          </button>
-          <ButtonIcon onClick={markDone}>
+          <IconButton onClick={markDone}>
+            <Check />
+          </IconButton>
+          <IconButton onClick={markDone}>
             <LeftArrow />
-          </ButtonIcon>
-          <ButtonIcon onClick={markDone}>
+          </IconButton>
+          <IconButton onClick={markDone}>
             <RightArrow />
-          </ButtonIcon>
-          <ButtonIcon onClick={markDone}>
+          </IconButton>
+          <IconButton onClick={markDone}>
             <Thrash />
-          </ButtonIcon>
+          </IconButton>
         </div>
       </li>
     </motion.div>
-  );
-}
-
-type TProps = React.ComponentPropsWithoutRef<"button"> & {
-  children: React.ReactNode;
-};
-function ButtonIcon(props: TProps) {
-  const { children, ...buttonProps } = props;
-  return (
-    <button
-      className="text-gray-300 hover:text-black align-middle"
-      {...buttonProps}
-    >
-      {children}
-    </button>
   );
 }
