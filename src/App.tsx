@@ -4,7 +4,7 @@ import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
 import { ListItem } from "modules/_common/components/ListItem";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
@@ -41,6 +41,7 @@ const initialTasks: TTasks = {
 
 function App() {
   const [isActive, setIsActive] = useState(true);
+  const [isDoneContainerActive, setIsDoneContainerActive] = useState(false);
   const [tasks, setTasks] = useState(initialTasks);
   console.log("🚀 ~ file: App.tsx ~ line 34 ~ App ~ tasks", tasks);
   const [newTask, setNewTask] = useState("");
@@ -92,8 +93,7 @@ function App() {
               "font-medium tracking-wide mr-auto",
               isActive
                 ? "text-lg text-gray-500"
-                : "text-gray-300 text-base transition-all duration-75",
-              "group-hover:text-gray-500"
+                : "text-gray-300 text-base transition-all duration-75 group-hover:text-gray-500"
             )}
           >
             This Week
@@ -177,9 +177,73 @@ function App() {
         </div>
       </div>
 
-      <div className="grow py-2 px-8 h-screen border-r border-gray-200">
-        <Heading text="Done" />
-      </div>
+      <SideContainer
+        isActive={isDoneContainerActive}
+        setIsActive={setIsDoneContainerActive}
+      >
+        <Header>
+          <h1
+            className={classNames(
+              "font-medium tracking-wide mr-auto",
+              isDoneContainerActive
+                ? "text-lg text-gray-500"
+                : "text-gray-300 text-base transition-all duration-75",
+              "group-hover:text-gray-500"
+            )}
+          >
+            Done
+          </h1>
+          {isDoneContainerActive ? (
+            <button
+              onClick={() => setIsDoneContainerActive(false)}
+              className={classNames("text-gray-300 hover:text-gray-500")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          ) : null}
+        </Header>
+
+        {isDoneContainerActive ? (
+          <div>
+            <div className="overflow-auto max-h-[77vh]">
+              <ul className="px-8">
+                <AnimatePresence initial={false}>
+                  {tasks.done.map((task) => {
+                    return (
+                      <ListItem
+                        key={task.id}
+                        id={task.id}
+                        text={task.task}
+                        displayIndex={false}
+                        tasks={tasks}
+                        setTasks={setTasks}
+                      />
+                    );
+                  })}
+                </AnimatePresence>
+                {/*
+                  TODO: might need to memoize this to prevent scrolling
+                  to bottom if another container is updated.
+                */}
+                <AlwaysScrollToBottom dep={tasks.done} />
+              </ul>
+            </div>
+          </div>
+        ) : null}
+      </SideContainer>
     </div>
   );
 }
