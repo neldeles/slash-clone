@@ -29,9 +29,8 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
     exit: {
       opacity: 0,
       transition: {
-        when: "afterChildren",
+        when: "beforeChildren",
         duration: 0.4,
-        delay: duration - 0.2,
         // ease: [0.04, 0.62, 0.23, 0.98],
         ease: "anticipate",
       },

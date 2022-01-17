@@ -17,6 +17,8 @@ export function ThisWeekListItem({
   tasks,
   setTasks,
 }: TListItemProps) {
+  const [exitStyle, setExitStyle] = useState("default");
+
   const duration = 0.4;
 
   const markCompleteVariants = {
@@ -35,6 +37,13 @@ export function ThisWeekListItem({
         delay: duration - 0.2,
         // ease: [0.04, 0.62, 0.23, 0.98],
         ease: "anticipate",
+      },
+    },
+    exitRight: {
+      x: [0, 500],
+      transition: {
+        duration: 0.4,
+        ease: "backInOut",
       },
     },
   };
@@ -65,6 +74,7 @@ export function ThisWeekListItem({
       done: [...tasks.done],
     };
 
+    setExitStyle("exitRight");
     setTasks(updatedTasks);
   };
 
@@ -83,7 +93,7 @@ export function ThisWeekListItem({
       className="group flex items-center"
       initial="hidden"
       animate="visible"
-      exit="exit"
+      exit={exitStyle === "exitRight" ? "exitRight" : "exit"}
       variants={listParentVariants}
     >
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
