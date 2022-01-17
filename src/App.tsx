@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
+import { DoneListItem } from "modules/column-done/components/DoneListItem";
 
 type TTask = {
   id: string;
@@ -223,11 +224,10 @@ function App() {
                 <AnimatePresence initial={false}>
                   {tasks.done.map((task) => {
                     return (
-                      <ListItem
+                      <DoneListItem
                         key={task.id}
                         id={task.id}
                         text={task.task}
-                        displayIndex={false}
                         tasks={tasks}
                         setTasks={setTasks}
                       />
