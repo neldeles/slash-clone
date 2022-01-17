@@ -5,9 +5,9 @@ import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
 import { ListItem } from "modules/_common/components/ListItem";
 import { AnimatePresence } from "framer-motion";
-import { ContainerThisWeek } from "modules/column-this-week/components/ContainerThisWeek";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
+import { SideContainer } from "modules/_common/components/SideContainer";
 
 const initialTasks = {
   thisWeek: [
@@ -74,7 +74,7 @@ function App() {
 
   return (
     <div className="flex">
-      <ContainerThisWeek isActive={isActive} setIsActive={setIsActive}>
+      <SideContainer isActive={isActive} setIsActive={setIsActive}>
         <Header>
           <h1
             className={classNames(
@@ -151,7 +151,7 @@ function App() {
             </form>
           </div>
         ) : null}
-      </ContainerThisWeek>
+      </SideContainer>
 
       <div className="grow-[2] justify-center py-2 px-8 h-screen border-r border-gray-200">
         <div className="mx-auto max-w-lg">
