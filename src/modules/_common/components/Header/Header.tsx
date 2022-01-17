@@ -5,6 +5,8 @@ type TProps = {
 };
 export function Header({ children }: TProps) {
   return (
-    <div className={classNames("flex items-center mt-6 px-8")}>{children}</div>
+    <div className={classNames("flex items-center justify-center mt-6 px-4")}>
+      {children}
+    </div>
   );
 }

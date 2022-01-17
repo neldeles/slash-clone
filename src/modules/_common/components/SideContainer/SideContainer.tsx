@@ -32,10 +32,10 @@ export function SideContainer({ isActive, setIsActive, children }: TProps) {
 
   const containerVariants = {
     active: {
-      flexGrow: 1,
+      flexBasis: "20%",
     },
     inactive: {
-      flexGrow: 0,
+      flexBasis: "10%",
     },
   };
 
@@ -48,7 +48,7 @@ export function SideContainer({ isActive, setIsActive, children }: TProps) {
           }
         }}
         className={classNames(
-          "py-2 h-screen border-r border-gray-200",
+          "py-2 h-screen border-r border-gray-200 max-w-[144px]",
           "group hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
         )}
         variants={containerVariants}
@@ -67,10 +67,16 @@ export function SideContainer({ isActive, setIsActive, children }: TProps) {
           setIsActive(true);
         }
       }}
-      className={classNames("py-2 h-screen border-r border-gray-200 max-w-xs")}
+      className={classNames(
+        "py-2 h-screen border-r border-gray-200 grow-0 shrink-0 max-w-xs"
+      )}
       variants={containerVariants}
       initial={false}
       animate={isActive ? "active" : "inactive"}
+      transition={{
+        delayChildren: 0.5,
+        staggerChildren: 1,
+      }}
     >
       {children}
     </motion.div>

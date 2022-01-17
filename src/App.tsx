@@ -98,9 +98,9 @@ function App() {
         <Header>
           <h1
             className={classNames(
-              "font-medium tracking-wide mr-auto",
+              "font-medium tracking-wide",
               isActive
-                ? "text-lg text-gray-500"
+                ? "mr-auto text-lg text-gray-500"
                 : "text-gray-300 text-base transition-all duration-75 group-hover:text-gray-500"
             )}
             id="this-week-heading"
@@ -118,7 +118,11 @@ function App() {
         </Header>
 
         {isActive ? (
-          <div>
+          <motion.div
+            initial={false}
+            animate={{ opacity: [0, 1] }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8" aria-labelledby="this-week-heading">
                 <AnimatePresence initial={false}>
@@ -155,7 +159,7 @@ function App() {
                 ref={textareaRef}
               />
             </form>
-          </div>
+          </motion.div>
         ) : null}
       </SideContainer>
 
@@ -203,9 +207,9 @@ function App() {
         <Header>
           <h1
             className={classNames(
-              "font-medium tracking-wide mr-auto",
+              "font-medium tracking-wide",
               isDoneContainerActive
-                ? "text-lg text-gray-500"
+                ? "mr-auto text-lg text-gray-500"
                 : "text-gray-300 text-base transition-all duration-75",
               "group-hover:text-gray-500"
             )}
@@ -223,7 +227,11 @@ function App() {
         </Header>
 
         {isDoneContainerActive ? (
-          <div>
+          <motion.div
+            initial={false}
+            animate={{ opacity: [0, 1] }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
                 <AnimatePresence initial={false}>
@@ -246,7 +254,7 @@ function App() {
                 <AlwaysScrollToBottom dep={tasks.done} />
               </ul>
             </div>
-          </div>
+          </motion.div>
         ) : null}
       </SideContainer>
     </div>
