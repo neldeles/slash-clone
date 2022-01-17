@@ -51,6 +51,16 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
     setTasks(updatedTasks);
   };
 
+  const deleteTask = (id: string) => {
+    const updatedTasks = {
+      thisWeek: [...tasks.thisWeek],
+      today: [...tasks.today],
+      done: [...tasks.done.filter((task: any) => task.id !== id)],
+    };
+
+    setTasks(updatedTasks);
+  };
+
   return (
     <motion.div
       className="group flex items-center"
@@ -70,7 +80,7 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
           <IconButton onClick={() => moveToPreviousColumn(id)}>
             <LeftArrow />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => deleteTask(id)}>
             <Thrash />
           </IconButton>
         </div>
