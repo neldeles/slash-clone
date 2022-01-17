@@ -67,6 +67,19 @@ export function TodayListItem({
     setTasks(updatedTasks);
   };
 
+  const moveToThisWeek = (id: string) => {
+    const updatedTasks = {
+      thisWeek: [
+        ...tasks.thisWeek,
+        ...tasks.today.filter((task: any) => task.id === id),
+      ],
+      today: tasks.today.filter((task: any) => task.id !== id),
+      done: [...tasks.done],
+    };
+
+    setTasks(updatedTasks);
+  };
+
   return (
     <motion.div
       className="group flex items-center"
@@ -116,7 +129,7 @@ export function TodayListItem({
           <IconButton onClick={() => markDone(id)}>
             <Check />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => moveToThisWeek(id)}>
             <LeftArrow />
           </IconButton>
           <IconButton>
