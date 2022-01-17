@@ -110,7 +110,7 @@ function App() {
           {isActive ? (
             <button
               onClick={() => setIsActive(false)}
-              className={classNames("text-gray-300 hover:text-gray-500")}
+              className={classNames("text-gray-300 hover:text-black")}
             >
               <Close />
             </button>
@@ -215,7 +215,7 @@ function App() {
           {isDoneContainerActive ? (
             <button
               onClick={() => setIsDoneContainerActive(false)}
-              className={classNames("text-gray-300 hover:text-gray-500")}
+              className={classNames("text-gray-300 hover:text-black")}
             >
               <Close />
             </button>
