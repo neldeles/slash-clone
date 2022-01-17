@@ -48,7 +48,7 @@ export function SideContainer({ isActive, setIsActive, children }: TProps) {
           }
         }}
         className={classNames(
-          "py-2 h-screen border-r border-gray-200 max-w-md",
+          "py-2 h-screen border-r border-gray-200",
           "group hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
         )}
         variants={containerVariants}
@@ -67,7 +67,7 @@ export function SideContainer({ isActive, setIsActive, children }: TProps) {
           setIsActive(true);
         }
       }}
-      className={classNames("py-2 h-screen border-r border-gray-200 max-w-md")}
+      className={classNames("py-2 h-screen border-r border-gray-200 max-w-xs")}
       variants={containerVariants}
       initial={false}
       animate={isActive ? "active" : "inactive"}
