@@ -10,6 +10,7 @@ import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToB
 import { SideContainer } from "modules/_common/components/SideContainer";
 import { DoneListItem } from "modules/column-done/components/DoneListItem";
 import { TodayListItem } from "modules/column-today/components/TodayListItem";
+import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
 
 type TTask = {
   id: string;
@@ -135,11 +136,10 @@ function App() {
                 <AnimatePresence initial={false}>
                   {tasks.thisWeek.map((task) => {
                     return (
-                      <ListItem
+                      <ThisWeekListItem
                         key={task.id}
                         id={task.id}
                         text={task.task}
-                        displayIndex={false}
                         tasks={tasks}
                         setTasks={setTasks}
                       />
