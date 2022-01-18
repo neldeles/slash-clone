@@ -7,7 +7,6 @@ export const handlers = [
   rest.get("/tasks", (req, res, ctx) => {
     const tasks = db.task.getAll();
 
-    console.log(tasks);
     return res(ctx.json(tasks));
   }),
   // create a new task
@@ -21,7 +20,6 @@ export const handlers = [
   // delete a task
   rest.delete("/task/:id", (req, res, ctx) => {
     const taskId = req.params.id;
-    console.log(taskId);
     db.task.delete({
       where: {
         id: {
