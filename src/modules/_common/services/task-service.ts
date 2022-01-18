@@ -6,6 +6,12 @@ const create = async (task: TNewTask) => {
   return response.data;
 };
 
+const deleteTask = async (id: string) => {
+  const response = await axios.delete(`/task/${id}`);
+  return response;
+};
+
 export const taskService = {
   create,
+  deleteTask,
 };

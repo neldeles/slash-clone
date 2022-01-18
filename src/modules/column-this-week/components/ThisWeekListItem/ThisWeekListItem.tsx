@@ -3,6 +3,8 @@ import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
 import { useState } from "react";
 import { classNames } from "utils/classNames";
+import { useMutation, useQueryClient } from "react-query";
+import { taskService } from "modules/_common/services/task-service";
 
 type TListItemProps = {
   text: string;
@@ -70,16 +72,20 @@ export function ThisWeekListItem({ text, id }: TListItemProps) {
   //   setExitStyle("exitRight");
   //   setTasks(updatedTasks);
   // };
+  const queryClient = useQueryClient();
 
-  // const deleteFromThisWeek = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-  //     today: [...tasks.today],
-  //     done: [...tasks.done],
-  //   };
+  const deleteTaskMutation = useMutation(
+    (id: string) => taskService.deleteTask(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks"]);
+      },
+    }
+  );
 
-  //   setTasks(updatedTasks);
-  // };
+  const handleDelete = (id: string) => {
+    deleteTaskMutation.mutate(id);
+  };
 
   return (
     <motion.div
@@ -132,7 +138,7 @@ export function ThisWeekListItem({ text, id }: TListItemProps) {
           <IconButton>
             <RightArrow />
           </IconButton>
-          <IconButton>
+          <IconButton aria-label="delete" onClick={() => handleDelete(id)}>
             <Thrash />
           </IconButton>
         </div>

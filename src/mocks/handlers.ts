@@ -18,4 +18,18 @@ export const handlers = [
 
     return res(ctx.status(201));
   }),
+  // delete a task
+  rest.delete("/task/:id", (req, res, ctx) => {
+    const taskId = req.params.id;
+    console.log(taskId);
+    db.task.delete({
+      where: {
+        id: {
+          equals: taskId,
+        },
+      },
+    });
+
+    return res(ctx.status(204));
+  }),
 ];
