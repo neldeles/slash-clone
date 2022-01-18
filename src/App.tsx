@@ -79,7 +79,7 @@ function App() {
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = scrollHeight + "px";
     }
-  }, [newTask, isActive]);
+  }, [tasksQuery.data, isActive]);
 
   useEffect(() => {
     document.body.classList.add("bg-alabaster");
