@@ -40,10 +40,7 @@ function App() {
   const [newTask, setNewTask] = useState("");
 
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
-  const tasksThisWeek = tasksQuery.data.filter(
-    (task: TTask) => task.status === "thisWeek"
-  );
-  console.log(tasksQuery.data);
+  console.log(tasksQuery);
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -90,6 +87,16 @@ function App() {
   if (tasksQuery.isLoading) {
     return <h1>Loading...</h1>;
   }
+
+  const tasksThisWeek = tasksQuery.data.filter(
+    (task: TTask) => task.status === "thisWeek"
+  );
+  const tasksToday = tasksQuery.data.filter(
+    (task: TTask) => task.status === "today"
+  );
+  const tasksDone = tasksQuery.data.filter(
+    (task: TTask) => task.status === "done"
+  );
 
   return (
     <div className="flex">
@@ -167,14 +174,12 @@ function App() {
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
                 <AnimatePresence initial={false}>
-                  {tasks.today.map((task, index) => {
+                  {tasksToday.map((task: TTask, index: number) => {
                     return (
                       <TodayListItem
                         key={task.id}
                         id={task.id}
                         text={task.task}
-                        tasks={tasks}
-                        setTasks={setTasks}
                         taskIndex={index}
                       />
                     );

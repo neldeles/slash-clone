@@ -21,8 +21,14 @@ export const status = {
   done: db.status.create({ id: 3, type: "done" }),
 };
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 15; i++) {
   db.task.create({
     status: status.thisWeek.type,
+  });
+  db.task.create({
+    status: status.today.type,
+  });
+  db.task.create({
+    status: status.done.type,
   });
 }
