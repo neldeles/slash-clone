@@ -237,14 +237,12 @@ function App() {
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
                 <AnimatePresence initial={false}>
-                  {tasks.done.map((task) => {
+                  {tasksDone.map((task: TTask) => {
                     return (
                       <DoneListItem
                         key={task.id}
                         id={task.id}
                         text={task.task}
-                        tasks={tasks}
-                        setTasks={setTasks}
                       />
                     );
                   })}

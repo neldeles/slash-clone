@@ -6,11 +6,9 @@ import { classNames } from "utils/classNames";
 type TListItemProps = {
   text: string;
   id: string;
-  tasks: any;
-  setTasks: any;
 };
 
-export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
+export function DoneListItem({ text, id }: TListItemProps) {
   const duration = 0.4;
 
   const markCompleteVariants = {
@@ -37,28 +35,28 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
     },
   };
 
-  const moveToPreviousColumn = (id: string) => {
-    const updatedTasks = {
-      thisWeek: [...tasks.thisWeek],
-      today: [
-        ...tasks.today,
-        ...tasks.done.filter((task: any) => task.id === id),
-      ],
-      done: [...tasks.done.filter((task: any) => task.id !== id)],
-    };
+  // const moveToPreviousColumn = (id: string) => {
+  //   const updatedTasks = {
+  //     thisWeek: [...tasks.thisWeek],
+  //     today: [
+  //       ...tasks.today,
+  //       ...tasks.done.filter((task: any) => task.id === id),
+  //     ],
+  //     done: [...tasks.done.filter((task: any) => task.id !== id)],
+  //   };
 
-    setTasks(updatedTasks);
-  };
+  //   setTasks(updatedTasks);
+  // };
 
-  const deleteTask = (id: string) => {
-    const updatedTasks = {
-      thisWeek: [...tasks.thisWeek],
-      today: [...tasks.today],
-      done: [...tasks.done.filter((task: any) => task.id !== id)],
-    };
+  // const deleteTask = (id: string) => {
+  //   const updatedTasks = {
+  //     thisWeek: [...tasks.thisWeek],
+  //     today: [...tasks.today],
+  //     done: [...tasks.done.filter((task: any) => task.id !== id)],
+  //   };
 
-    setTasks(updatedTasks);
-  };
+  //   setTasks(updatedTasks);
+  // };
 
   return (
     <motion.div
@@ -76,10 +74,10 @@ export function DoneListItem({ text, id, tasks, setTasks }: TListItemProps) {
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton onClick={() => moveToPreviousColumn(id)}>
+          <IconButton>
             <LeftArrow />
           </IconButton>
-          <IconButton onClick={() => deleteTask(id)}>
+          <IconButton>
             <Thrash />
           </IconButton>
         </div>
