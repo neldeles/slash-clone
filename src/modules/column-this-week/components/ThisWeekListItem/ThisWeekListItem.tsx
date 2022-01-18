@@ -7,16 +7,9 @@ import { classNames } from "utils/classNames";
 type TListItemProps = {
   text: string;
   id: string;
-  tasks: any;
-  setTasks: any;
 };
 
-export function ThisWeekListItem({
-  text,
-  id,
-  tasks,
-  setTasks,
-}: TListItemProps) {
+export function ThisWeekListItem({ text, id }: TListItemProps) {
   const [exitStyle, setExitStyle] = useState("default");
 
   const duration = 0.4;
@@ -50,43 +43,43 @@ export function ThisWeekListItem({
 
   const [doneIsClicked, setDoneIsClicked] = useState(false);
 
-  const markDone = (id: string) => {
-    const updatedTasks = {
-      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-      today: [...tasks.today],
-      done: [
-        ...tasks.done,
-        ...tasks.thisWeek.filter((task: any) => task.id === id),
-      ],
-    };
+  // const markDone = (id: string) => {
+  //   const updatedTasks = {
+  //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
+  //     today: [...tasks.today],
+  //     done: [
+  //       ...tasks.done,
+  //       ...tasks.thisWeek.filter((task: any) => task.id === id),
+  //     ],
+  //   };
 
-    setDoneIsClicked(true);
-    setTasks(updatedTasks);
-  };
+  //   setDoneIsClicked(true);
+  //   setTasks(updatedTasks);
+  // };
 
-  const moveToToday = (id: string) => {
-    const updatedTasks = {
-      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-      today: [
-        ...tasks.today,
-        ...tasks.thisWeek.filter((task: any) => task.id === id),
-      ],
-      done: [...tasks.done],
-    };
+  // const moveToToday = (id: string) => {
+  //   const updatedTasks = {
+  //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
+  //     today: [
+  //       ...tasks.today,
+  //       ...tasks.thisWeek.filter((task: any) => task.id === id),
+  //     ],
+  //     done: [...tasks.done],
+  //   };
 
-    setExitStyle("exitRight");
-    setTasks(updatedTasks);
-  };
+  //   setExitStyle("exitRight");
+  //   setTasks(updatedTasks);
+  // };
 
-  const deleteFromThisWeek = (id: string) => {
-    const updatedTasks = {
-      thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-      today: [...tasks.today],
-      done: [...tasks.done],
-    };
+  // const deleteFromThisWeek = (id: string) => {
+  //   const updatedTasks = {
+  //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
+  //     today: [...tasks.today],
+  //     done: [...tasks.done],
+  //   };
 
-    setTasks(updatedTasks);
-  };
+  //   setTasks(updatedTasks);
+  // };
 
   return (
     <motion.div
@@ -133,13 +126,13 @@ export function ThisWeekListItem({
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton disabled={doneIsClicked} onClick={() => markDone(id)}>
+          <IconButton disabled={doneIsClicked}>
             <Check />
           </IconButton>
-          <IconButton onClick={() => moveToToday(id)}>
+          <IconButton>
             <RightArrow />
           </IconButton>
-          <IconButton onClick={() => deleteFromThisWeek(id)}>
+          <IconButton>
             <Thrash />
           </IconButton>
         </div>

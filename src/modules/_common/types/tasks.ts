@@ -1,10 +1,17 @@
-export type TTask = {
+export type TTaskOld = {
   id: string;
   task: string;
 };
 
 export type TTasks = {
-  thisWeek: TTask[];
-  today: TTask[];
-  done: TTask[];
+  thisWeek: TTaskOld[];
+  today: TTaskOld[];
+  done: TTaskOld[];
+};
+
+export type TTask = {
+  id: string;
+  task: string;
+  status: string;
+  user_id: string;
 };

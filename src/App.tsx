@@ -1,9 +1,7 @@
-import { Input } from "modules/_common/components/Input";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
-import { ListItem } from "modules/_common/components/ListItem";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
@@ -12,17 +10,9 @@ import { DoneListItem } from "modules/column-done/components/DoneListItem";
 import { TodayListItem } from "modules/column-today/components/TodayListItem";
 import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
 import { Close } from "modules/_common/components/Icons";
-
-type TTask = {
-  id: string;
-  task: string;
-};
-
-type TTasks = {
-  thisWeek: TTask[];
-  today: TTask[];
-  done: TTask[];
-};
+import { TTask, TTasks } from "modules/_common/types/tasks";
+import { useQuery } from "react-query";
+import { tasksService } from "modules/_common/services/tasks-service";
 
 const initialTasks: TTasks = {
   thisWeek: [
@@ -47,8 +37,13 @@ function App() {
   const [isActive, setIsActive] = useState(true);
   const [isDoneContainerActive, setIsDoneContainerActive] = useState(false);
   const [tasks, setTasks] = useState(initialTasks);
-  console.log("🚀 ~ file: App.tsx ~ line 34 ~ App ~ tasks", tasks);
   const [newTask, setNewTask] = useState("");
+
+  const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
+  const tasksThisWeek = tasksQuery.data.filter(
+    (task: TTask) => task.status === "thisWeek"
+  );
+  console.log(tasksQuery.data);
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -92,6 +87,10 @@ function App() {
     };
   }, []);
 
+  if (tasksQuery.isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <div className="flex">
       <SideContainer isActive={isActive} setIsActive={setIsActive}>
@@ -126,14 +125,12 @@ function App() {
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8" aria-labelledby="this-week-heading">
                 <AnimatePresence initial={false}>
-                  {tasks.thisWeek.map((task) => {
+                  {tasksThisWeek.map((task: TTask) => {
                     return (
                       <ThisWeekListItem
                         key={task.id}
                         id={task.id}
                         text={task.task}
-                        tasks={tasks}
-                        setTasks={setTasks}
                       />
                     );
                   })}

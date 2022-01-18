@@ -3,7 +3,7 @@ import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 import App from "App";
 
-test("adds a new task and displays it in This Week column", () => {
+xtest("adds a new task and displays it in This Week column", () => {
   // We add this because scrollIntoView is not implemented in JSDOM
   // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
   window.HTMLElement.prototype.scrollIntoView = function () {};
