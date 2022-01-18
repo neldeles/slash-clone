@@ -126,8 +126,8 @@ function App() {
         {isActive ? (
           <motion.div
             initial={false}
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.3 }}
+            animate={{ opacity: [0, 0, 0.3, 1] }}
+            transition={{ duration: 0.4 }}
           >
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8" aria-labelledby="this-week-heading">
@@ -231,8 +231,8 @@ function App() {
         {isDoneContainerActive ? (
           <motion.div
             initial={false}
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.3 }}
+            animate={{ opacity: [0, 0, 0.3, 1] }}
+            transition={{ duration: 0.4 }}
           >
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
@@ -251,7 +251,7 @@ function App() {
                   TODO: might need to memoize this to prevent scrolling
                   to bottom if another container is updated.
                 */}
-                <AlwaysScrollToBottom dep={tasks.done} />
+                <AlwaysScrollToBottom dep={tasksDone} />
               </ul>
             </div>
           </motion.div>
