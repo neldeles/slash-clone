@@ -9,11 +9,11 @@ export const db = factory({
     id: primaryKey(Number),
     type: String,
   },
-  tasks: {
+  task: {
     id: primaryKey(datatype.uuid),
     task: lorem.sentence,
     status: oneOf("status"),
-    user_id: datatype.uuid,
+    user_id: () => 1,
   },
 });
 
