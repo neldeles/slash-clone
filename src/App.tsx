@@ -127,7 +127,7 @@ function App() {
           <motion.div
             initial={false}
             animate={{ opacity: [0, 0, 0.3, 1] }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8" aria-labelledby="this-week-heading">
@@ -232,7 +232,7 @@ function App() {
           <motion.div
             initial={false}
             animate={{ opacity: [0, 0, 0.3, 1] }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
             <div className="overflow-auto max-h-[77vh]">
               <ul className="px-8">
