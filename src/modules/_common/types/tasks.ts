@@ -9,9 +9,13 @@ export type TTasks = {
   done: TTaskOld[];
 };
 
+export type TStatus = "thisWeek" | "today" | "done";
+
 export type TTask = {
   id: string;
   task: string;
-  status: string;
+  status: TStatus;
   user_id: string;
 };
+
+export type TNewTask = Omit<TTask, "id" | "user_id">;

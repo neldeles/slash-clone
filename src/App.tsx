@@ -10,9 +10,10 @@ import { DoneListItem } from "modules/column-done/components/DoneListItem";
 import { TodayListItem } from "modules/column-today/components/TodayListItem";
 import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
 import { Close } from "modules/_common/components/Icons";
-import { TTask, TTasks } from "modules/_common/types/tasks";
-import { useQuery } from "react-query";
+import { TNewTask, TTask, TTasks } from "modules/_common/types/tasks";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
+import { taskService } from "modules/_common/services/task-service";
 
 const initialTasks: TTasks = {
   thisWeek: [
@@ -39,8 +40,17 @@ function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [newTask, setNewTask] = useState("");
 
+  const queryClient = useQueryClient();
+
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
-  console.log(tasksQuery);
+  const addTaskMutation = useMutation(
+    (task: TNewTask) => taskService.create(task),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks"]);
+      },
+    }
+  );
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -52,19 +62,14 @@ function App() {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      const newTaskThisWeek = {
-        id: Math.floor(Math.random() * 99).toString(),
+      const task: TNewTask = {
         task: newTask,
+        status: "thisWeek",
       };
 
-      const updatedTasks = {
-        thisWeek: [...tasks.thisWeek, newTaskThisWeek],
-        today: [...tasks.today],
-        done: [...tasks.done],
-      };
+      addTaskMutation.mutate(task);
 
       setNewTask("");
-      setTasks(updatedTasks);
     }
   };
 
