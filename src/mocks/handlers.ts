@@ -35,7 +35,7 @@ export const handlers = [
   }),
   // delete a task
   rest.delete("/task/:id", (req, res, ctx) => {
-    const taskId = req.params.id;
+    const taskId = req.params.id as string;
     db.task.delete({
       where: {
         id: {
@@ -48,7 +48,7 @@ export const handlers = [
   }),
   // update status of a task
   rest.put<TTask>("/task/status/:id", (req, res, ctx) => {
-    const taskId = req.params.id;
+    const taskId = req.params.id as string;
     const task = req.body;
 
     // Separate task.status === done flow because done tasks
