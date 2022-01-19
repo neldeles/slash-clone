@@ -152,6 +152,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
         >
           <IconButton
             disabled={doneIsClicked}
+            aria-label="mark-done"
             onClick={() => handleUpdateTask(task, "done")}
           >
             <Check />

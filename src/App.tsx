@@ -103,8 +103,6 @@ function App() {
   const tasksToday = sortByPriority(filterTasks(tasksData, "today"), "asc");
   const tasksDone = filterTasks(tasksData, "done").sort(sortByDoneDate);
 
-  console.log(tasksDone);
-
   if (tasksQuery.isLoading) {
     return <h1>loading</h1>;
   }
@@ -222,6 +220,7 @@ function App() {
                 : "text-gray-300 text-base transition-all duration-75",
               "group-hover:text-gray-500"
             )}
+            id="done-heading"
           >
             Done
           </h1>
@@ -242,7 +241,7 @@ function App() {
             transition={{ duration: 0.4, delay: 0.1 }}
           >
             <div className="overflow-auto max-h-[77vh]">
-              <ul className="px-8">
+              <ul className="px-8" aria-labelledby="done-heading">
                 <AnimatePresence initial={false}>
                   {tasksDone.map((task: TTask) => {
                     return (
