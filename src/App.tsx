@@ -43,6 +43,7 @@ function App() {
   const queryClient = useQueryClient();
 
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
+  const tasksData = tasksQuery.data ?? [];
   const addTaskMutation = useMutation(
     (task: TNewTask) => taskService.create(task),
     {
@@ -79,7 +80,7 @@ function App() {
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = scrollHeight + "px";
     }
-  }, [tasksQuery.data, isActive]);
+  }, [tasksQuery, isActive]);
 
   useEffect(() => {
     document.body.classList.add("bg-alabaster");
@@ -93,17 +94,14 @@ function App() {
     return <h1>loading</h1>;
   }
 
-  const tasksThisWeek = tasksQuery.data.filter(
-    (task: TTask) => task.status === "thisWeek"
-  );
-  const tasksToday = tasksQuery.data
-    .filter((task: TTask) => task.status === "today")
-    .sort(function (a: any, b: any) {
-      return a.priority - b.priority;
-    });
-  const tasksDone = tasksQuery.data.filter(
-    (task: TTask) => task.status === "done"
-  );
+  const tasksThisWeek = filterTasks(tasksData, "thisWeek");
+  const tasksToday = filterTasks(tasksData, "today").sort(function (
+    a: any,
+    b: any
+  ) {
+    return a.priority - b.priority;
+  });
+  const tasksDone = filterTasks(tasksData, "done");
 
   return (
     <div className="flex">
@@ -260,6 +258,10 @@ function App() {
       </SideContainer>
     </div>
   );
+}
+
+function filterTasks(tasks: TTask[], status: TTask["status"]) {
+  return tasks.filter((task: TTask) => task.status === status);
 }
 
 export default App;
