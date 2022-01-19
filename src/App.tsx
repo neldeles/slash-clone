@@ -101,7 +101,9 @@ function App() {
     "asc"
   );
   const tasksToday = sortByPriority(filterTasks(tasksData, "today"), "asc");
-  const tasksDone = filterTasks(tasksData, "done");
+  const tasksDone = filterTasks(tasksData, "done").sort(sortByDoneDate);
+
+  console.log(tasksDone);
 
   if (tasksQuery.isLoading) {
     return <h1>loading</h1>;
@@ -280,6 +282,12 @@ function sortByPriority(arr: TTask[], orderBy: "asc" | "desc") {
   return arr.sort(function (a, b) {
     return b.priority! - a.priority!;
   });
+}
+
+function sortByDoneDate(a: TTask, b: TTask) {
+  const dateA = new Date(a.date_done!).getTime();
+  const dateB = new Date(b.date_done!).getTime();
+  return dateA > dateB ? 1 : -1;
 }
 
 export default App;

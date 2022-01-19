@@ -16,7 +16,8 @@ export type TTask = {
   task: string;
   status: TStatus;
   priority: number | null;
+  date_done: Date | null;
   user_id: string;
 };
 
-export type TNewTask = Omit<TTask, "id" | "user_id" | "priority">;
+export type TNewTask = Omit<TTask, "id" | "user_id" | "priority" | "date_done">;

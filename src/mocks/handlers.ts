@@ -88,6 +88,7 @@ export const handlers = [
         },
         data: {
           ...task,
+          date_done: new Date(),
         },
       });
     }

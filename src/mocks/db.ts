@@ -12,6 +12,7 @@ export const db = factory({
     task: lorem.sentence,
     status: String,
     priority: nullable(Number),
+    date_done: nullable<Date>(() => null),
     user_id: () => "1",
   },
 });
@@ -33,5 +34,6 @@ for (let i = 0; i < 15; i++) {
   });
   db.task.create({
     status: status.done.type,
+    date_done: new Date(),
   });
 }
