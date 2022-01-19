@@ -1,4 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
@@ -90,16 +96,16 @@ function App() {
     };
   }, []);
 
-  if (tasksQuery.isLoading) {
-    return <h1>loading</h1>;
-  }
-
   const tasksThisWeek = sortByPriority(
     filterTasks(tasksData, "thisWeek"),
     "asc"
   );
   const tasksToday = sortByPriority(filterTasks(tasksData, "today"), "asc");
   const tasksDone = filterTasks(tasksData, "done");
+
+  if (tasksQuery.isLoading) {
+    return <h1>loading</h1>;
+  }
 
   return (
     <div className="flex">
@@ -143,7 +149,9 @@ function App() {
                   TODO: might need to memoize this to prevent scrolling
                   to bottom if another container is updated.
                 */}
-                <AlwaysScrollToBottom dep={tasks.thisWeek} />
+                <AlwaysScrollToBottom
+                  currentListLength={tasksThisWeek.length}
+                />
               </ul>
             </div>
             <form className="px-8 mt-1" autoComplete="off">
@@ -186,7 +194,7 @@ function App() {
                   TODO: might need to memoize this to prevent scrolling
                   to bottom if another container is updated.
                 */}
-                <AlwaysScrollToBottom dep={tasks.today} />
+                <AlwaysScrollToBottom currentListLength={tasksToday.length} />
               </ul>
             </div>
           </div>
@@ -248,7 +256,7 @@ function App() {
                   TODO: might need to memoize this to prevent scrolling
                   to bottom if another container is updated.
                 */}
-                <AlwaysScrollToBottom dep={tasksDone} />
+                <AlwaysScrollToBottom currentListLength={tasksDone.length} />
               </ul>
             </div>
           </motion.div>
