@@ -13,7 +13,23 @@ export const handlers = [
   rest.post<TNewTask>("/task", (req, res, ctx) => {
     const { task, status } = req.body;
 
-    db.task.create({ task, status });
+    const tasksInList = db.task.findMany({
+      where: {
+        status: {
+          equals: status,
+        },
+      },
+    });
+
+    // task.priority will never be null for status "thisWeek" | "today"
+    const priorities = tasksInList.map((task) => task.priority!);
+    const largestPriority = priorities.length ? Math.max(...priorities) : 0;
+
+    db.task.create({
+      task,
+      status,
+      priority: largestPriority + 1,
+    });
 
     return res(ctx.status(201));
   }),
@@ -35,31 +51,33 @@ export const handlers = [
     const taskId = req.params.id;
     const task = req.body;
 
-    // Make lowest priority in Today list so it's rendered
-    // at the bottom of the list.
-    const tasksInTodayList = db.task.findMany({
-      where: {
-        status: {
-          equals: "today",
+    // Separate task.status === done flow because done tasks
+    // have no priority i.e. null
+    if (task.status === "thisWeek" || task.status === "today") {
+      const tasksInList = db.task.findMany({
+        where: {
+          status: {
+            equals: task.status,
+          },
         },
-      },
-    });
+      });
 
-    // task.priority will never be null for status "thisWeek" | "today"
-    const priorities = tasksInTodayList.map((task) => task.priority!);
-    const largestPriority = Math.max(...priorities);
+      // task.priority will never be null for status "thisWeek" | "today"
+      const priorities = tasksInList.map((task) => task.priority!);
+      const largestPriority = priorities.length ? Math.max(...priorities) : 0;
 
-    db.task.update({
-      where: {
-        id: {
-          equals: taskId,
+      db.task.update({
+        where: {
+          id: {
+            equals: taskId,
+          },
         },
-      },
-      data: {
-        ...task,
-        priority: largestPriority + 1,
-      },
-    });
+        data: {
+          ...task,
+          priority: largestPriority + 1,
+        },
+      });
+    }
 
     return res(ctx.status(204));
   }),
