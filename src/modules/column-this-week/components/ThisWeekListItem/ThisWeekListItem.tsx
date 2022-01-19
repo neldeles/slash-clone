@@ -5,13 +5,14 @@ import { useState } from "react";
 import { classNames } from "utils/classNames";
 import { useMutation, useQueryClient } from "react-query";
 import { taskService } from "modules/_common/services/task-service";
+import { TTask, TUpdateTask } from "modules/_common/types/tasks";
+import { TUpdateTaskProps } from "modules/_common/types/services";
 
 type TListItemProps = {
-  text: string;
-  id: string;
+  task: TTask;
 };
 
-export function ThisWeekListItem({ text, id }: TListItemProps) {
+export function ThisWeekListItem({ task }: TListItemProps) {
   const [exitStyle, setExitStyle] = useState("default");
 
   const duration = 0.4;
@@ -74,6 +75,15 @@ export function ThisWeekListItem({ text, id }: TListItemProps) {
   // };
   const queryClient = useQueryClient();
 
+  const moveToTodayMutation = useMutation(
+    (payload: TTask) => taskService.updateTask(payload),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks"]);
+      },
+    }
+  );
+
   const deleteTaskMutation = useMutation(
     (id: string) => taskService.deleteTask(id),
     {
@@ -82,6 +92,15 @@ export function ThisWeekListItem({ text, id }: TListItemProps) {
       },
     }
   );
+
+  const handleMoveToToday = (task: TTask) => {
+    const payload: TTask = {
+      ...task,
+      status: "today",
+    };
+
+    moveToTodayMutation.mutate(payload);
+  };
 
   const handleDelete = (id: string) => {
     deleteTaskMutation.mutate(id);
@@ -96,7 +115,7 @@ export function ThisWeekListItem({ text, id }: TListItemProps) {
       variants={listParentVariants}
     >
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
-        <p>{text}</p>
+        <p>{task.task}</p>
         <div
           className={classNames(
             "absolute top-1/2 left-0 -translate-y-1/2",
@@ -135,10 +154,13 @@ export function ThisWeekListItem({ text, id }: TListItemProps) {
           <IconButton disabled={doneIsClicked}>
             <Check />
           </IconButton>
-          <IconButton>
+          <IconButton
+            aria-label="move-right"
+            onClick={() => handleMoveToToday(task)}
+          >
             <RightArrow />
           </IconButton>
-          <IconButton aria-label="delete" onClick={() => handleDelete(id)}>
+          <IconButton aria-label="delete" onClick={() => handleDelete(task.id)}>
             <Thrash />
           </IconButton>
         </div>

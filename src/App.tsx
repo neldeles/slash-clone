@@ -138,13 +138,7 @@ function App() {
               <ul className="px-8" aria-labelledby="this-week-heading">
                 <AnimatePresence initial={false}>
                   {tasksThisWeek.map((task: TTask) => {
-                    return (
-                      <ThisWeekListItem
-                        key={task.id}
-                        id={task.id}
-                        text={task.task}
-                      />
-                    );
+                    return <ThisWeekListItem key={task.id} task={task} />;
                   })}
                 </AnimatePresence>
                 {/*
@@ -177,7 +171,7 @@ function App() {
           <Heading text="Today" />
           <div>
             <div className="overflow-auto max-h-[77vh]">
-              <ul className="px-8">
+              <ul className="px-8" aria-labelledby="today-heading">
                 <AnimatePresence initial={false}>
                   {tasksToday.map((task: TTask, index: number) => {
                     return (

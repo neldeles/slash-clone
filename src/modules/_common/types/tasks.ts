@@ -19,3 +19,4 @@ export type TTask = {
 };
 
 export type TNewTask = Omit<TTask, "id" | "user_id">;
+export type TUpdateTask = Partial<Omit<TTask, "id" | "user_id">>;

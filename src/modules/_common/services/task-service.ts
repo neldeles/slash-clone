@@ -1,5 +1,6 @@
 import axios from "axios";
-import { TNewTask } from "../types/tasks";
+import { TUpdateTaskProps } from "../types/services";
+import { TNewTask, TTask } from "../types/tasks";
 
 const create = async (task: TNewTask) => {
   const response = await axios.post("/task", task);
@@ -11,7 +12,13 @@ const deleteTask = async (id: string) => {
   return response;
 };
 
+const updateTask = async (task: TTask) => {
+  const response = await axios.put(`/task/${task.id}`, task);
+  return response.data;
+};
+
 export const taskService = {
   create,
   deleteTask,
+  updateTask,
 };
