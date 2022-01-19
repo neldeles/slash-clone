@@ -94,13 +94,11 @@ function App() {
     return <h1>loading</h1>;
   }
 
-  const tasksThisWeek = filterTasks(tasksData, "thisWeek");
-  const tasksToday = filterTasks(tasksData, "today").sort(function (
-    a: any,
-    b: any
-  ) {
-    return a.priority - b.priority;
-  });
+  const tasksThisWeek = sortByPriority(
+    filterTasks(tasksData, "thisWeek"),
+    "asc"
+  );
+  const tasksToday = sortByPriority(filterTasks(tasksData, "today"), "asc");
   const tasksDone = filterTasks(tasksData, "done");
 
   return (
@@ -262,6 +260,18 @@ function App() {
 
 function filterTasks(tasks: TTask[], status: TTask["status"]) {
   return tasks.filter((task: TTask) => task.status === status);
+}
+
+function sortByPriority(arr: TTask[], orderBy: "asc" | "desc") {
+  if (orderBy === "asc") {
+    return arr.sort(function (a, b) {
+      return a.priority! - b.priority!;
+    });
+  }
+
+  return arr.sort(function (a, b) {
+    return b.priority! - a.priority!;
+  });
 }
 
 export default App;
