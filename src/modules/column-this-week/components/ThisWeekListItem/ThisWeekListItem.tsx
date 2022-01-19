@@ -74,7 +74,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   // };
   const queryClient = useQueryClient();
 
-  const moveToTodayMutation = useMutation(
+  const updateTaskMutation = useMutation(
     (payload: TTask) => taskService.updateTask(payload),
     {
       onSuccess: () => {
@@ -92,13 +92,13 @@ export function ThisWeekListItem({ task }: TListItemProps) {
     }
   );
 
-  const handleMoveToToday = (task: TTask) => {
+  const handleUpdateTask = (task: TTask, newStatus: TTask["status"]) => {
     const payload: TTask = {
       ...task,
-      status: "today",
+      status: newStatus,
     };
 
-    moveToTodayMutation.mutate(payload);
+    updateTaskMutation.mutate(payload);
   };
 
   const handleDelete = (id: string) => {
@@ -150,12 +150,15 @@ export function ThisWeekListItem({ task }: TListItemProps) {
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton disabled={doneIsClicked}>
+          <IconButton
+            disabled={doneIsClicked}
+            onClick={() => handleUpdateTask(task, "done")}
+          >
             <Check />
           </IconButton>
           <IconButton
             aria-label="move-right"
-            onClick={() => handleMoveToToday(task)}
+            onClick={() => handleUpdateTask(task, "today")}
           >
             <RightArrow />
           </IconButton>

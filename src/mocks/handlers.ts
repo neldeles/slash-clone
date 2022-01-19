@@ -79,6 +79,19 @@ export const handlers = [
       });
     }
 
+    if (task.status === "done") {
+      db.task.update({
+        where: {
+          id: {
+            equals: taskId,
+          },
+        },
+        data: {
+          ...task,
+        },
+      });
+    }
+
     return res(ctx.status(204));
   }),
 ];
