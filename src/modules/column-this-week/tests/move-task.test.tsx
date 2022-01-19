@@ -16,8 +16,9 @@ test("moves a task from This Week column to the bottom of Today column", async (
   window.HTMLElement.prototype.scrollIntoView = function () {};
 
   const task = "move to Today";
-  db.task.create({ task: "First Item", status: "today" });
-  db.task.create({ task: task, status: "thisWeek" });
+  db.task.create({ task: task, status: "thisWeek", priority: 1 });
+  db.task.create({ task: "First Item", status: "today", priority: 1 });
+  db.task.create({ task: "Second Item", status: "today", priority: 2 });
 
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));

@@ -10,7 +10,7 @@ import { DoneListItem } from "modules/column-done/components/DoneListItem";
 import { TodayListItem } from "modules/column-today/components/TodayListItem";
 import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
 import { Close } from "modules/_common/components/Icons";
-import { TNewTask, TTask, TTasks } from "modules/_common/types/tasks";
+import { TNewTask, TStatus, TTask, TTasks } from "modules/_common/types/tasks";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
 import { taskService } from "modules/_common/services/task-service";
@@ -96,9 +96,11 @@ function App() {
   const tasksThisWeek = tasksQuery.data.filter(
     (task: TTask) => task.status === "thisWeek"
   );
-  const tasksToday = tasksQuery.data.filter(
-    (task: TTask) => task.status === "today"
-  );
+  const tasksToday = tasksQuery.data
+    .filter((task: TTask) => task.status === "today")
+    .sort(function (a: any, b: any) {
+      return a.priority - b.priority;
+    });
   const tasksDone = tasksQuery.data.filter(
     (task: TTask) => task.status === "done"
   );

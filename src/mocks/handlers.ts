@@ -1,4 +1,4 @@
-import { TNewTask, TTask, TUpdateTask } from "modules/_common/types/tasks";
+import { TNewTask, TTask } from "modules/_common/types/tasks";
 import { rest } from "msw";
 import { db } from "./db";
 
@@ -30,10 +30,25 @@ export const handlers = [
 
     return res(ctx.status(204));
   }),
-  // update a task
-  rest.put<TTask>("/task/:id", (req, res, ctx) => {
+  // update status of a task
+  rest.put<TTask>("/task/status/:id", (req, res, ctx) => {
     const taskId = req.params.id;
     const task = req.body;
+
+    // Make lowest priority in Today list so it's rendered
+    // at the bottom of the list.
+    const tasksInTodayList = db.task.findMany({
+      where: {
+        status: {
+          equals: "today",
+        },
+      },
+    });
+
+    // task.priority will never be null for status "thisWeek" | "today"
+    const priorities = tasksInTodayList.map((task) => task.priority!);
+    const largestPriority = Math.max(...priorities);
+
     db.task.update({
       where: {
         id: {
@@ -42,6 +57,7 @@ export const handlers = [
       },
       data: {
         ...task,
+        priority: largestPriority + 1,
       },
     });
 

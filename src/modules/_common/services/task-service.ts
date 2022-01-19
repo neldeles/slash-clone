@@ -1,5 +1,4 @@
 import axios from "axios";
-import { TUpdateTaskProps } from "../types/services";
 import { TNewTask, TTask } from "../types/tasks";
 
 const create = async (task: TNewTask) => {
@@ -13,7 +12,7 @@ const deleteTask = async (id: string) => {
 };
 
 const updateTask = async (task: TTask) => {
-  const response = await axios.put(`/task/${task.id}`, task);
+  const response = await axios.put(`/task/status/${task.id}`, task);
   return response.data;
 };
 

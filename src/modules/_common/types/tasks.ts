@@ -15,8 +15,8 @@ export type TTask = {
   id: string;
   task: string;
   status: TStatus;
+  priority: number | null;
   user_id: string;
 };
 
-export type TNewTask = Omit<TTask, "id" | "user_id">;
-export type TUpdateTask = Partial<Omit<TTask, "id" | "user_id">>;
+export type TNewTask = Omit<TTask, "id" | "user_id" | "priority">;

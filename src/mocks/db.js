@@ -1,6 +1,6 @@
 // src/mocks/db.js
 import { seed, datatype, lorem } from "faker";
-import { factory, primaryKey, oneOf } from "@mswjs/data";
+import { factory, primaryKey, nullable } from "@mswjs/data";
 
 export const db = factory({
   status: {
@@ -11,6 +11,7 @@ export const db = factory({
     id: primaryKey(datatype.uuid),
     task: lorem.sentence,
     status: String,
+    priority: nullable(Number),
     user_id: () => "1",
   },
 });
@@ -24,9 +25,11 @@ export const status = {
 for (let i = 0; i < 15; i++) {
   db.task.create({
     status: status.thisWeek.type,
+    priority: i + 1,
   });
   db.task.create({
     status: status.today.type,
+    priority: i + 1,
   });
   db.task.create({
     status: status.done.type,

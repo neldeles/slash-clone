@@ -5,8 +5,7 @@ import { useState } from "react";
 import { classNames } from "utils/classNames";
 import { useMutation, useQueryClient } from "react-query";
 import { taskService } from "modules/_common/services/task-service";
-import { TTask, TUpdateTask } from "modules/_common/types/tasks";
-import { TUpdateTaskProps } from "modules/_common/types/services";
+import { TTask } from "modules/_common/types/tasks";
 
 type TListItemProps = {
   task: TTask;
