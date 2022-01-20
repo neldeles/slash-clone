@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
 import { useState } from "react";
@@ -12,8 +12,6 @@ type TListItemProps = {
 };
 
 export function ThisWeekListItem({ task }: TListItemProps) {
-  const [exitStyle, setExitStyle] = useState("default");
-
   const duration = 0.4;
 
   const markCompleteVariants = {
@@ -27,14 +25,12 @@ export function ThisWeekListItem({ task }: TListItemProps) {
     exit: {
       opacity: 0,
       transition: {
-        when: "afterChildren",
         duration: 0.4,
         delay: duration - 0.2,
-        // ease: [0.04, 0.62, 0.23, 0.98],
-        ease: "anticipate",
+        ease: [0.04, 0.62, 0.23, 0.98],
       },
     },
-    exitRight: {
+    toRight: {
       x: [0, 500],
       transition: {
         duration: 0.4,
@@ -44,20 +40,6 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   };
 
   const [doneIsClicked, setDoneIsClicked] = useState(false);
-
-  // const markDone = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-  //     today: [...tasks.today],
-  //     done: [
-  //       ...tasks.done,
-  //       ...tasks.thisWeek.filter((task: any) => task.id === id),
-  //     ],
-  //   };
-
-  //   setDoneIsClicked(true);
-  //   setTasks(updatedTasks);
-  // };
 
   // const moveToToday = (id: string) => {
   //   const updatedTasks = {
@@ -92,24 +74,38 @@ export function ThisWeekListItem({ task }: TListItemProps) {
     }
   );
 
-  const handleUpdateTask = (task: TTask, newStatus: TTask["status"]) => {
+  const moveToToday = (task: TTask) => {
     const payload: TTask = {
       ...task,
-      status: newStatus,
+      status: "today",
     };
 
     updateTaskMutation.mutate(payload);
   };
 
-  const handleDelete = (id: string) => {
+  const markTaskDone = (task: TTask) => {
+    const payload: TTask = {
+      ...task,
+      status: "done",
+    };
+
+    updateTaskMutation.mutate(payload, {
+      onSuccess: () => {
+        setDoneIsClicked(true);
+      },
+    });
+  };
+
+  const deleteTask = (id: string) => {
     deleteTaskMutation.mutate(id);
   };
 
   return (
     <motion.div
       className="group flex items-center"
-      // exit={exitStyle === "exitRight" ? "exitRight" : "exit"}
+      exit="exit"
       variants={listParentVariants}
+      layoutId={task.id}
     >
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
         <p>{task.task}</p>
@@ -151,17 +147,14 @@ export function ThisWeekListItem({ task }: TListItemProps) {
           <IconButton
             disabled={doneIsClicked}
             aria-label="mark-done"
-            onClick={() => handleUpdateTask(task, "done")}
+            onClick={() => markTaskDone(task)}
           >
             <Check />
           </IconButton>
-          <IconButton
-            aria-label="move-right"
-            onClick={() => handleUpdateTask(task, "today")}
-          >
+          <IconButton aria-label="move-right" onClick={() => moveToToday(task)}>
             <RightArrow />
           </IconButton>
-          <IconButton aria-label="delete" onClick={() => handleDelete(task.id)}>
+          <IconButton aria-label="delete" onClick={() => deleteTask(task.id)}>
             <Thrash />
           </IconButton>
         </div>
