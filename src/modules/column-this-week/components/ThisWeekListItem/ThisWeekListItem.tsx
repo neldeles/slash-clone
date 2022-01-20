@@ -6,7 +6,10 @@ import { classNames } from "utils/classNames";
 import { useMutation, useQueryClient } from "react-query";
 import { taskService } from "modules/_common/services/task-service";
 import { TTask } from "modules/_common/types/tasks";
-import { useUpdateTask } from "modules/_common/queries/task-queries";
+import {
+  useDeleteTask,
+  useUpdateTask,
+} from "modules/_common/queries/task-queries";
 
 type TListItemProps = {
   task: TTask;
@@ -55,18 +58,9 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   //   setExitStyle("exitRight");
   //   setTasks(updatedTasks);
   // };
-  const queryClient = useQueryClient();
 
   const updateTaskMutation = useUpdateTask();
-
-  const deleteTaskMutation = useMutation(
-    (id: string) => taskService.deleteTask(id),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tasks"]);
-      },
-    }
-  );
+  const deleteTaskMutation = useDeleteTask();
 
   const moveToToday = (task: TTask) => {
     const payload: TTask = {

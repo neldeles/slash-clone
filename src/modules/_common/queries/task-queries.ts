@@ -11,3 +11,13 @@ export const useUpdateTask = () => {
     },
   });
 };
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((id: string) => taskService.deleteTask(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+    },
+  });
+};
