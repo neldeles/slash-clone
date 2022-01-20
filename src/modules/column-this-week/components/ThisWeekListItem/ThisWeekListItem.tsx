@@ -7,7 +7,7 @@ import { TTask } from "modules/_common/types/tasks";
 import {
   useDeleteTask,
   useUpdateTask,
-} from "modules/_common/queries/task-queries";
+} from "modules/_common/mutations/task-mutations";
 
 type TListItemProps = {
   task: TTask;
