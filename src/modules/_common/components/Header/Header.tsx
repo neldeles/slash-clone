@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { classNames } from "utils/classNames";
 
 type TProps = {
@@ -5,8 +6,14 @@ type TProps = {
 };
 export function Header({ children }: TProps) {
   return (
-    <div className={classNames("flex items-center justify-center mt-6 px-4")}>
+    <motion.div
+      className={classNames("flex items-center mt-6 px-4 justify-between")}
+      variants={{
+        open: { justifyContent: "space-between" },
+        closed: { justifyContent: "center" },
+      }}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }

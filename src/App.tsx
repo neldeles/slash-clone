@@ -8,7 +8,7 @@ import React, {
 import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useCycle } from "framer-motion";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
@@ -41,7 +41,8 @@ const initialTasks: TTasks = {
 };
 
 function App() {
-  const [isActive, setIsActive] = useState(true);
+  const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
+  const [isDoneOpen, toggleDoneOpen] = useCycle(true, false);
   const [isDoneContainerActive, setIsDoneContainerActive] = useState(false);
   const [tasks, setTasks] = useState(initialTasks);
   const [newTask, setNewTask] = useState("");
@@ -82,11 +83,13 @@ function App() {
 
   useLayoutEffect(() => {
     if (textareaRef && textareaRef.current) {
+      console.log("layouteffect running");
+
       textareaRef.current.style.height = "0px";
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = scrollHeight + "px";
     }
-  }, [tasksQuery, isActive]);
+  }, [tasksQuery, isThisWeekOpen]);
 
   useEffect(() => {
     document.body.classList.add("bg-alabaster");
@@ -109,22 +112,23 @@ function App() {
 
   return (
     <div className="flex">
-      <SideContainer isActive={isActive} setIsActive={setIsActive}>
+      <SideContainer toggleOpen={toggleThisWeekOpen} isOpen={isThisWeekOpen}>
         <Header>
-          <h1
+          <motion.h1
             className={classNames(
               "font-medium tracking-wide",
-              isActive
+              isThisWeekOpen
                 ? "mr-auto text-lg text-gray-500"
-                : "text-gray-300 text-base transition-all duration-75 group-hover:text-gray-500"
+                : "text-gray-300 text-base"
             )}
             id="this-week-heading"
+            layoutId="this-week-heading"
           >
             This Week
-          </h1>
-          {isActive ? (
+          </motion.h1>
+          {isThisWeekOpen ? (
             <button
-              onClick={() => setIsActive(false)}
+              onClick={() => toggleThisWeekOpen()}
               className={classNames("text-gray-300 hover:text-black")}
             >
               <Close />
@@ -132,15 +136,15 @@ function App() {
           ) : null}
         </Header>
 
-        {isActive ? (
+        {isThisWeekOpen ? (
           <motion.div
             initial={false}
             animate={{ opacity: [0, 0, 0.3, 1] }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
           >
-            <div className="overflow-auto max-h-[77vh]">
-              <ul className="px-8" aria-labelledby="this-week-heading">
-                <AnimatePresence initial={false}>
+            <motion.div className="overflow-auto max-h-[77vh]">
+              <motion.ul className="px-8" aria-labelledby="this-week-heading">
+                <AnimatePresence>
                   {tasksThisWeek.map((task: TTask) => {
                     return <ThisWeekListItem key={task.id} task={task} />;
                   })}
@@ -152,10 +156,10 @@ function App() {
                 <AlwaysScrollToBottom
                   currentListLength={tasksThisWeek.length}
                 />
-              </ul>
-            </div>
-            <form className="px-8 mt-1" autoComplete="off">
-              <textarea
+              </motion.ul>
+            </motion.div>
+            <motion.form className="px-8 mt-1" autoComplete="off">
+              <motion.textarea
                 id="addThisWeek"
                 name="Add task this week"
                 aria-label="add task this week"
@@ -167,7 +171,7 @@ function App() {
                 onKeyPress={addTaskThisWeek}
                 ref={textareaRef}
               />
-            </form>
+            </motion.form>
           </motion.div>
         ) : null}
       </SideContainer>
@@ -207,15 +211,12 @@ function App() {
         </div>
       </div>
 
-      <SideContainer
-        isActive={isDoneContainerActive}
-        setIsActive={setIsDoneContainerActive}
-      >
+      <SideContainer toggleOpen={toggleDoneOpen} isOpen={isDoneOpen}>
         <Header>
           <h1
             className={classNames(
               "font-medium tracking-wide",
-              isDoneContainerActive
+              isDoneOpen
                 ? "mr-auto text-lg text-gray-500"
                 : "text-gray-300 text-base transition-all duration-75",
               "group-hover:text-gray-500"
@@ -224,9 +225,9 @@ function App() {
           >
             Done
           </h1>
-          {isDoneContainerActive ? (
+          {isDoneOpen ? (
             <button
-              onClick={() => setIsDoneContainerActive(false)}
+              onClick={() => toggleDoneOpen()}
               className={classNames("text-gray-300 hover:text-black")}
             >
               <Close />
@@ -234,14 +235,14 @@ function App() {
           ) : null}
         </Header>
 
-        {isDoneContainerActive ? (
+        {isDoneOpen ? (
           <motion.div
             initial={false}
             animate={{ opacity: [0, 0, 0.3, 1] }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
           >
-            <div className="overflow-auto max-h-[77vh]">
-              <ul className="px-8" aria-labelledby="done-heading">
+            <motion.div className="overflow-auto max-h-[77vh]">
+              <motion.ul className="px-8" aria-labelledby="done-heading">
                 <AnimatePresence initial={false}>
                   {tasksDone.map((task: TTask) => {
                     return (
@@ -258,8 +259,8 @@ function App() {
                   to bottom if another container is updated.
                 */}
                 <AlwaysScrollToBottom currentListLength={tasksDone.length} />
-              </ul>
-            </div>
+              </motion.ul>
+            </motion.div>
           </motion.div>
         ) : null}
       </SideContainer>

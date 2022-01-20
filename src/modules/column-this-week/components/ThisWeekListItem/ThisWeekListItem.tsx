@@ -22,8 +22,8 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   };
 
   const listParentVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+    closed: { opacity: 0 },
+    open: { opacity: 1 },
     exit: {
       opacity: 0,
       transition: {
@@ -108,9 +108,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   return (
     <motion.div
       className="group flex items-center"
-      initial="hidden"
-      animate="visible"
-      exit={exitStyle === "exitRight" ? "exitRight" : "exit"}
+      // exit={exitStyle === "exitRight" ? "exitRight" : "exit"}
       variants={listParentVariants}
     >
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">

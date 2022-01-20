@@ -3,13 +3,14 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { classNames } from "utils/classNames";
 
 type TProps = {
-  isActive: boolean;
   children: React.ReactNode;
-  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  toggleOpen: any;
 };
-export function SideContainer({ isActive, setIsActive, children }: TProps) {
-  // !isActive here is just the initial value of our state
-  const [toggleHover, setToggleHover] = useState(!isActive);
+export function SideContainer({ isOpen, toggleOpen, children }: TProps) {
+  // isOpen is just the initial value. If container is open,
+  // we do not allow hover. If container is closed, we allow hover.
+  const [allowHover, setAllowHover] = useState(!isOpen);
 
   /**
    * We add these effects to delay the effectivity of the group hover classes.
@@ -19,63 +20,65 @@ export function SideContainer({ isActive, setIsActive, children }: TProps) {
    * useLayoutEffect for when the container expands to avoid the flicker as well.
    */
   useLayoutEffect(() => {
-    if (isActive) {
-      setToggleHover(false);
+    if (isOpen) {
+      setAllowHover(false);
     }
-  }, [isActive]);
+  }, [isOpen]);
 
   useEffect(() => {
-    if (!isActive) {
-      setTimeout(() => setToggleHover(true), 200);
+    if (!isOpen) {
+      setTimeout(() => setAllowHover(true), 200);
     }
-  }, [isActive]);
+  }, [isOpen]);
 
   const containerVariants = {
-    active: {
+    open: {
       flexBasis: "20%",
     },
-    inactive: {
+    closed: {
       flexBasis: "10%",
     },
   };
 
-  if (toggleHover) {
-    return (
-      <motion.div
-        onClick={() => {
-          if (!isActive) {
-            setIsActive(true);
-          }
-        }}
-        className={classNames(
-          "py-2 h-screen border-r border-gray-200 max-w-[144px]",
-          "group hover:cursor-pointer hover:bg-gray-200 transition-colors duration-75"
-        )}
-        variants={containerVariants}
-        initial={false}
-        animate={isActive ? "active" : "inactive"}
-      >
-        {children}
-      </motion.div>
-    );
-  }
+  // if (!isOpen) {
+  //   return (
+  //     <motion.div
+  //       onClick={toggleOpen}
+  //       className={classNames(
+  //         "py-2 h-screen border-r border-gray-200 max-w-[144px]",
+  //         "group hover:cursor-pointer hover:bg-gray-200 "
+  //       )}
+  //       variants={containerVariants}
+  //       animate="closed"
+  //       transition={{
+  //         type: "spring",
+  //         stiffness: 20,
+  //         restDelta: 2,
+  //       }}
+  //     >
+  //       {children}
+  //     </motion.div>
+  //   );
+  // }
 
   return (
     <motion.div
-      onClick={() => {
-        if (!isActive) {
-          setIsActive(true);
-        }
-      }}
+      onClick={isOpen ? null : toggleOpen}
       className={classNames(
-        "py-2 h-screen border-r border-gray-200 grow-0 shrink-0 max-w-xs"
+        "py-2 h-screen border-r border-gray-200 grow-0 shrink-0 max-w-xs",
+        allowHover ? "group hover:cursor-pointer hover:bg-gray-200" : null
       )}
       variants={containerVariants}
-      initial={false}
-      animate={isActive ? "active" : "inactive"}
+      animate={isOpen ? "open" : "closed"}
+      // transition={{
+      //   type: "spring",
+      //   stiffness: 80,
+      //   restDelta: 2,
+      // }}
       transition={{
-        delayChildren: 0.5,
-        staggerChildren: 1,
+        type: "tween",
+        ease: "circOut",
+        duration: 0.2,
       }}
     >
       {children}
