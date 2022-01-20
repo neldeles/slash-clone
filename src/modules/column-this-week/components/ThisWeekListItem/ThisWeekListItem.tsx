@@ -3,8 +3,6 @@ import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
 import { useState } from "react";
 import { classNames } from "utils/classNames";
-import { useMutation, useQueryClient } from "react-query";
-import { taskService } from "modules/_common/services/task-service";
 import { TTask } from "modules/_common/types/tasks";
 import {
   useDeleteTask,
@@ -16,8 +14,6 @@ type TListItemProps = {
 };
 
 export function ThisWeekListItem({ task }: TListItemProps) {
-  const duration = 0.4;
-
   const markCompleteVariants = {
     clicked: { pathLength: 1 },
     unclicked: { pathLength: 0 },
@@ -30,7 +26,6 @@ export function ThisWeekListItem({ task }: TListItemProps) {
       opacity: 0,
       transition: {
         duration: 0.4,
-        delay: duration - 0.2,
         ease: [0.04, 0.62, 0.23, 0.98],
       },
     },
@@ -121,7 +116,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
               animate={doneIsClicked ? "clicked" : "unclicked"}
               variants={markCompleteVariants}
               transition={{
-                duration: duration,
+                duration: 0.4,
               }}
             />
           </svg>
