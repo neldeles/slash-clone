@@ -139,8 +139,10 @@ function App() {
         {isThisWeekOpen ? (
           <motion.div
             initial={false}
-            animate={{ opacity: [0, 0, 0.3, 1] }}
-            transition={{ duration: 0.2, delay: 0.1 }}
+            // animate={{ opacity: [0, 0, 0.3, 1] }}
+            // animate={{ width: "100%" }}
+            // transition={{ duration: 0.2, delay: 0.1 }}
+            // className="w-[calc(20vw)]"
           >
             <motion.div className="overflow-auto max-h-[77vh]">
               <motion.ul className="px-8" aria-labelledby="this-week-heading">

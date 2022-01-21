@@ -70,16 +70,16 @@ export function SideContainer({ isOpen, toggleOpen, children }: TProps) {
       )}
       variants={containerVariants}
       animate={isOpen ? "open" : "closed"}
-      // transition={{
-      //   type: "spring",
-      //   stiffness: 80,
-      //   restDelta: 2,
-      // }}
       transition={{
-        type: "tween",
-        ease: "circOut",
-        duration: 0.2,
+        type: "spring",
+        stiffness: 80,
+        restDelta: 2,
       }}
+      // transition={{
+      //   type: "tween",
+      //   ease: "circOut",
+      //   duration: 0.2,
+      // }}
     >
       {children}
     </motion.div>
