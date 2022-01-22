@@ -245,13 +245,7 @@ function App() {
               <motion.ul className="px-8" aria-labelledby="done-heading">
                 <AnimatePresence initial={false}>
                   {tasksDone.map((task: TTask) => {
-                    return (
-                      <DoneListItem
-                        key={task.id}
-                        id={task.id}
-                        text={task.task}
-                      />
-                    );
+                    return <DoneListItem key={task.id} task={task} />;
                   })}
                 </AnimatePresence>
                 {/*

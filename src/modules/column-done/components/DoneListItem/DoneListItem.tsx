@@ -1,16 +1,15 @@
 import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { LeftArrow, Thrash } from "modules/_common/components/Icons";
+import { useMoveTaskToToday } from "modules/_common/hooks";
+import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
 
 type TListItemProps = {
-  text: string;
-  id: string;
+  task: TTask;
 };
 
-export function DoneListItem({ text, id }: TListItemProps) {
-  const duration = 0.4;
-
+export function DoneListItem({ task }: TListItemProps) {
   const markCompleteVariants = {
     clicked: { pathLength: 1 },
     unclicked: { pathLength: 0 },
@@ -58,6 +57,8 @@ export function DoneListItem({ text, id }: TListItemProps) {
   //   setTasks(updatedTasks);
   // };
 
+  const moveTaskToToday = useMoveTaskToToday();
+
   return (
     <motion.div
       className="group flex items-center"
@@ -67,14 +68,14 @@ export function DoneListItem({ text, id }: TListItemProps) {
       variants={listParentVariants}
     >
       <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
-        <p>{text}</p>
+        <p>{task.task}</p>
         <div
           className={classNames(
             "absolute top-1/2 right-0 justify-end gap-2 items-center px-3 h-full -translate-y-1/2",
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton>
+          <IconButton onClick={() => moveTaskToToday(task)}>
             <LeftArrow />
           </IconButton>
           <IconButton>
