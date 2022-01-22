@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
-import { useState } from "react";
 import { classNames } from "utils/classNames";
 import { TTask } from "modules/_common/types/tasks";
 import {
   useDeleteTask,
-  useUpdateTask,
-} from "modules/_common/mutations/task-mutations";
+  useMarkTaskDone,
+  useMoveTaskToToday,
+} from "modules/_common/hooks";
 
 type TListItemProps = {
   task: TTask;
@@ -38,8 +38,6 @@ export function ThisWeekListItem({ task }: TListItemProps) {
     },
   };
 
-  const [doneIsClicked, setDoneIsClicked] = useState(false);
-
   // const moveToToday = (id: string) => {
   //   const updatedTasks = {
   //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
@@ -54,34 +52,9 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   //   setTasks(updatedTasks);
   // };
 
-  const updateTaskMutation = useUpdateTask();
-  const deleteTaskMutation = useDeleteTask();
-
-  const moveToToday = (task: TTask) => {
-    const payload: TTask = {
-      ...task,
-      status: "today",
-    };
-
-    updateTaskMutation.mutate(payload);
-  };
-
-  const markTaskDone = (task: TTask) => {
-    const payload: TTask = {
-      ...task,
-      status: "done",
-    };
-
-    updateTaskMutation.mutate(payload, {
-      onSuccess: () => {
-        setDoneIsClicked(true);
-      },
-    });
-  };
-
-  const deleteTask = (id: string) => {
-    deleteTaskMutation.mutate(id);
-  };
+  const moveTaskToToday = useMoveTaskToToday();
+  const deleteTask = useDeleteTask();
+  const { markTaskDone, startAnimation } = useMarkTaskDone();
 
   return (
     <motion.div
@@ -113,7 +86,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
               stroke="#01a09e"
               d="M0 0 l1120 0"
               initial={false}
-              animate={doneIsClicked ? "clicked" : "unclicked"}
+              animate={startAnimation ? "clicked" : "unclicked"}
               variants={markCompleteVariants}
               transition={{
                 duration: 0.4,
@@ -128,13 +101,16 @@ export function ThisWeekListItem({ task }: TListItemProps) {
           )}
         >
           <IconButton
-            disabled={doneIsClicked}
+            disabled={startAnimation}
             aria-label="mark-done"
             onClick={() => markTaskDone(task)}
           >
             <Check />
           </IconButton>
-          <IconButton aria-label="move-right" onClick={() => moveToToday(task)}>
+          <IconButton
+            aria-label="move-right"
+            onClick={() => moveTaskToToday(task)}
+          >
             <RightArrow />
           </IconButton>
           <IconButton aria-label="delete" onClick={() => deleteTask(task.id)}>

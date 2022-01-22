@@ -83,8 +83,6 @@ function App() {
 
   useLayoutEffect(() => {
     if (textareaRef && textareaRef.current) {
-      console.log("layouteffect running");
-
       textareaRef.current.style.height = "0px";
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = scrollHeight + "px";
