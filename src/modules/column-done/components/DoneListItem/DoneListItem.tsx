@@ -79,7 +79,10 @@ export function DoneListItem({ task }: TListItemProps) {
           <IconButton onClick={() => moveTaskToToday(task)}>
             <LeftArrow />
           </IconButton>
-          <IconButton onClick={() => deleteTask(task.id)}>
+          <IconButton
+            aria-label="delete done task"
+            onClick={() => deleteTask(task.id)}
+          >
             <Thrash />
           </IconButton>
         </div>
