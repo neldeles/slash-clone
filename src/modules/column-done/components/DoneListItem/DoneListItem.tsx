@@ -76,7 +76,10 @@ export function DoneListItem({ task }: TListItemProps) {
             "hidden group-hover:flex group-hover:bg-gray-100"
           )}
         >
-          <IconButton onClick={() => moveTaskToToday(task)}>
+          <IconButton
+            aria-label="move done task to today"
+            onClick={() => moveTaskToToday(task)}
+          >
             <LeftArrow />
           </IconButton>
           <IconButton
