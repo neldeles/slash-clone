@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { LeftArrow, Thrash } from "modules/_common/components/Icons";
-import { useMoveTaskToToday } from "modules/_common/hooks";
+import { useDeleteTask, useMoveTaskToToday } from "modules/_common/hooks";
 import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
 
@@ -58,6 +58,7 @@ export function DoneListItem({ task }: TListItemProps) {
   // };
 
   const moveTaskToToday = useMoveTaskToToday();
+  const deleteTask = useDeleteTask();
 
   return (
     <motion.div
@@ -78,7 +79,7 @@ export function DoneListItem({ task }: TListItemProps) {
           <IconButton onClick={() => moveTaskToToday(task)}>
             <LeftArrow />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => deleteTask(task.id)}>
             <Thrash />
           </IconButton>
         </div>
