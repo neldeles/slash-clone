@@ -8,6 +8,7 @@ import {
   useMarkTaskDone,
   useMoveTaskToToday,
 } from "modules/_common/hooks";
+import { MarkDone } from "modules/_common/components/MarkDone";
 
 type TListItemProps = {
   task: TTask;
@@ -55,7 +56,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
 
   const moveTaskToToday = useMoveTaskToToday();
   const deleteTask = useDeleteTask();
-  const { markTaskDone, startAnimation } = useMarkTaskDone();
+  const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
 
   return (
     <motion.li
@@ -67,30 +68,17 @@ export function ThisWeekListItem({ task }: TListItemProps) {
       layout
     >
       <p>{task.task}</p>
-      <div
-        className={classNames(
-          "absolute top-1/2 left-0 -translate-y-1/2",
-          "flex px-3 w-full h-full items-center"
-        )}
-      >
-        <svg
-          version="1.1"
-          id="line_2"
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="1200px"
-          height="5px"
+      {isDone ? (
+        <div
+          className={classNames(
+            "absolute top-1/2 left-0 -translate-y-1/2",
+            "flex px-3 w-full h-full items-center"
+          )}
         >
-          <motion.path
-            fill="#01a09e"
-            strokeWidth="6"
-            stroke="#01a09e"
-            d="M0 0 l1120 0"
-            variants={markCompleteVariants}
-          />
-        </svg>
-      </div>
+          <MarkDone />
+        </div>
+      ) : null}
+
       <div
         className={classNames(
           "absolute top-1/2 right-0 justify-end items-center gap-2 px-3 h-full -translate-y-1/2",
@@ -98,7 +86,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
         )}
       >
         <IconButton
-          disabled={startAnimation}
+          disabled={isDone}
           aria-label="mark-done"
           onClick={() => markTaskDone(task)}
         >
