@@ -15,8 +15,8 @@ type TListItemProps = {
 
 export function ThisWeekListItem({ task }: TListItemProps) {
   const markCompleteVariants = {
-    clicked: { pathLength: 1 },
-    unclicked: { pathLength: 0 },
+    exit: { pathLength: 1 },
+    open: { pathLength: 0 },
   };
 
   const listParentVariants = {
@@ -26,6 +26,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
       opacity: 0,
       transition: {
         duration: 0.4,
+        when: "afterChildren",
         ease: [0.04, 0.62, 0.23, 0.98],
       },
     },
@@ -59,6 +60,8 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   return (
     <motion.div
       className="group flex items-center"
+      initial="closed"
+      animate="open"
       exit="exit"
       variants={listParentVariants}
       layoutId={task.id}
@@ -85,12 +88,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
               strokeWidth="6"
               stroke="#01a09e"
               d="M0 0 l1120 0"
-              initial={false}
-              animate={startAnimation ? "clicked" : "unclicked"}
               variants={markCompleteVariants}
-              transition={{
-                duration: 0.4,
-              }}
             />
           </svg>
         </div>
