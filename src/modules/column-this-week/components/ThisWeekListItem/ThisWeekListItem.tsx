@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
 import { classNames } from "utils/classNames";
@@ -8,19 +8,29 @@ import {
   useMarkTaskDone,
   useMoveTaskToToday,
 } from "modules/_common/hooks";
-import { MarkDone } from "modules/_common/components/MarkDone";
 
 type TListItemProps = {
   task: TTask;
 };
 
 export function ThisWeekListItem({ task }: TListItemProps) {
-  const markCompleteVariants = {
-    exit: { pathLength: 1 },
-    open: { pathLength: 0 },
+  const markCompleteVariants: Variants = {
+    exit: {
+      color: "rgba(0,0,0,0)",
+      textDecorationColor: "#01a09e",
+      textDecorationThickness: "4px",
+      textDecorationLine: "line-through",
+      clipPath: "inset(0 0 0 0)",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+    open: { color: "rgba(0,0,0,1)" },
   };
 
-  const listParentVariants = {
+  const listParentVariants: Variants = {
     closed: { opacity: 0 },
     open: { opacity: 1 },
     exit: {
@@ -40,20 +50,6 @@ export function ThisWeekListItem({ task }: TListItemProps) {
     },
   };
 
-  // const moveToToday = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: tasks.thisWeek.filter((task: any) => task.id !== id),
-  //     today: [
-  //       ...tasks.today,
-  //       ...tasks.thisWeek.filter((task: any) => task.id === id),
-  //     ],
-  //     done: [...tasks.done],
-  //   };
-
-  //   setExitStyle("exitRight");
-  //   setTasks(updatedTasks);
-  // };
-
   const moveTaskToToday = useMoveTaskToToday();
   const deleteTask = useDeleteTask();
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
@@ -67,19 +63,14 @@ export function ThisWeekListItem({ task }: TListItemProps) {
       variants={listParentVariants}
       layout
     >
-      <p>{task.task}</p>
-      {isDone ? (
-        <div
-          className={classNames(
-            "absolute top-1/2 left-0 -translate-y-1/2",
-            "flex px-3 w-full h-full items-center"
-          )}
-        >
-          <MarkDone />
-        </div>
-      ) : null}
-
-      <div
+      <motion.div
+        variants={
+          isDone
+            ? {
+                exit: { opacity: 0 },
+              }
+            : {}
+        }
         className={classNames(
           "absolute top-1/2 right-0 justify-end items-center gap-2 px-3 h-full -translate-y-1/2",
           "hidden group-hover:flex group-hover:bg-gray-100"
@@ -101,7 +92,10 @@ export function ThisWeekListItem({ task }: TListItemProps) {
         <IconButton aria-label="delete" onClick={() => deleteTask(task.id)}>
           <Thrash />
         </IconButton>
-      </div>
+      </motion.div>
+      <motion.p variants={isDone ? markCompleteVariants : {}}>
+        {task.task}
+      </motion.p>
     </motion.li>
   );
 }
