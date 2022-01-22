@@ -58,64 +58,62 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   const { markTaskDone, startAnimation } = useMarkTaskDone();
 
   return (
-    <motion.div
-      className="group flex items-center"
+    <motion.li
+      className="group flex relative flex-auto items-center p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent"
       initial="closed"
       animate="open"
       exit="exit"
       variants={listParentVariants}
-      layoutId={task.id}
+      layout
     >
-      <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
-        <p>{task.task}</p>
-        <div
-          className={classNames(
-            "absolute top-1/2 left-0 -translate-y-1/2",
-            "flex px-3 w-full h-full items-center"
-          )}
+      <p>{task.task}</p>
+      <div
+        className={classNames(
+          "absolute top-1/2 left-0 -translate-y-1/2",
+          "flex px-3 w-full h-full items-center"
+        )}
+      >
+        <svg
+          version="1.1"
+          id="line_2"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          width="1200px"
+          height="5px"
         >
-          <svg
-            version="1.1"
-            id="line_2"
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            width="1200px"
-            height="5px"
-          >
-            <motion.path
-              fill="#01a09e"
-              strokeWidth="6"
-              stroke="#01a09e"
-              d="M0 0 l1120 0"
-              variants={markCompleteVariants}
-            />
-          </svg>
-        </div>
-        <div
-          className={classNames(
-            "absolute top-1/2 right-0 justify-end items-center gap-2 px-3 h-full -translate-y-1/2",
-            "hidden group-hover:flex group-hover:bg-gray-100"
-          )}
+          <motion.path
+            fill="#01a09e"
+            strokeWidth="6"
+            stroke="#01a09e"
+            d="M0 0 l1120 0"
+            variants={markCompleteVariants}
+          />
+        </svg>
+      </div>
+      <div
+        className={classNames(
+          "absolute top-1/2 right-0 justify-end items-center gap-2 px-3 h-full -translate-y-1/2",
+          "hidden group-hover:flex group-hover:bg-gray-100"
+        )}
+      >
+        <IconButton
+          disabled={startAnimation}
+          aria-label="mark-done"
+          onClick={() => markTaskDone(task)}
         >
-          <IconButton
-            disabled={startAnimation}
-            aria-label="mark-done"
-            onClick={() => markTaskDone(task)}
-          >
-            <Check />
-          </IconButton>
-          <IconButton
-            aria-label="move-right"
-            onClick={() => moveTaskToToday(task)}
-          >
-            <RightArrow />
-          </IconButton>
-          <IconButton aria-label="delete" onClick={() => deleteTask(task.id)}>
-            <Thrash />
-          </IconButton>
-        </div>
-      </li>
-    </motion.div>
+          <Check />
+        </IconButton>
+        <IconButton
+          aria-label="move-right"
+          onClick={() => moveTaskToToday(task)}
+        >
+          <RightArrow />
+        </IconButton>
+        <IconButton aria-label="delete" onClick={() => deleteTask(task.id)}>
+          <Thrash />
+        </IconButton>
+      </div>
+    </motion.li>
   );
 }

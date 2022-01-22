@@ -61,35 +61,34 @@ export function DoneListItem({ task }: TListItemProps) {
   const deleteTask = useDeleteTask();
 
   return (
-    <motion.div
-      className="group flex items-center"
+    <motion.li
+      className="group flex relative flex-auto items-center p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent"
       initial="hidden"
       animate="visible"
       exit="exit"
       variants={listParentVariants}
+      layout
     >
-      <li className="flex relative flex-auto p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent">
-        <p>{task.task}</p>
-        <div
-          className={classNames(
-            "absolute top-1/2 right-0 justify-end gap-2 items-center px-3 h-full -translate-y-1/2",
-            "hidden group-hover:flex group-hover:bg-gray-100"
-          )}
+      <p>{task.task}</p>
+      <div
+        className={classNames(
+          "absolute top-1/2 right-0 justify-end gap-2 items-center px-3 h-full -translate-y-1/2",
+          "hidden group-hover:flex group-hover:bg-gray-100"
+        )}
+      >
+        <IconButton
+          aria-label="move done task to today"
+          onClick={() => moveTaskToToday(task)}
         >
-          <IconButton
-            aria-label="move done task to today"
-            onClick={() => moveTaskToToday(task)}
-          >
-            <LeftArrow />
-          </IconButton>
-          <IconButton
-            aria-label="delete done task"
-            onClick={() => deleteTask(task.id)}
-          >
-            <Thrash />
-          </IconButton>
-        </div>
-      </li>
-    </motion.div>
+          <LeftArrow />
+        </IconButton>
+        <IconButton
+          aria-label="delete done task"
+          onClick={() => deleteTask(task.id)}
+        >
+          <Thrash />
+        </IconButton>
+      </div>
+    </motion.li>
   );
 }
