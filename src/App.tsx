@@ -27,13 +27,14 @@ function App() {
   const {
     newTask: newTaskThisWeek,
     setNewTask: setNewTaskThisWeek,
-    addTask: addTaskThisWeek,
+    addTaskTextarea: addTaskThisWeek,
   } = useAddTask("thisWeek");
 
   const {
     newTask: newTaskToday,
     setNewTask: setNewTaskToday,
-    addTask: addTaskToday,
+    addTaskTextarea: addTaskToday,
+    addTaskOnClick: addTaskTodayOnClick,
   } = useAddTask("today");
 
   useEffect(function setBackgroundColor() {
@@ -176,10 +177,17 @@ function App() {
               </motion.form>
             </motion.div>
             <motion.div className="mt-6" layout>
-              <Button
-                label="Start Slashing"
-                onClick={() => console.log("slash")}
-              />
+              {newTaskToday ? (
+                <Button
+                  label="Save Task"
+                  onClick={() => addTaskTodayOnClick()}
+                />
+              ) : (
+                <Button
+                  label="Start Slashing"
+                  onClick={() => console.log("slash")}
+                />
+              )}
             </motion.div>
           </LayoutGroup>
         </div>

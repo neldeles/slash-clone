@@ -21,7 +21,7 @@ export function useAddTask(status: TNewTask["status"]) {
     }
   );
 
-  const addTask = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const addTaskTextarea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
 
@@ -36,9 +36,21 @@ export function useAddTask(status: TNewTask["status"]) {
     }
   };
 
+  const addTaskOnClick = () => {
+    const task: TNewTask = {
+      task: newTask,
+      status: status,
+    };
+
+    addTaskMutation.mutate(task);
+
+    setNewTask("");
+  };
+
   return {
     newTask,
     setNewTask,
-    addTask,
+    addTaskTextarea,
+    addTaskOnClick,
   };
 }
