@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Heading } from "modules/_common/components/Heading";
+import React, { useEffect, useMemo } from "react";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
 import { AnimatePresence, LayoutGroup, motion, useCycle } from "framer-motion";
@@ -10,50 +9,32 @@ import { DoneListItem } from "modules/column-done/components/DoneListItem";
 import { TodayListItem } from "modules/column-today/components/TodayListItem";
 import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
 import { Close } from "modules/_common/components/Icons";
-import { TNewTask, TTask } from "modules/_common/types/tasks";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { TTask } from "modules/_common/types/tasks";
+import { useQuery } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
-import { taskService } from "modules/_common/services/task-service";
-import { useAutoResizeTextarea } from "modules/_common/hooks";
+import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
 
 function App() {
   const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
   const [isDoneOpen, toggleDoneOpen] = useCycle(true, false);
-  const [newTask, setNewTask] = useState("");
-
-  const queryClient = useQueryClient();
 
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
-  const addTaskMutation = useMutation(
-    (task: TNewTask) => taskService.create(task),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tasks"]);
-      },
-    }
-  );
 
   const thisWeekRef = useAutoResizeTextarea(tasksData, isThisWeekOpen);
+  const todayRef = useAutoResizeTextarea(tasksData, isThisWeekOpen);
 
-  const addTaskToday = () => {
-    console.log("add task Today");
-  };
+  const {
+    newTask: newTaskThisWeek,
+    setNewTask: setNewTaskThisWeek,
+    addTask: addTaskThisWeek,
+  } = useAddTask("thisWeek");
 
-  const addTaskThisWeek = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      const task: TNewTask = {
-        task: newTask,
-        status: "thisWeek",
-      };
-
-      addTaskMutation.mutate(task);
-
-      setNewTask("");
-    }
-  };
+  const {
+    newTask: newTaskToday,
+    setNewTask: setNewTaskToday,
+    addTask: addTaskToday,
+  } = useAddTask("today");
 
   useEffect(function setBackgroundColor() {
     document.body.classList.add("bg-alabaster");
@@ -102,17 +83,17 @@ function App() {
 
         {isThisWeekOpen ? (
           <motion.div
-            initial={false}
-            // layoutScroll
-            // animate={{ opacity: [0, 0, 0.3, 1] }}
-            // animate={{ width: "100%" }}
-            // transition={{ duration: 0.2, delay: 0.1 }}
-            // className="w-[calc(20vw)]"
+          // initial={false}
+          // layoutScroll
+          // animate={{ opacity: [0, 0, 0.3, 1] }}
+          // animate={{ width: "100%" }}
+          // transition={{ duration: 0.2, delay: 0.1 }}
+          // className="w-[calc(20vw)]"
           >
             <LayoutGroup>
               <motion.ul
                 layoutScroll
-                className="overflow-auto px-8 max-h-[77vh]"
+                className="overflow-auto px-8 max-h-[74vh]"
                 aria-labelledby="this-week-heading"
               >
                 <AnimatePresence>
@@ -128,7 +109,7 @@ function App() {
                   />
                 </AnimatePresence>
               </motion.ul>
-              <motion.form className="px-8 mt-1" autoComplete="off" layout>
+              <motion.form className="px-8 mt-4" autoComplete="off" layout>
                 <motion.textarea
                   id="addThisWeek"
                   name="Add task this week"
@@ -136,8 +117,8 @@ function App() {
                   maxLength={140}
                   className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
                   placeholder="Add task..."
-                  value={newTask}
-                  onChange={(e) => setNewTask(e.target.value)}
+                  value={newTaskThisWeek}
+                  onChange={(e) => setNewTaskThisWeek(e.target.value)}
                   onKeyPress={addTaskThisWeek}
                   ref={thisWeekRef}
                 />
@@ -149,10 +130,19 @@ function App() {
 
       <div className="grow-[2] justify-center py-2 px-8 h-screen border-r border-gray-200">
         <div className="mx-auto max-w-lg">
-          <Heading text="Today" />
-          <div>
-            <div className="overflow-auto max-h-[77vh]">
-              <ul className="px-8" aria-labelledby="today-heading">
+          <h1
+            className="mt-6 text-lg font-medium tracking-wide text-gray-500"
+            id="today-heading"
+          >
+            Today
+          </h1>
+          <motion.div>
+            <LayoutGroup>
+              <motion.ul
+                layoutScroll
+                className="overflow-auto px-8 max-h-[65vh]"
+                aria-labelledby="today-heading"
+              >
                 <AnimatePresence initial={false}>
                   {tasksToday.map((task: TTask, index: number) => {
                     return (
@@ -170,9 +160,23 @@ function App() {
                   to bottom if another container is updated.
                 */}
                 <AlwaysScrollToBottom currentListLength={tasksToday.length} />
-              </ul>
-            </div>
-          </div>
+              </motion.ul>
+              <motion.form className="px-8 mt-4" autoComplete="off" layout>
+                <motion.textarea
+                  id="addToday"
+                  name="Add task Today"
+                  aria-label="add task today"
+                  maxLength={140}
+                  className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
+                  placeholder="Add task..."
+                  value={newTaskToday}
+                  onChange={(e) => setNewTaskToday(e.target.value)}
+                  onKeyPress={addTaskToday}
+                  ref={todayRef}
+                />
+              </motion.form>
+            </LayoutGroup>
+          </motion.div>
           <div className="mt-6">
             <Button
               label="Start Slashing"
