@@ -55,7 +55,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  useEffect(function setBackgroundColor() {
     document.body.classList.add("bg-alabaster");
 
     return () => {
