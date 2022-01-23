@@ -136,8 +136,8 @@ function App() {
           >
             Today
           </h1>
-          <motion.div>
-            <LayoutGroup>
+          <LayoutGroup>
+            <motion.div>
               <motion.ul
                 layoutScroll
                 className="overflow-auto px-8 max-h-[65vh]"
@@ -174,14 +174,14 @@ function App() {
                   ref={todayRef}
                 />
               </motion.form>
-            </LayoutGroup>
-          </motion.div>
-          <div className="mt-6">
-            <Button
-              label="Start Slashing"
-              onClick={() => console.log("slash")}
-            />
-          </div>
+            </motion.div>
+            <motion.div className="mt-6" layout>
+              <Button
+                label="Start Slashing"
+                onClick={() => console.log("slash")}
+              />
+            </motion.div>
+          </LayoutGroup>
         </div>
       </div>
 
