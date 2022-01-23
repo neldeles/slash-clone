@@ -40,3 +40,27 @@ test("moves a task from Today column to the bottom of This Week column", async (
     task
   );
 });
+
+test("clicking right arrow button moves a task from Today column to the Done column", async () => {
+  // We add this because scrollIntoView is not implemented in JSDOM
+  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
+  window.HTMLElement.prototype.scrollIntoView = function () {};
+
+  const task = "move to Done";
+  db.task.create({ task: task, status: "today", priority: 1 });
+
+  renderWithProviders(<App />);
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+  userEvent.click(screen.getByRole("heading", { name: /done/i }));
+  userEvent.click(
+    await screen.findByRole("button", { name: /move task in Today to Done/i })
+  );
+  const thisWeekList = await screen.findByRole("list", { name: /today/i });
+  const doneList = screen.getByRole("list", { name: /done/i });
+  await waitFor(() => {
+    expect(thisWeekList).not.toHaveTextContent(task);
+  });
+  await waitFor(() => {
+    expect(doneList).toHaveTextContent(task);
+  });
+});

@@ -71,7 +71,10 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
         >
           <LeftArrow />
         </IconButton>
-        <IconButton>
+        <IconButton
+          aria-label="move task in Today to Done"
+          onClick={() => markTaskDone(task)}
+        >
           <RightArrow />
         </IconButton>
         <IconButton
