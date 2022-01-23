@@ -148,8 +148,7 @@ function App() {
                     return (
                       <TodayListItem
                         key={task.id}
-                        id={task.id}
-                        text={task.task}
+                        task={task}
                         taskIndex={index}
                       />
                     );

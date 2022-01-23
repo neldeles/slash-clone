@@ -8,34 +8,19 @@ import {
 } from "modules/_common/components/Icons";
 import { ListItem } from "modules/_common/components/ListItem";
 import { useMarkTaskDone } from "modules/_common/hooks";
-import { useState } from "react";
+import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
 
 type TListItemProps = {
-  text: string;
-  id: string;
+  task: TTask;
   taskIndex: number;
 };
 
-export function TodayListItem({ text, id, taskIndex }: TListItemProps) {
-  const duration = 0.4;
-
+export function TodayListItem({ task, taskIndex }: TListItemProps) {
   const markCompleteVariants = {
     clicked: { pathLength: 1 },
     unclicked: { pathLength: 0 },
   };
-
-  const [doneIsClicked, setDoneIsClicked] = useState(false);
-
-  // const markDone = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: [...tasks.thisWeek],
-  //     today: tasks.today.filter((task: any) => task.id !== id),
-  //     done: [
-  //       ...tasks.done,
-  //       ...tasks.today.filter((task: any) => task.id === id),
-  //     ],
-  //   };
 
   //   setDoneIsClicked(true);
   //   setTasks(updatedTasks);
@@ -64,15 +49,28 @@ export function TodayListItem({ text, id, taskIndex }: TListItemProps) {
   //   setTasks(updatedTasks);
   // };
 
+  const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
+
   return (
     <ListItem>
       <motion.div
+        variants={
+          isDone
+            ? {
+                exit: { opacity: 0 },
+              }
+            : {}
+        }
         className={classNames(
           "absolute top-1/2 right-0 justify-end items-center gap-2 px-3 h-full -translate-y-1/2",
           "hidden group-hover:flex group-hover:bg-gray-100"
         )}
       >
-        <IconButton>
+        <IconButton
+          disabled={isDone}
+          aria-label="mark-done"
+          onClick={() => markTaskDone(task)}
+        >
           <Check />
         </IconButton>
         <IconButton>
@@ -88,7 +86,7 @@ export function TodayListItem({ text, id, taskIndex }: TListItemProps) {
       <p className="absolute top-1/2 -left-5 text-sm text-gray-400 -translate-y-1/2">
         {taskIndex + 1}
       </p>
-      <p>{text}</p>
+      <p>{task.task}</p>
     </ListItem>
   );
 }
