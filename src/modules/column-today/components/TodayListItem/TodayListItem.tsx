@@ -8,7 +8,7 @@ import {
 } from "modules/_common/components/Icons";
 import { ListItem } from "modules/_common/components/ListItem";
 import { TaskText } from "modules/_common/components/TaskText";
-import { useMarkTaskDone } from "modules/_common/hooks";
+import { useDeleteTask, useMarkTaskDone } from "modules/_common/hooks";
 import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
 
@@ -46,6 +46,7 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
   // };
 
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
+  const deleteTask = useDeleteTask();
 
   return (
     <ListItem>
@@ -75,7 +76,10 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
         <IconButton>
           <RightArrow />
         </IconButton>
-        <IconButton>
+        <IconButton
+          aria-label="delete-today-task"
+          onClick={() => deleteTask(task.id)}
+        >
           <Thrash />
         </IconButton>
       </motion.div>
