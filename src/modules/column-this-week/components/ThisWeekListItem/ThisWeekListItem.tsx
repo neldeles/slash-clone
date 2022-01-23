@@ -9,28 +9,13 @@ import {
   useMoveTaskToToday,
 } from "modules/_common/hooks";
 import { ListItem } from "modules/_common/components/ListItem";
+import { TaskText } from "modules/_common/components/TaskText";
 
 type TListItemProps = {
   task: TTask;
 };
 
 export function ThisWeekListItem({ task }: TListItemProps) {
-  const markCompleteVariants: Variants = {
-    exit: {
-      color: "rgba(0,0,0,0)",
-      textDecorationColor: "#01a09e",
-      textDecorationThickness: "4px",
-      textDecorationLine: "line-through",
-      clipPath: "inset(0 0 0 0)",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40,
-      },
-    },
-    open: { color: "rgba(0,0,0,1)" },
-  };
-
   const listParentVariants: Variants = {
     closed: { opacity: 0 },
     open: { opacity: 1 },
@@ -87,9 +72,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
           <Thrash />
         </IconButton>
       </motion.div>
-      <motion.p variants={isDone ? markCompleteVariants : {}}>
-        {task.task}
-      </motion.p>
+      <TaskText isDone={isDone} text={task.task} />
     </ListItem>
   );
 }
