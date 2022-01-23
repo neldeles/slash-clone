@@ -77,7 +77,7 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
           <RightArrow />
         </IconButton>
         <IconButton
-          aria-label="delete-today-task"
+          aria-label="delete task in Today"
           onClick={() => deleteTask(task.id)}
         >
           <Thrash />
