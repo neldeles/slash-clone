@@ -8,6 +8,7 @@ import {
   useMarkTaskDone,
   useMoveTaskToToday,
 } from "modules/_common/hooks";
+import { ListItem } from "modules/_common/components/ListItem";
 
 type TListItemProps = {
   task: TTask;
@@ -55,14 +56,7 @@ export function ThisWeekListItem({ task }: TListItemProps) {
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
 
   return (
-    <motion.li
-      className="group flex relative flex-auto items-center p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent"
-      initial="closed"
-      animate="open"
-      exit="exit"
-      variants={listParentVariants}
-      layout
-    >
+    <ListItem>
       <motion.div
         variants={
           isDone
@@ -96,6 +90,6 @@ export function ThisWeekListItem({ task }: TListItemProps) {
       <motion.p variants={isDone ? markCompleteVariants : {}}>
         {task.task}
       </motion.p>
-    </motion.li>
+    </ListItem>
   );
 }
