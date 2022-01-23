@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { LeftArrow, Thrash } from "modules/_common/components/Icons";
+import { ListItem } from "modules/_common/components/ListItem";
 import { useDeleteTask, useMoveTaskToToday } from "modules/_common/hooks";
 import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
@@ -61,14 +62,7 @@ export function DoneListItem({ task }: TListItemProps) {
   const deleteTask = useDeleteTask();
 
   return (
-    <motion.li
-      className="group flex relative flex-auto items-center p-3 w-full text-base font-medium tracking-normal list-none text-black bg-transparent hover:bg-gray-100 rounded-lg border border-transparent"
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      variants={listParentVariants}
-      layout
-    >
+    <ListItem>
       <p>{task.task}</p>
       <div
         className={classNames(
@@ -89,6 +83,6 @@ export function DoneListItem({ task }: TListItemProps) {
           <Thrash />
         </IconButton>
       </div>
-    </motion.li>
+    </ListItem>
   );
 }
