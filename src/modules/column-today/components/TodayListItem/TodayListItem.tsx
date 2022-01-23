@@ -7,6 +7,7 @@ import {
   Thrash,
 } from "modules/_common/components/Icons";
 import { ListItem } from "modules/_common/components/ListItem";
+import { TaskText } from "modules/_common/components/TaskText";
 import { useMarkTaskDone } from "modules/_common/hooks";
 import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
@@ -17,11 +18,6 @@ type TListItemProps = {
 };
 
 export function TodayListItem({ task, taskIndex }: TListItemProps) {
-  const markCompleteVariants = {
-    clicked: { pathLength: 1 },
-    unclicked: { pathLength: 0 },
-  };
-
   //   setDoneIsClicked(true);
   //   setTasks(updatedTasks);
   // };
@@ -86,7 +82,7 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
       <p className="absolute top-1/2 -left-5 text-sm text-gray-400 -translate-y-1/2">
         {taskIndex + 1}
       </p>
-      <p>{task.task}</p>
+      <TaskText isDone={isDone} text={task.task} />
     </ListItem>
   );
 }
