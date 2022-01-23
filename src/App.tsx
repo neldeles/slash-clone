@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Heading } from "modules/_common/components/Heading";
 import { Button } from "modules/_common/components/Button";
 import { classNames } from "utils/classNames";
@@ -16,41 +10,21 @@ import { DoneListItem } from "modules/column-done/components/DoneListItem";
 import { TodayListItem } from "modules/column-today/components/TodayListItem";
 import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
 import { Close } from "modules/_common/components/Icons";
-import { TNewTask, TStatus, TTask, TTasks } from "modules/_common/types/tasks";
+import { TNewTask, TTask } from "modules/_common/types/tasks";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
 import { taskService } from "modules/_common/services/task-service";
-
-const initialTasks: TTasks = {
-  thisWeek: [
-    {
-      id: "1",
-      task: "Wash dishes",
-    },
-    {
-      id: "2",
-      task: "Clean house",
-    },
-    {
-      id: "3",
-      task: "Water the plants",
-    },
-  ],
-  today: [],
-  done: [],
-};
+import { useAutoResizeTextarea } from "modules/_common/hooks";
 
 function App() {
   const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
   const [isDoneOpen, toggleDoneOpen] = useCycle(true, false);
-  const [isDoneContainerActive, setIsDoneContainerActive] = useState(false);
-  const [tasks, setTasks] = useState(initialTasks);
   const [newTask, setNewTask] = useState("");
 
   const queryClient = useQueryClient();
 
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
-  const tasksData = tasksQuery.data ?? [];
+  const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
   const addTaskMutation = useMutation(
     (task: TNewTask) => taskService.create(task),
     {
@@ -60,7 +34,7 @@ function App() {
     }
   );
 
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const thisWeekRef = useAutoResizeTextarea(tasksData, isThisWeekOpen);
 
   const addTaskToday = () => {
     console.log("add task Today");
@@ -80,14 +54,6 @@ function App() {
       setNewTask("");
     }
   };
-
-  useLayoutEffect(() => {
-    if (textareaRef && textareaRef.current) {
-      textareaRef.current.style.height = "0px";
-      const scrollHeight = textareaRef.current.scrollHeight;
-      textareaRef.current.style.height = scrollHeight + "px";
-    }
-  }, [tasksQuery, isThisWeekOpen]);
 
   useEffect(() => {
     document.body.classList.add("bg-alabaster");
@@ -173,7 +139,7 @@ function App() {
                   value={newTask}
                   onChange={(e) => setNewTask(e.target.value)}
                   onKeyPress={addTaskThisWeek}
-                  ref={textareaRef}
+                  ref={thisWeekRef}
                 />
               </motion.form>
             </LayoutGroup>
