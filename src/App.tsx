@@ -143,7 +143,7 @@ function App() {
                 className="overflow-auto px-8 max-h-[65vh]"
                 aria-labelledby="today-heading"
               >
-                <AnimatePresence initial={false}>
+                <AnimatePresence>
                   {tasksToday.map((task: TTask, index: number) => {
                     return (
                       <TodayListItem
@@ -216,7 +216,7 @@ function App() {
               aria-labelledby="done-heading"
               layoutScroll
             >
-              <AnimatePresence initial={false}>
+              <AnimatePresence>
                 {tasksDone.map((task: TTask) => {
                   return <DoneListItem key={task.id} task={task} />;
                 })}
