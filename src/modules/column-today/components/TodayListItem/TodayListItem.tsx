@@ -68,7 +68,7 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
       >
         <IconButton
           disabled={isDone}
-          aria-label="mark-done"
+          aria-label="mark-done-today"
           onClick={() => markTaskDone(task)}
         >
           <Check />
