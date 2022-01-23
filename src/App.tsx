@@ -109,7 +109,7 @@ function App() {
                   />
                 </AnimatePresence>
               </motion.ul>
-              <motion.form className="px-8 mt-4" autoComplete="off" layout>
+              <motion.form className="px-8 mt-3" autoComplete="off" layout>
                 <motion.textarea
                   id="addThisWeek"
                   name="Add task this week"
@@ -161,7 +161,7 @@ function App() {
                 */}
                 <AlwaysScrollToBottom currentListLength={tasksToday.length} />
               </motion.ul>
-              <motion.form className="px-8 mt-4" autoComplete="off" layout>
+              <motion.form className="px-8 mt-3" autoComplete="off" layout>
                 <motion.textarea
                   id="addToday"
                   name="Add task Today"
