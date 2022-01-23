@@ -8,7 +8,11 @@ import {
 } from "modules/_common/components/Icons";
 import { ListItem } from "modules/_common/components/ListItem";
 import { TaskText } from "modules/_common/components/TaskText";
-import { useDeleteTask, useMarkTaskDone } from "modules/_common/hooks";
+import {
+  useDeleteTask,
+  useMarkTaskDone,
+  useMoveTaskToThisWeek,
+} from "modules/_common/hooks";
 import { TTask } from "modules/_common/types/tasks";
 import { classNames } from "utils/classNames";
 
@@ -35,16 +39,7 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
   //   setTasks(updatedTasks);
   // };
 
-  // const deleteTask = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: [...tasks.thisWeek],
-  //     today: tasks.today.filter((task: any) => task.id !== id),
-  //     done: [...tasks.done],
-  //   };
-
-  //   setTasks(updatedTasks);
-  // };
-
+  const moveTaskToThisWeek = useMoveTaskToThisWeek();
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
   const deleteTask = useDeleteTask();
 
@@ -70,7 +65,10 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
         >
           <Check />
         </IconButton>
-        <IconButton>
+        <IconButton
+          aria-label="move task in Today to This Week"
+          onClick={() => moveTaskToThisWeek(task)}
+        >
           <LeftArrow />
         </IconButton>
         <IconButton>

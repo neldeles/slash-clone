@@ -51,3 +51,17 @@ export function useMarkTaskDone() {
     startAnimation,
   };
 }
+
+export function useMoveTaskToThisWeek() {
+  const updateTaskMutation = useUpdateTaskMutation();
+
+  const moveTaskToToday = (task: TTask) => {
+    const payload: TTask = {
+      ...task,
+      status: "thisWeek",
+    };
+    updateTaskMutation.mutate(payload);
+  };
+
+  return moveTaskToToday;
+}
