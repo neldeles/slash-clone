@@ -13,6 +13,7 @@ import { tasksService } from "modules/_common/services/tasks-service";
 import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
 import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";
 import { CloseButton } from "modules/_common/components/CloseButton";
+import { Link } from "react-router-dom";
 
 export function Main() {
   const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
@@ -57,7 +58,13 @@ export function Main() {
   }
 
   return (
-    <div className="flex">
+    <motion.div
+      className="flex"
+      // initial={{ scaleY: 0 }}
+      // animate={{ scaleY: 1 }}
+      // exit={{ scaleY: 0 }}
+      // transition={{ duration: 0.5 }}
+    >
       <SideContainer toggleOpen={toggleThisWeekOpen} isOpen={isThisWeekOpen}>
         <Header>
           <AnimatedHeading id="this-week-heading" isOpen={isThisWeekOpen}>
@@ -165,14 +172,18 @@ export function Main() {
             <motion.div className="mt-6" layout>
               {newTaskToday ? (
                 <Button
+                  id="save-task"
                   label="Save Task"
                   onClick={() => addTaskTodayOnClick()}
                 />
               ) : (
-                <Button
-                  label="Start Slashing"
-                  onClick={() => console.log("slash")}
-                />
+                <Link to="/timer">
+                  <Button
+                    label="Start Slashing"
+                    id="start-slashing"
+                    onClick={() => console.log("slash")}
+                  />
+                </Link>
               )}
             </motion.div>
           </LayoutGroup>
@@ -208,7 +219,7 @@ export function Main() {
           </motion.div>
         ) : null}
       </SideContainer>
-    </div>
+    </motion.div>
   );
 }
 

@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -11,18 +12,21 @@ const createTestQueryClient = () =>
     },
   });
 
-export function renderWithProviders(ui: React.ReactElement) {
+export function renderWithProviders(
+  ui: React.ReactElement,
+  { ...renderOptions } = {}
+) {
   const testQueryClient = createTestQueryClient();
 
   function Wrapper({ children }: { children: React.ReactElement }) {
     return (
       <QueryClientProvider client={testQueryClient}>
-        {children}
+        <Router>{children}</Router>
       </QueryClientProvider>
     );
   }
 
   return {
-    ...render(ui, { wrapper: Wrapper }),
+    ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   };
 }
