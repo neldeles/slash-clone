@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+# TaskNinja
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
-## Available Scripts
+Visit this link if you want to play around with the demo right away:
 
-In the project directory, you can run:
+## Table of contents
 
-### `yarn start`
+- [Overview](#overview)
+  - [Why I built this](#why-i-built-this)
+  - [Goals](#goals)
+  - [App specifications](#app-specifications)
+  - [Visual demo]()
+- [My process]()
+  - [Built with]()
+  - [What I learned]()
+  - [Continued development]()
+- [Author]()
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Overview
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Why I built this
 
-### `yarn test`
+Before you dismiss this as just another todo app, the app is more complex
+than what you'd find in cookie cutter tutorials. I talk more about this in the
+[goals](#goals) section.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Now why did I decide to build this specific app? I really love the approach Slash app takes of filling in your tasks for the day...then just slashing your way through them one-by-one. But the app had 2 shortcomings for me:
 
-### `yarn build`
+1. It's a paid product that isn't being actively developed any longer (their last reply in the [features roadmap](https://slash.nolt.io/top) was about a year ago and nothing has been checked off since)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. No Toggl integration and unlikely to happen because of issue 1. I love tracking how long it took me complete a task and atm I'm using [Focused Work](https://focusedwork.app/) for this.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Goals
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Having said all that, these were my primary goals by building this app:
 
-### `yarn eject`
+- [ ] learn how to create a delightful animation heavy app
+- [ ] learn how to use Django Rest Framework for the backend of the app
+- [ ] deploy my first fullstack app
+- [ ] apply the [learnings on React]() I've built up over the past few months
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### App specifications
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Users should be able to:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- [ ] Login into the app
+- [ ] Create, read, update and delete tasks
+- [ ] Start slashing through Today's tasks
+- [ ] Track the time each task takes to complete
+  - [ ] Time taken synced to Toggl via their API
+- [ ] View how long a task took to complete
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Visual demo
 
-## Learn More
+## My process
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Built with
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Create React App](https://create-react-app.dev/) - React CLI
+- [TailwindCSS](https://tailwindcss.com/) - For styles
+- [Testing Library](https://testing-library.com/) - For unit and integration tests
+- [Mock Service Worker]() - To mock Api calls in tests and dev environment
+- [Framer Motion](https://testing-library.com/) - For animations
+- [React Router](https://reactrouter.com/) - For page routing
+- [React Query](https://react-query.tanstack.com/) - For data fetching, caching & state management
+- [Axios](https://axios-http.com/docs/intro) - For Api calls
