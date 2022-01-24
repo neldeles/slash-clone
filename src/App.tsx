@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
 import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
 import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";
+import { CloseButton } from "modules/_common/components/CloseButton";
 
 function App() {
   const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
@@ -65,12 +66,7 @@ function App() {
             This Week
           </AnimatedHeading>
           {isThisWeekOpen ? (
-            <button
-              onClick={() => toggleThisWeekOpen()}
-              className={classNames("text-gray-300 hover:text-black")}
-            >
-              <Close />
-            </button>
+            <CloseButton onClick={() => toggleThisWeekOpen()} />
           ) : null}
         </Header>
 
@@ -190,14 +186,7 @@ function App() {
           <AnimatedHeading id="done-heading" isOpen={isDoneOpen}>
             Done
           </AnimatedHeading>
-          {isDoneOpen ? (
-            <button
-              onClick={() => toggleDoneOpen()}
-              className={classNames("text-gray-300 hover:text-black")}
-            >
-              <Close />
-            </button>
-          ) : null}
+          {isDoneOpen ? <CloseButton onClick={() => toggleDoneOpen()} /> : null}
         </Header>
 
         {isDoneOpen ? (
