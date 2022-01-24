@@ -13,6 +13,7 @@ import { TTask } from "modules/_common/types/tasks";
 import { useQuery } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
 import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
+import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";
 
 function App() {
   const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
@@ -60,18 +61,9 @@ function App() {
     <div className="flex">
       <SideContainer toggleOpen={toggleThisWeekOpen} isOpen={isThisWeekOpen}>
         <Header>
-          <motion.h1
-            className={classNames(
-              "font-medium tracking-wide",
-              isThisWeekOpen
-                ? "mr-auto text-lg text-gray-500"
-                : "text-gray-300 text-base"
-            )}
-            id="this-week-heading"
-            layoutId="this-week-heading"
-          >
+          <AnimatedHeading id="this-week-heading" isOpen={isThisWeekOpen}>
             This Week
-          </motion.h1>
+          </AnimatedHeading>
           {isThisWeekOpen ? (
             <button
               onClick={() => toggleThisWeekOpen()}
@@ -195,18 +187,9 @@ function App() {
 
       <SideContainer toggleOpen={toggleDoneOpen} isOpen={isDoneOpen}>
         <Header>
-          <h1
-            className={classNames(
-              "font-medium tracking-wide",
-              isDoneOpen
-                ? "mr-auto text-lg text-gray-500"
-                : "text-gray-300 text-base transition-all duration-75",
-              "group-hover:text-gray-500"
-            )}
-            id="done-heading"
-          >
+          <AnimatedHeading id="done-heading" isOpen={isDoneOpen}>
             Done
-          </h1>
+          </AnimatedHeading>
           {isDoneOpen ? (
             <button
               onClick={() => toggleDoneOpen()}
