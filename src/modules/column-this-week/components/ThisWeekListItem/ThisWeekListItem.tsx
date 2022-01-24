@@ -1,4 +1,4 @@
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { Check, RightArrow, Thrash } from "modules/_common/components/Icons";
 import { classNames } from "utils/classNames";
@@ -16,26 +16,6 @@ type TListItemProps = {
 };
 
 export function ThisWeekListItem({ task }: TListItemProps) {
-  const listParentVariants: Variants = {
-    closed: { opacity: 0 },
-    open: { opacity: 1 },
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.4,
-        when: "afterChildren",
-        ease: [0.04, 0.62, 0.23, 0.98],
-      },
-    },
-    toRight: {
-      x: [0, 500],
-      transition: {
-        duration: 0.4,
-        ease: "backInOut",
-      },
-    },
-  };
-
   const moveTaskToToday = useMoveTaskToToday();
   const deleteTask = useDeleteTask();
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();

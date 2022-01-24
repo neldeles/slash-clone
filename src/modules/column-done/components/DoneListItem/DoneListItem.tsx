@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { IconButton } from "modules/_common/components/IconButton";
 import { LeftArrow, Thrash } from "modules/_common/components/Icons";
 import { ListItem } from "modules/_common/components/ListItem";
@@ -11,53 +10,6 @@ type TListItemProps = {
 };
 
 export function DoneListItem({ task }: TListItemProps) {
-  const markCompleteVariants = {
-    clicked: { pathLength: 1 },
-    unclicked: { pathLength: 0 },
-  };
-
-  const iconVariants = {
-    clicked: { y: [-2, 0] },
-    unclicked: { y: 0 },
-  };
-
-  const listParentVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-    exit: {
-      opacity: 0,
-      transition: {
-        when: "beforeChildren",
-        duration: 0.4,
-        // ease: [0.04, 0.62, 0.23, 0.98],
-        ease: "anticipate",
-      },
-    },
-  };
-
-  // const moveToPreviousColumn = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: [...tasks.thisWeek],
-  //     today: [
-  //       ...tasks.today,
-  //       ...tasks.done.filter((task: any) => task.id === id),
-  //     ],
-  //     done: [...tasks.done.filter((task: any) => task.id !== id)],
-  //   };
-
-  //   setTasks(updatedTasks);
-  // };
-
-  // const deleteTask = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: [...tasks.thisWeek],
-  //     today: [...tasks.today],
-  //     done: [...tasks.done.filter((task: any) => task.id !== id)],
-  //   };
-
-  //   setTasks(updatedTasks);
-  // };
-
   const moveTaskToToday = useMoveTaskToToday();
   const deleteTask = useDeleteTask();
 

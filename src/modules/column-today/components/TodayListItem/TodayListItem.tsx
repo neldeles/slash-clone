@@ -22,23 +22,6 @@ type TListItemProps = {
 };
 
 export function TodayListItem({ task, taskIndex }: TListItemProps) {
-  //   setDoneIsClicked(true);
-  //   setTasks(updatedTasks);
-  // };
-
-  // const moveToThisWeek = (id: string) => {
-  //   const updatedTasks = {
-  //     thisWeek: [
-  //       ...tasks.thisWeek,
-  //       ...tasks.today.filter((task: any) => task.id === id),
-  //     ],
-  //     today: tasks.today.filter((task: any) => task.id !== id),
-  //     done: [...tasks.done],
-  //   };
-
-  //   setTasks(updatedTasks);
-  // };
-
   const moveTaskToThisWeek = useMoveTaskToThisWeek();
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
   const deleteTask = useDeleteTask();
