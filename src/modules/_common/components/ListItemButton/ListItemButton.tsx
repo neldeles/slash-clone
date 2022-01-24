@@ -2,7 +2,7 @@ type TProps = React.ComponentPropsWithoutRef<"button"> & {
   children: React.ReactNode;
 };
 
-export function IconButton(props: TProps) {
+export function ListItemButton(props: TProps) {
   const { children, ...buttonProps } = props;
   return (
     <button

@@ -1,4 +1,4 @@
-import { IconButton } from "modules/_common/components/IconButton";
+import { ListItemButton } from "modules/_common/components/ListItemButton";
 import { LeftArrow, Thrash } from "modules/_common/components/Icons";
 import { ListItem } from "modules/_common/components/ListItem";
 import { useDeleteTask, useMoveTaskToToday } from "modules/_common/hooks";
@@ -22,18 +22,18 @@ export function DoneListItem({ task }: TListItemProps) {
           "hidden group-hover:flex group-hover:bg-gray-100"
         )}
       >
-        <IconButton
+        <ListItemButton
           aria-label="move done task to today"
           onClick={() => moveTaskToToday(task)}
         >
           <LeftArrow />
-        </IconButton>
-        <IconButton
+        </ListItemButton>
+        <ListItemButton
           aria-label="delete done task"
           onClick={() => deleteTask(task.id)}
         >
           <Thrash />
-        </IconButton>
+        </ListItemButton>
       </div>
     </ListItem>
   );

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { IconButton } from "modules/_common/components/IconButton";
+import { ListItemButton } from "modules/_common/components/ListItemButton";
 import {
   Check,
   LeftArrow,
@@ -41,31 +41,31 @@ export function TodayListItem({ task, taskIndex }: TListItemProps) {
           "hidden group-hover:flex group-hover:bg-gray-100"
         )}
       >
-        <IconButton
+        <ListItemButton
           disabled={isDone}
           aria-label="mark-done-today"
           onClick={() => markTaskDone(task)}
         >
           <Check />
-        </IconButton>
-        <IconButton
+        </ListItemButton>
+        <ListItemButton
           aria-label="move task in Today to This Week"
           onClick={() => moveTaskToThisWeek(task)}
         >
           <LeftArrow />
-        </IconButton>
-        <IconButton
+        </ListItemButton>
+        <ListItemButton
           aria-label="move task in Today to Done"
           onClick={() => markTaskDone(task)}
         >
           <RightArrow />
-        </IconButton>
-        <IconButton
+        </ListItemButton>
+        <ListItemButton
           aria-label="delete task in Today"
           onClick={() => deleteTask(task.id)}
         >
           <Thrash />
-        </IconButton>
+        </ListItemButton>
       </motion.div>
       <p className="absolute top-1/2 -left-5 text-sm text-gray-400 -translate-y-1/2">
         {taskIndex + 1}
