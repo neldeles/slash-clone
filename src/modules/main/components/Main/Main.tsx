@@ -12,6 +12,8 @@ import { ThisWeek } from "modules/column-this-week/components/ThisWeek";
 import { Done } from "modules/column-done/components/Done";
 import { Today } from "modules/column-today/components/Today";
 import { motion } from "framer-motion";
+import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
+import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";
 
 export function Main() {
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
@@ -25,13 +27,11 @@ export function Main() {
     };
   }, []);
 
-  const tasksThisWeek = sortByPriority(
-    filterTasks(tasksData, "thisWeek"),
-    "asc"
+  const tasksThisWeek = filterTasks(tasksData, "thisWeek").sort(
+    sortByAscPriority
   ) as TTaskThisWeek[];
-  const tasksToday = sortByPriority(
-    filterTasks(tasksData, "today"),
-    "asc"
+  const tasksToday = filterTasks(tasksData, "today").sort(
+    sortByAscPriority
   ) as TTaskToday[];
   const tasksDone = filterTasks(tasksData, "done").sort(
     sortByDoneDate
@@ -60,22 +60,4 @@ export function Main() {
 
 function filterTasks(tasks: TTask[], status: TStatus) {
   return tasks.filter((task: TTask) => task.status === status);
-}
-
-function sortByPriority(arr: TTask[], orderBy: "asc" | "desc") {
-  if (orderBy === "asc") {
-    return arr.sort(function (a, b) {
-      return a.priority! - b.priority!;
-    });
-  }
-
-  return arr.sort(function (a, b) {
-    return b.priority! - a.priority!;
-  });
-}
-
-function sortByDoneDate(a: TTask, b: TTask) {
-  const dateA = new Date(a.date_done!).getTime();
-  const dateB = new Date(b.date_done!).getTime();
-  return dateA > dateB ? 1 : -1;
 }
