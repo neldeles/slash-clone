@@ -19,14 +19,6 @@ export function Main() {
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
 
-  useEffect(function setBackgroundColor() {
-    document.body.classList.add("bg-alabaster");
-
-    return () => {
-      document.body.classList.remove("bg-alabaster");
-    };
-  }, []);
-
   const tasksThisWeek = filterTasks(tasksData, "thisWeek").sort(
     sortByAscPriority
   ) as TTaskThisWeek[];

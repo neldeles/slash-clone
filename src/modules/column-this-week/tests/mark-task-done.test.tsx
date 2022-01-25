@@ -19,7 +19,6 @@ test("moves a task from This Week column to the Done column", async () => {
 
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
-  userEvent.click(screen.getByRole("heading", { name: /done/i }));
   userEvent.click(await screen.findByRole("button", { name: /mark-done/i }));
   const thisWeekList = await screen.findByRole("list", { name: /this week/i });
   const doneList = screen.getByRole("list", { name: /done/i });
