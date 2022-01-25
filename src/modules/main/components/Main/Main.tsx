@@ -1,8 +1,4 @@
 import React, { useEffect, useMemo } from "react";
-import { Button } from "modules/_common/components/Button";
-import { AnimatePresence, LayoutGroup, motion, useCycle } from "framer-motion";
-import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
-import { TodayListItem } from "modules/column-today/components/TodayListItem";
 import {
   TStatus,
   TTask,
@@ -12,26 +8,14 @@ import {
 } from "modules/_common/types/tasks";
 import { useQuery } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
-import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
-import { Link } from "react-router-dom";
 import { ThisWeek } from "modules/column-this-week/components/ThisWeek";
 import { Done } from "modules/column-done/components/Done";
 import { Today } from "modules/column-today/components/Today";
+import { motion } from "framer-motion";
 
 export function Main() {
-  const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
-
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
-
-  const todayRef = useAutoResizeTextarea(tasksData, isThisWeekOpen);
-
-  const {
-    newTask: newTaskToday,
-    setNewTask: setNewTaskToday,
-    addTaskTextarea: addTaskToday,
-    addTaskOnClick: addTaskTodayOnClick,
-  } = useAddTask("today");
 
   useEffect(function setBackgroundColor() {
     document.body.classList.add("bg-alabaster");
