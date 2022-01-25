@@ -21,6 +21,7 @@ export function AnimatedHeading({ isOpen, children, id }: TProps) {
       )}
       id={id}
       layoutId={id}
+      layoutDependency={isOpen}
     >
       {children}
     </motion.h1>

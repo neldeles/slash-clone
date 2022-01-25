@@ -9,15 +9,28 @@ export type TTasks = {
   done: TTaskOld[];
 };
 
-export type TStatus = "thisWeek" | "today" | "done";
+export type TStatus = TTask["status"];
 
-export type TTask = {
+type TTaskBase = {
   id: string;
   task: string;
-  status: TStatus;
   priority: number | null;
   date_done: Date | null;
   user_id: string;
 };
+
+export type TTaskThisWeek = TTaskBase & {
+  status: "thisWeek";
+};
+
+export type TTaskToday = TTaskBase & {
+  status: "today";
+};
+
+export type TTaskDone = TTaskBase & {
+  status: "done";
+};
+
+export type TTask = TTaskThisWeek | TTaskToday | TTaskDone;
 
 export type TNewTask = Omit<TTask, "id" | "user_id" | "priority" | "date_done">;

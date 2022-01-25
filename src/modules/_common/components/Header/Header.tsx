@@ -7,7 +7,7 @@ type TProps = {
 export function Header({ children }: TProps) {
   return (
     <motion.div
-      className={classNames("flex items-center mt-6 px-4 justify-between")}
+      className={classNames("flex items-center mt-6 px-4")}
       variants={{
         open: { justifyContent: "space-between" },
         closed: { justifyContent: "center" },
