@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { BreakTimer } from "modules/BreakTimer";
 import { Main } from "modules/Main";
-import { Timer } from "modules/timer/components/Timer";
+import { WorkTimer } from "modules/WorkTimer";
 import { useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 
@@ -18,7 +18,7 @@ function App() {
     <AnimatePresence exitBeforeEnter initial={false}>
       <Switch location={location} key={location.pathname}>
         <Route path="/timer">
-          <Timer />
+          <WorkTimer />
         </Route>
         <Route path="/break">
           <BreakTimer />

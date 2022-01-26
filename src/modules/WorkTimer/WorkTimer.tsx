@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import * as Icons from "../Icons";
+import * as Icons from "./components/Icons";
 
-export function Timer() {
+export function WorkTimer() {
   /**
    * TODO:
    * skip, pause, done
