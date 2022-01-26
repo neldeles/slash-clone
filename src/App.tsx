@@ -1,4 +1,5 @@
 import { AnimatePresence } from "framer-motion";
+import { BreakTimer } from "modules/BreakTimer";
 import { Main } from "modules/main/components/Main";
 import { Timer } from "modules/timer/components/Timer";
 import { useEffect } from "react";
@@ -18,6 +19,9 @@ function App() {
       <Switch location={location} key={location.pathname}>
         <Route path="/timer">
           <Timer />
+        </Route>
+        <Route path="/break">
+          <BreakTimer />
         </Route>
         <Route path="/">
           <Main />

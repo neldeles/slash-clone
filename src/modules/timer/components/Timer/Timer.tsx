@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import * as Icons from "../Icons";
 
 export function Timer() {
@@ -15,10 +15,12 @@ export function Timer() {
    *    - take a break goes to break page
    */
   const [secondsLeft, setSecondsLeft] = useState(5);
+  const [toBreakTimer, setToBreakTimer] = useState(false);
 
   useEffect(() => {
     let interval = setInterval(() => {
       if (secondsLeft === 0) {
+        setToBreakTimer(true);
         return;
       }
       setSecondsLeft(secondsLeft - 1);
@@ -32,6 +34,10 @@ export function Timer() {
 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  if (toBreakTimer) {
+    return <Redirect to="/break" />;
+  }
 
   return (
     <motion.div
