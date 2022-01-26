@@ -28,6 +28,10 @@ export function Timer() {
     setIsPaused(!isPaused);
   };
 
+  const restartTimer = () => {
+    setSecondsLeft(mode === "work" ? workDuration : breakDuration);
+  };
+
   useEffect(() => {
     function switchMode() {
       const nextMode = mode === "work" ? "break" : "work";
@@ -82,6 +86,7 @@ export function Timer() {
             type="button"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
             title="Restart"
+            onClick={restartTimer}
           >
             <Icons.Refresh />
           </button>
@@ -116,6 +121,7 @@ export function Timer() {
             type="button"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
             title="Restart"
+            onClick={restartTimer}
           >
             <Icons.Refresh />
           </button>
