@@ -8,9 +8,9 @@ import {
 } from "modules/_common/types/tasks";
 import { useQuery } from "react-query";
 import { tasksService } from "modules/_common/services/tasks-service";
-import { ThisWeek } from "modules/column-this-week/components/ThisWeek";
-import { Done } from "modules/column-done/components/Done";
-import { Today } from "modules/column-today/components/Today";
+import { ThisWeek } from "modules/Main/components/ThisWeek";
+import { Done } from "modules/Main/components/Done";
+import { Today } from "modules/Main/components/Today";
 import { motion } from "framer-motion";
 import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
 import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";

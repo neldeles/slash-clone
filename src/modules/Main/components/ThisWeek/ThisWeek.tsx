@@ -2,7 +2,7 @@ import { AnimatePresence, LayoutGroup, motion, useCycle } from "framer-motion";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
-import { ThisWeekListItem } from "modules/column-this-week/components/ThisWeekListItem";
+import { ThisWeekListItem } from "modules/Main/components/ThisWeek/components/ThisWeekListItem";
 import { TTask, TTaskThisWeek } from "modules/_common/types/tasks";
 import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
 import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";

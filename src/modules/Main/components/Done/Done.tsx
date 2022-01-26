@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useCycle } from "framer-motion";
 import { Header } from "modules/_common/components/Header";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { SideContainer } from "modules/_common/components/SideContainer";
-import { DoneListItem } from "modules/column-done/components/DoneListItem";
+import { DoneListItem } from "modules/Main/components/Done/components/DoneListItem";
 import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";
 import { CloseButton } from "modules/_common/components/CloseButton";
 import { TTaskDone } from "modules/_common/types/tasks";

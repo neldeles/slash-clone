@@ -1,7 +1,7 @@
 import { Button } from "modules/_common/components/Button";
 import { AnimatePresence, LayoutGroup, motion, useCycle } from "framer-motion";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
-import { TodayListItem } from "modules/column-today/components/TodayListItem";
+import { TodayListItem } from "modules/Main/components/Today/components/TodayListItem";
 import { TTask, TTaskToday } from "modules/_common/types/tasks";
 import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
 import { Link } from "react-router-dom";

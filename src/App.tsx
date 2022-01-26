@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { BreakTimer } from "modules/BreakTimer";
-import { Main } from "modules/main/components/Main";
+import { Main } from "modules/Main";
 import { Timer } from "modules/timer/components/Timer";
 import { useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
