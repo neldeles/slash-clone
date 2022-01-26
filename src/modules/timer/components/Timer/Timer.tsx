@@ -19,6 +19,10 @@ export function Timer() {
    */
   const [isTimerActive, setTimerActive] = useState(false);
 
+  const toggleTimer = () => {
+    setTimerActive(!isTimerActive);
+  };
+
   return (
     <motion.div
       className="flex flex-col justify-center items-center space-y-6 h-screen"
@@ -34,48 +38,57 @@ export function Timer() {
       <p className="p-8 w-[40vw] max-w-2xl text-8xl font-medium text-center text-black bg-white rounded-xl border border-gray-200">
         25:00
       </p>
-      <div className=" flex space-x-2">
-        <button
-          type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-        >
-          <Icons.Refresh />
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-          onClick={() => setTimerActive(!isTimerActive)}
-        >
-          <Icons.Pause />
-        </button>
-      </div>
-      <div className=" flex space-x-2">
-        <button
-          type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-        >
-          <Icons.Refresh />
-        </button>
+      {isTimerActive ? (
+        <div className="flex space-x-2">
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Restart"
+          >
+            <Icons.Refresh />
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            onClick={toggleTimer}
+            title="Pause"
+          >
+            <Icons.Pause />
+          </button>
+        </div>
+      ) : (
+        <div className=" flex space-x-2">
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Restart"
+          >
+            <Icons.Refresh />
+          </button>
 
-        <button
-          type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-        >
-          <Icons.Play />
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-        >
-          <Icons.Check />
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-        >
-          <Icons.X />
-        </button>
-      </div>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            onClick={toggleTimer}
+            title="Resume"
+          >
+            <Icons.Play />
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+          >
+            <Icons.Check />
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Cancel"
+          >
+            <Icons.X />
+          </button>
+        </div>
+      )}
     </motion.div>
   );
 }
