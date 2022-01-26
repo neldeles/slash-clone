@@ -1,1 +1,1 @@
-export { Refresh, Pause, Play, Check, X } from "./Icons";
+export { Refresh, Pause, Play, Check, X, Next } from "./Icons";

@@ -60,6 +60,13 @@ export function Timer() {
           >
             <Icons.Pause />
           </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Next"
+          >
+            <Icons.Next />
+          </button>
         </div>
       ) : (
         <div className=" flex space-x-2">
