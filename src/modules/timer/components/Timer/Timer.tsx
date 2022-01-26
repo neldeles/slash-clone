@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Button } from "modules/_common/components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as Icons from "../Icons";
 
@@ -17,16 +16,43 @@ export function Timer() {
    *  - mark task as complete
    *  - cancel the timer
    */
-  const [isTimerActive, setTimerActive] = useState(false);
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
+  const [isPaused, setIsPaused] = useState(true);
+  const [mode, setMode] = useState("work"); // work/break/null
+  const [secondsLeft, setSecondsLeft] = useState(25 * 60);
+
+  const toggleTimer = () => {
+    setIsPaused(!isPaused);
+  };
+
+  useEffect(() => {
+    function switchMode() {
+      const nextMode = mode === "work" ? "break" : "work";
+      const nextSeconds = (nextMode === "work" ? 25 : 5) * 60;
+
+      setMode(nextMode);
+      setSecondsLeft(nextSeconds);
+    }
+
+    let interval = setInterval(() => {
+      if (isPaused) {
+        return;
+      }
+
+      if (secondsLeft === 0) {
+        return switchMode();
+      }
+
+      setSecondsLeft(secondsLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [secondsLeft, isPaused, mode]);
+
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = secondsLeft % 60;
 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
-
-  const toggleTimer = () => {
-    setTimerActive(!isTimerActive);
-  };
 
   return (
     <motion.div
@@ -37,38 +63,16 @@ export function Timer() {
       transition={{ duration: 0.5 }}
     >
       <p className="p-3 w-[40vw] max-w-2xl text-4xl font-medium tracking-normal text-center text-black bg-gray-200 hover:bg-gray-100 rounded-lg border border-gray-200">
-        what happens when i add a really super duper long task that is very hard
-        to fine and fit and then now what is it gonna is ther ea charachter
+        {mode === "break"
+          ? "Break time!"
+          : "what happens when i add a really super duper long task that is very hard to fine and fit and then now what is it gonna is ther ea charachter"}
       </p>
-      <p className="p-8 w-[40vw] max-w-2xl text-8xl font-medium text-center text-black bg-white rounded-xl border border-gray-200">
-        {timerMinutes}:{timerSeconds}
-      </p>
-      {isTimerActive ? (
-        <div className="flex space-x-2">
-          <button
-            type="button"
-            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-            title="Restart"
-          >
-            <Icons.Refresh />
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-            onClick={toggleTimer}
-            title="Pause"
-          >
-            <Icons.Pause />
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-            title="Next"
-          >
-            <Icons.Next />
-          </button>
-        </div>
-      ) : (
+      <div className="flex justify-center p-8 w-[40vw] max-w-2xl text-8xl text-center bg-white rounded-xl border border-gray-200">
+        <p className="font-medium text-black">
+          {timerMinutes}:{timerSeconds}
+        </p>
+      </div>
+      {isPaused ? (
         <div className=" flex space-x-2">
           <button
             type="button"
@@ -101,6 +105,31 @@ export function Timer() {
               <Icons.X />
             </button>
           </Link>
+        </div>
+      ) : (
+        <div className="flex space-x-2">
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Restart"
+          >
+            <Icons.Refresh />
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            onClick={toggleTimer}
+            title="Pause"
+          >
+            <Icons.Pause />
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Next"
+          >
+            <Icons.Next />
+          </button>
         </div>
       )}
     </motion.div>
