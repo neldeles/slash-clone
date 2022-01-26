@@ -36,10 +36,10 @@ export function Main() {
   return (
     <motion.div
       className="flex"
-      // initial={{ scaleY: 0 }}
-      // animate={{ scaleY: 1 }}
-      // exit={{ scaleY: 0 }}
-      // transition={{ duration: 0.5 }}
+      initial={{ scaleY: 0 }}
+      animate={{ scaleY: 1 }}
+      exit={{ scaleY: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <ThisWeek tasksData={tasksData} tasksThisWeek={tasksThisWeek} />
 

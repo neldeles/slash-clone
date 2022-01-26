@@ -26,10 +26,10 @@ export function Timer() {
   return (
     <motion.div
       className="flex flex-col justify-center items-center space-y-6 h-screen"
-      // initial={{ scaleY: 0 }}
-      // animate={{ scaleY: 1 }}
-      // exit={{ scaleY: 0 }}
-      // transition={{ duration: 0.5 }}
+      initial={{ scaleY: 0 }}
+      animate={{ scaleY: 1 }}
+      exit={{ scaleY: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <p className="p-3 w-[40vw] max-w-2xl text-4xl font-medium tracking-normal text-center text-black bg-gray-200 hover:bg-gray-100 rounded-lg border border-gray-200">
         what happens when i add a really super duper long task that is very hard
@@ -80,13 +80,15 @@ export function Timer() {
           >
             <Icons.Check />
           </button>
-          <button
-            type="button"
-            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
-            title="Cancel"
-          >
-            <Icons.X />
-          </button>
+          <Link to="/">
+            <button
+              type="button"
+              className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+              title="Cancel"
+            >
+              <Icons.X />
+            </button>
+          </Link>
         </div>
       )}
     </motion.div>
