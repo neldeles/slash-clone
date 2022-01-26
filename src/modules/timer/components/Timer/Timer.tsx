@@ -23,6 +23,7 @@ export function Timer() {
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState("work"); // work/break/null
   const [secondsLeft, setSecondsLeft] = useState(workDuration);
+  const [skipCurrentMode, setSkipCurrentMode] = useState(false);
 
   const toggleTimer = () => {
     setIsPaused(!isPaused);
@@ -46,6 +47,11 @@ export function Timer() {
         return;
       }
 
+      if (skipCurrentMode) {
+        setSkipCurrentMode(false);
+        return switchMode();
+      }
+
       if (secondsLeft === 0) {
         return switchMode();
       }
@@ -54,7 +60,7 @@ export function Timer() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [secondsLeft, isPaused, mode]);
+  }, [secondsLeft, isPaused, mode, skipCurrentMode]);
 
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
@@ -102,6 +108,14 @@ export function Timer() {
           <button
             type="button"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+            title="Next"
+            onClick={() => setSkipCurrentMode(true)}
+          >
+            <Icons.Next />
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
           >
             <Icons.Check />
           </button>
@@ -137,6 +151,7 @@ export function Timer() {
             type="button"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
             title="Next"
+            onClick={() => setSkipCurrentMode(true)}
           >
             <Icons.Next />
           </button>
