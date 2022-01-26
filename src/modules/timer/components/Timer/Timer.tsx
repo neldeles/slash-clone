@@ -18,6 +18,11 @@ export function Timer() {
    *  - cancel the timer
    */
   const [isTimerActive, setTimerActive] = useState(false);
+  const [minutes, setMinutes] = useState(25);
+  const [seconds, setSeconds] = useState(0);
+
+  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
   const toggleTimer = () => {
     setTimerActive(!isTimerActive);
@@ -36,7 +41,7 @@ export function Timer() {
         to fine and fit and then now what is it gonna is ther ea charachter
       </p>
       <p className="p-8 w-[40vw] max-w-2xl text-8xl font-medium text-center text-black bg-white rounded-xl border border-gray-200">
-        25:00
+        {timerMinutes}:{timerSeconds}
       </p>
       {isTimerActive ? (
         <div className="flex space-x-2">
