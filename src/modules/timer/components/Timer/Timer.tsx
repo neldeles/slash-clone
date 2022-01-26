@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as Icons from "../Icons";
 
+// in seconds
+const breakDuration = 5;
+const workDuration = 5;
+
 export function Timer() {
   /**
    * TODO:
@@ -18,7 +22,7 @@ export function Timer() {
    */
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState("work"); // work/break/null
-  const [secondsLeft, setSecondsLeft] = useState(25 * 60);
+  const [secondsLeft, setSecondsLeft] = useState(workDuration);
 
   const toggleTimer = () => {
     setIsPaused(!isPaused);
@@ -27,7 +31,7 @@ export function Timer() {
   useEffect(() => {
     function switchMode() {
       const nextMode = mode === "work" ? "break" : "work";
-      const nextSeconds = (nextMode === "work" ? 25 : 5) * 60;
+      const nextSeconds = nextMode === "work" ? workDuration : breakDuration;
 
       setMode(nextMode);
       setSecondsLeft(nextSeconds);
