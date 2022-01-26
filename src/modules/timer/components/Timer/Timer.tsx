@@ -1,8 +1,24 @@
 import { motion } from "framer-motion";
 import { Button } from "modules/_common/components/Button";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import * as Icons from "../Icons";
 
 export function Timer() {
+  /**
+   * TODO:
+   * - pause/play button
+   * - if timer active show ff buttons:
+   *  - restart
+   *  - pause
+   * - if timer inactive show ff buttons:
+   *  - restart
+   *  - pause
+   *  - mark task as complete
+   *  - cancel the timer
+   */
+  const [isTimerActive, setTimerActive] = useState(false);
+
   return (
     <motion.div
       className="flex flex-col justify-center items-center space-y-6 h-screen"
@@ -18,13 +34,48 @@ export function Timer() {
       <p className="p-8 w-[40vw] max-w-2xl text-8xl font-medium text-center text-black bg-white rounded-xl border border-gray-200">
         25:00
       </p>
-      <Link to="/" className="w-[40vw] max-w-2xl">
-        <Button
-          label="stop slashing"
-          id="start-slashing"
-          onClick={() => console.log("slash")}
-        />
-      </Link>
+      <div className=" flex space-x-2">
+        <button
+          type="button"
+          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+        >
+          <Icons.Refresh />
+        </button>
+        <button
+          type="button"
+          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+          onClick={() => setTimerActive(!isTimerActive)}
+        >
+          <Icons.Pause />
+        </button>
+      </div>
+      <div className=" flex space-x-2">
+        <button
+          type="button"
+          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+        >
+          <Icons.Refresh />
+        </button>
+
+        <button
+          type="button"
+          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+        >
+          <Icons.Play />
+        </button>
+        <button
+          type="button"
+          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+        >
+          <Icons.Check />
+        </button>
+        <button
+          type="button"
+          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+        >
+          <Icons.X />
+        </button>
+      </div>
     </motion.div>
   );
 }
