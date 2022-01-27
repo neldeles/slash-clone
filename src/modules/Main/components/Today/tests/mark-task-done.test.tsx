@@ -21,12 +21,14 @@ test("moves a task from Today column to the Done column", async () => {
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   userEvent.click(screen.getByRole("button", { name: /mark-done-today/i }));
-  const todayList = screen.getByRole("list", { name: /today/i });
-  const doneList = screen.getByRole("list", { name: /done/i });
 
-  await waitForElementToBeRemoved(within(todayList).queryByText(task));
-  expect(todayList).not.toHaveTextContent(task);
+  await waitForElementToBeRemoved(
+    within(screen.getByRole("list", { name: /today/i })).queryByText(task)
+  );
+  expect(screen.getByRole("list", { name: /today/i })).not.toHaveTextContent(
+    task
+  );
   await waitFor(() => {
-    expect(doneList).toHaveTextContent(task);
+    expect(screen.getByRole("list", { name: /done/i })).toHaveTextContent(task);
   });
 });
