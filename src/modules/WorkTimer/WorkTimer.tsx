@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { tasksService } from "modules/_common/services/tasks-service";
+import { TStatus, TTask, TTaskToday } from "modules/_common/types/tasks";
+import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
+import { useEffect, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 import { Link, Redirect } from "react-router-dom";
 import * as Icons from "./components/Icons";
+
+// in seconds
+const workDuration = 5;
 
 export function WorkTimer() {
   /**
@@ -14,8 +21,16 @@ export function WorkTimer() {
    *    - next task goes to timer page
    *    - take a break goes to break page
    */
-  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [secondsLeft, setSecondsLeft] = useState(workDuration);
   const [toBreakTimer, setToBreakTimer] = useState(false);
+  const [activeTask, setActiveTask] = useState(0);
+
+  const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
+  const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
+
+  const tasksToday = filterTasks(tasksData, "today").sort(
+    sortByAscPriority
+  ) as TTaskToday[];
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -23,6 +38,7 @@ export function WorkTimer() {
         setToBreakTimer(true);
         return;
       }
+
       setSecondsLeft(secondsLeft - 1);
     }, 1000);
 
@@ -34,6 +50,11 @@ export function WorkTimer() {
 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  const setToNextTask = () => {
+    setActiveTask((prev) => prev + 1);
+    setSecondsLeft(workDuration);
+  };
 
   if (toBreakTimer) {
     return <Redirect to="/break" />;
@@ -53,8 +74,7 @@ export function WorkTimer() {
         </p>
       </div>
       <p className="p-3 w-[40vw] max-w-2xl text-4xl font-medium tracking-normal text-center text-black bg-gray-200 hover:bg-gray-100 rounded-lg border border-gray-200">
-        what happens when i add a really super duper long task that is very hard
-        to fine and fit and then now what is it gonna is ther ea charachter
+        {tasksToday[activeTask].task}
       </p>
 
       <div className="flex justify-center mt-4 space-x-2 w-[40vw]">
@@ -62,6 +82,7 @@ export function WorkTimer() {
           type="button"
           className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
           title="Next"
+          onClick={setToNextTask}
         >
           <Icons.Next />
         </button>
@@ -83,4 +104,8 @@ export function WorkTimer() {
       </div>
     </motion.div>
   );
+}
+
+function filterTasks(tasks: TTask[], status: TStatus) {
+  return tasks.filter((task: TTask) => task.status === status);
 }
