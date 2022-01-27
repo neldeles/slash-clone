@@ -3,6 +3,7 @@ import { BreakTimer } from "modules/BreakTimer";
 import { Main } from "modules/Main";
 import { SuccessPage } from "modules/SuccessPage";
 import { WorkTimer } from "modules/WorkTimer";
+import { LastTaskPage } from "modules/WorkTimer/components/LastTaskPage";
 import { useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <Route path="/success">
           <SuccessPage />
+        </Route>
+        <Route path="/congrats">
+          <LastTaskPage />
         </Route>
         <Route path="/">
           <Main />

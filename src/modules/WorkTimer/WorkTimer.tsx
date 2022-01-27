@@ -32,6 +32,22 @@ export function WorkTimer() {
     sortByAscPriority
   ) as TTaskToday[];
 
+  const doneLinkState =
+    tasksToday.length === 1
+      ? {
+          pathname: "/congrats",
+          state: {
+            currentTask: tasksToday[activeTask],
+          },
+        }
+      : {
+          pathname: "/success",
+          state: {
+            currentTask: tasksToday[activeTask],
+            nextTask: tasksToday[activeTask + 1],
+          },
+        };
+
   useEffect(() => {
     let interval = setInterval(() => {
       if (secondsLeft === 0) {
@@ -95,15 +111,7 @@ export function WorkTimer() {
             <Icons.Pause />
           </button>
         </Link>
-        <Link
-          to={{
-            pathname: "/success",
-            state: {
-              currentTask: tasksToday[activeTask],
-              nextTask: tasksToday[activeTask + 1],
-            },
-          }}
-        >
+        <Link to={doneLinkState}>
           <button
             type="button"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
