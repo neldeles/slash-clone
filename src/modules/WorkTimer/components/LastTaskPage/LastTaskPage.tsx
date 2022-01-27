@@ -13,6 +13,8 @@ export function LastTaskPage() {
   const { currentTask } = location.state;
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
 
+  console.log(currentTask);
+
   return (
     <motion.div
       className="flex flex-col items-center py-8 h-screen"
@@ -32,14 +34,19 @@ export function LastTaskPage() {
             textDecorationColor: "#01a09e",
             textDecorationThickness: "4px",
             textDecorationLine: "line-through",
+            // transition: {
+            //   type: "spring",
+            //   stiffness: 400,
+            //   damping: 40,
+            //   delay: 1,
+            // },
             transition: {
-              type: "spring",
-              stiffness: 400,
-              damping: 40,
-              delay: 1,
+              type: "tween",
+              delay: 2,
+              duration: 2,
             },
           }}
-          className="text-3xl font-medium"
+          className="text-3xl font-medium text-center"
         >
           {currentTask.task}
         </motion.p>
