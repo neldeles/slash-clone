@@ -10,10 +10,7 @@ import userEvent from "@testing-library/user-event";
 import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
-
-async function waitForAnimation() {
-  await act(() => new Promise((r) => setTimeout(r, 1000)));
-}
+import { waitForAnimation } from "modules/_common/utils/tests/waitForAnimation";
 
 test("moves a task from Today column to the Done column", async () => {
   // We add this because scrollIntoView is not implemented in JSDOM
@@ -28,9 +25,9 @@ test("moves a task from Today column to the Done column", async () => {
   userEvent.click(screen.getByRole("button", { name: /mark-done-today/i }));
 
   await waitForAnimation();
+  const doneList = screen.getByRole("list", { name: /done/i });
+  const todayList = screen.getByRole("list", { name: /today/i });
 
-  expect(screen.getByRole("list", { name: /done/i })).toHaveTextContent(task);
-  expect(screen.queryByRole("list", { name: /today/i })).not.toHaveTextContent(
-    task
-  );
+  expect(within(doneList).getByText(task)).toHaveTextContent(task);
+  expect(within(todayList).queryByText(task)).not.toBeInTheDocument();
 });

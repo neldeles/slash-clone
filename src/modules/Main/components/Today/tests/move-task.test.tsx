@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
+import { waitForAnimation } from "modules/_common/utils/tests/waitForAnimation";
 
 test("moves a task from Today column to the bottom of This Week column", async () => {
   // We add this because scrollIntoView is not implemented in JSDOM
@@ -51,16 +52,15 @@ test("clicking right arrow button moves a task from Today column to the Done col
 
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
-  userEvent.click(screen.getByRole("heading", { name: /done/i }));
   userEvent.click(
-    await screen.findByRole("button", { name: /move task in Today to Done/i })
+    screen.getByRole("button", { name: /move task in Today to Done/i })
   );
-  const thisWeekList = await screen.findByRole("list", { name: /today/i });
+
+  await waitForAnimation();
+
+  const todayList = screen.getByRole("list", { name: /today/i });
   const doneList = screen.getByRole("list", { name: /done/i });
-  await waitFor(() => {
-    expect(thisWeekList).not.toHaveTextContent(task);
-  });
-  await waitFor(() => {
-    expect(doneList).toHaveTextContent(task);
-  });
+
+  expect(within(doneList).getByText(task)).toHaveTextContent(task);
+  expect(within(todayList).queryByText(task)).not.toBeInTheDocument();
 });
