@@ -21,7 +21,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
       const scrollHeight = todayRef.current.scrollHeight;
       todayRef.current.style.height = scrollHeight + "px";
     }
-  }, [tasksData]);
+  });
 
   const {
     newTask: newTaskToday,

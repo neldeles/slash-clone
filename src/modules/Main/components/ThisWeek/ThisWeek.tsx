@@ -4,9 +4,10 @@ import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToB
 import { SideContainer } from "modules/_common/components/SideContainer";
 import { ThisWeekListItem } from "modules/Main/components/ThisWeek/components/ThisWeekListItem";
 import { TTask, TTaskThisWeek } from "modules/_common/types/tasks";
-import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
+import { useAddTask } from "modules/_common/hooks";
 import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";
 import { CloseButton } from "modules/_common/components/CloseButton";
+import { useLayoutEffect, useRef } from "react";
 
 type TProps = {
   tasksThisWeek: TTaskThisWeek[];
@@ -15,8 +16,15 @@ type TProps = {
 
 export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
   const [isThisWeekOpen, toggleThisWeekOpen] = useCycle(true, false);
+  const thisWeekRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const thisWeekRef = useAutoResizeTextarea(tasksData, isThisWeekOpen);
+  useLayoutEffect(() => {
+    if (thisWeekRef && thisWeekRef.current) {
+      thisWeekRef.current.style.height = "0px";
+      const scrollHeight = thisWeekRef.current.scrollHeight;
+      thisWeekRef.current.style.height = scrollHeight + "px";
+    }
+  });
 
   const {
     newTask: newTaskThisWeek,
