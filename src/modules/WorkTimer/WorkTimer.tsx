@@ -5,6 +5,7 @@ import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { Link, Redirect } from "react-router-dom";
+import { classNames } from "utils/classNames";
 import * as Icons from "./components/Icons";
 
 // in seconds
@@ -105,8 +106,14 @@ export function WorkTimer() {
       <div className="flex justify-center mt-4 space-x-2 w-[40vw]">
         <button
           type="button"
-          className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
+          className={classNames(
+            "inline-flex items-center p-3  rounded-full border border-transparent shadow-sm text-white",
+            tasksToday.length === 1
+              ? "bg-gray-400"
+              : " bg-indigo-200 hover:bg-indigo-100"
+          )}
           title="Next"
+          disabled={tasksToday.length === 1 ? true : false}
           onClick={setToNextTask}
         >
           <Icons.Next />
