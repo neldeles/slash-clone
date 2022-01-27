@@ -2,6 +2,7 @@ import {
   screen,
   waitFor,
   waitForElementToBeRemoved,
+  within,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
@@ -19,15 +20,12 @@ test("moves a task from Today column to the Done column", async () => {
 
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
-  userEvent.click(screen.getByRole("heading", { name: /done/i }));
-  userEvent.click(
-    await screen.findByRole("button", { name: /mark-done-today/i })
-  );
-  const thisWeekList = await screen.findByRole("list", { name: /today/i });
+  userEvent.click(screen.getByRole("button", { name: /mark-done-today/i }));
+  const todayList = screen.getByRole("list", { name: /today/i });
   const doneList = screen.getByRole("list", { name: /done/i });
-  await waitFor(() => {
-    expect(thisWeekList).not.toHaveTextContent(task);
-  });
+
+  await waitForElementToBeRemoved(within(todayList).queryByText(task));
+  expect(todayList).not.toHaveTextContent(task);
   await waitFor(() => {
     expect(doneList).toHaveTextContent(task);
   });
