@@ -22,12 +22,13 @@ test("moves a task from This Week column to the Done column", async () => {
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   userEvent.click(await screen.findByRole("button", { name: /mark-done/i }));
 
-  const thisWeekList = screen.getByRole("list", { name: /this week/i });
-  const doneList = screen.getByRole("list", { name: /done/i });
-
-  await waitForElementToBeRemoved(within(thisWeekList).queryByText(task));
-  expect(thisWeekList).not.toHaveTextContent(task);
+  await waitForElementToBeRemoved(
+    within(screen.getByRole("list", { name: /this week/i })).queryByText(task)
+  );
+  expect(
+    screen.getByRole("list", { name: /this week/i })
+  ).not.toHaveTextContent(task);
   await waitFor(() => {
-    expect(doneList).toHaveTextContent(task);
+    expect(screen.getByRole("list", { name: /done/i })).toHaveTextContent(task);
   });
 });
