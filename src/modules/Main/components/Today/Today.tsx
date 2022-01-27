@@ -32,7 +32,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
 
   return (
     <div className="flex basis-full justify-center py-2 px-8 h-screen border-r border-gray-200">
-      <div className="max-w-lg">
+      <div className="w-10/12 max-w-lg">
         <h1
           className="mt-6 text-lg font-medium tracking-wide text-gray-500"
           id="today-heading"
