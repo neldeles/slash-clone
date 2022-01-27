@@ -4,7 +4,7 @@ import "./index.css";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import App from "./App";
-import { BrowserRouter as Router } from "react-router-dom";
+import { MemoryRouter as Router } from "react-router-dom";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = require("./mocks/browser");
