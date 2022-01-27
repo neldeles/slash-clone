@@ -95,9 +95,9 @@ export function WorkTimer() {
       transition={{ duration: 0.5 }}
     >
       <div className="flex justify-center p-3 w-[40vw]">
-        <p className="text-xl font-medium text-black">
+        <h1 className="text-xl font-medium text-black">
           {timerMinutes}:{timerSeconds}
-        </p>
+        </h1>
       </div>
       <p className="p-3 w-[40vw] max-w-2xl text-4xl font-medium tracking-normal text-center text-black bg-gray-200 hover:bg-gray-100 rounded-lg border border-gray-200">
         {tasksToday[activeTask].task}
@@ -115,6 +115,7 @@ export function WorkTimer() {
           title="Next"
           disabled={tasksToday.length === 1 ? true : false}
           onClick={setToNextTask}
+          aria-label="skip task"
         >
           <Icons.Next />
         </button>
@@ -123,6 +124,7 @@ export function WorkTimer() {
             type="button"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
             title="Pause"
+            aria-label="pause"
           >
             <Icons.Pause />
           </button>
@@ -130,6 +132,7 @@ export function WorkTimer() {
         <Link to={doneLinkState}>
           <button
             type="button"
+            aria-label="mark done"
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
           >
             <Icons.Check />
