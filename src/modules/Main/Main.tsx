@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
-  TStatus,
   TTask,
   TTaskDone,
   TTaskThisWeek,
@@ -19,15 +18,15 @@ export function Main() {
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
 
-  const tasksThisWeek = filterTasks(tasksData, "thisWeek").sort(
-    sortByAscPriority
-  ) as TTaskThisWeek[];
-  const tasksToday = filterTasks(tasksData, "today").sort(
-    sortByAscPriority
-  ) as TTaskToday[];
-  const tasksDone = filterTasks(tasksData, "done").sort(
-    sortByDoneDate
-  ) as TTaskDone[];
+  const tasksThisWeek: TTaskThisWeek[] = tasksData
+    .filter(isTaskThisWeek)
+    .sort(sortByAscPriority);
+  const tasksToday: TTaskToday[] = tasksData
+    .filter(isTaskToday)
+    .sort(sortByAscPriority);
+  const tasksDone: TTaskDone[] = tasksData
+    .filter(isTaskDone)
+    .sort(sortByDoneDate);
 
   if (tasksQuery.isLoading) {
     return <h1>loading</h1>;
@@ -50,6 +49,14 @@ export function Main() {
   );
 }
 
-function filterTasks(tasks: TTask[], status: TStatus) {
-  return tasks.filter((task: TTask) => task.status === status);
+function isTaskThisWeek(task: TTask): task is TTaskThisWeek {
+  return (task as TTaskThisWeek).status === "thisWeek";
+}
+
+function isTaskToday(task: TTask): task is TTaskToday {
+  return (task as TTaskToday).status === "today";
+}
+
+function isTaskDone(task: TTask): task is TTaskDone {
+  return (task as TTaskDone).status === "done";
 }
