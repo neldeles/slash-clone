@@ -3,6 +3,7 @@ module.exports = {
     "yarn format:fix",
     "yarn lint",
     () => "tsc --noEmit",
-    "yarn test --bail --watchAll=false --findRelatedTests --passWithNoTests",
+    // "yarn test --bail --watchAll=false --findRelatedTests --passWithNoTests",
+    "yarn cypress:run",
   ],
 };

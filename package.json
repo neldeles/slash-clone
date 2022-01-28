@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "cypress:open": "cypress open",
-    "test:e2e": "cypress run",
+    "cypress:run": "cypress run",
     "eject": "react-scripts eject",
     "prettier": "prettier .",
     "format:check": "yarn prettier --check",
