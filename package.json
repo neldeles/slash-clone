@@ -51,6 +51,9 @@
       "react-app/jest",
       "plugin:tailwindcss/recommended"
     ],
+    "ignorePatterns": [
+      "cypress"
+    ],
     "overrides": [
       {
         "files": [
