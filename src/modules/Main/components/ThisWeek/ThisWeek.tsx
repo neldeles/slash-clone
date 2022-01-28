@@ -39,7 +39,10 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
           This Week
         </AnimatedHeading>
         {isThisWeekOpen ? (
-          <CloseButton onClick={() => toggleThisWeekOpen()} />
+          <CloseButton
+            onClick={() => toggleThisWeekOpen()}
+            ariaLabel="close this week column"
+          />
         ) : null}
       </Header>
 

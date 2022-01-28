@@ -20,7 +20,12 @@ export function Done({ tasksDone }: TProps) {
         <AnimatedHeading id="done-heading" isOpen={isDoneOpen}>
           Done
         </AnimatedHeading>
-        {isDoneOpen ? <CloseButton onClick={() => toggleDoneOpen()} /> : null}
+        {isDoneOpen ? (
+          <CloseButton
+            onClick={() => toggleDoneOpen()}
+            ariaLabel="close done column"
+          />
+        ) : null}
       </Header>
 
       {isDoneOpen ? (
