@@ -1,6 +1,9 @@
 // src/mocks/db.js
-import { seed, datatype, lorem } from "faker";
+import { seed, randUuid, randText, randNumber } from "@ngneat/falso";
 import { factory, primaryKey, nullable } from "@mswjs/data";
+
+seed("some-constant-seed");
+const randomCharCount = randNumber({ min: 1, max: 140 });
 
 export const db = factory({
   status: {
@@ -8,8 +11,8 @@ export const db = factory({
     type: String,
   },
   task: {
-    id: primaryKey(datatype.uuid),
-    task: lorem.sentence,
+    id: primaryKey(randUuid),
+    task: () => randText({ charCount: randomCharCount }),
     status: String,
     priority: nullable(Number),
     date_done: nullable<Date>(() => null),
@@ -23,7 +26,7 @@ export const status = {
   done: db.status.create({ id: 3, type: "done" }),
 };
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 15; i++) {
   db.task.create({
     status: status.thisWeek.type,
     priority: i + 1,
