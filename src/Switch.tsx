@@ -10,8 +10,8 @@ const Switch2 = () => {
     <div
       onClick={() => setActive((prev) => !prev)}
       className={classNames(
-        "w-12 h-7 rounded-2xl flex bg-black justify-start",
-        active ? "bg-indigo-100 justify-end" : null
+        "flex justify-start w-12 h-7 bg-black rounded-2xl",
+        active ? "justify-end bg-indigo-100" : null
       )}
     >
       <motion.div className="w-7 h-7 bg-white rounded-full"></motion.div>

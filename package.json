@@ -43,6 +43,9 @@
     "flakiness": "for i in {1..15}; do yarn test src/modules/WorkTimer/tests/work-timer.test.tsx --silent --watchAll=false || (echo 'Failed after $i attempts' && break); done"
   },
   "eslintConfig": {
+    "plugins": [
+      "tailwindcss"
+    ],
     "extends": [
       "react-app",
       "react-app/jest",
@@ -57,7 +60,17 @@
           "import/no-anonymous-default-export": "off"
         }
       }
-    ]
+    ],
+    "settings": {
+      "tailwindcss": {
+        "callees": [
+          "classnames",
+          "clsx",
+          "ctl",
+          "classNames"
+        ]
+      }
+    }
   },
   "browserslist": {
     "production": [

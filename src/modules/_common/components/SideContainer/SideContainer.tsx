@@ -67,8 +67,8 @@ export function SideContainer({ isOpen, toggleOpen, children }: TProps) {
     <motion.div
       onClick={isOpen ? null : toggleOpen}
       className={classNames(
-        "py-2 h-screen border-r border-gray-200 grow-0 shrink-0 max-w-xs",
-        allowHover ? "group hover:cursor-pointer hover:bg-gray-200" : null
+        "grow-0 shrink-0 py-2 max-w-xs h-screen border-r border-gray-200",
+        allowHover ? "group hover:bg-gray-200 hover:cursor-pointer" : null
       )}
       variants={shouldReduceMotion ? {} : containerVariants}
       animate={isOpen ? "open" : "closed"}

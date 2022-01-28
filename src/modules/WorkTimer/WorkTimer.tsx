@@ -107,7 +107,7 @@ export function WorkTimer() {
         <button
           type="button"
           className={classNames(
-            "inline-flex items-center p-3  rounded-full border border-transparent shadow-sm text-white",
+            "inline-flex items-center p-3 text-white rounded-full border border-transparent shadow-sm",
             tasksToday.length === 1
               ? "bg-gray-400"
               : " bg-indigo-200 hover:bg-indigo-100"

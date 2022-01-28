@@ -17,7 +17,7 @@ export function AnimatedHeading({ isOpen, children, id }: TProps) {
     <motion.h1
       className={classNames(
         "font-medium tracking-wide",
-        isOpen ? "mr-auto text-lg text-gray-500" : "text-gray-300 text-base"
+        isOpen ? "mr-auto text-lg text-gray-500" : "text-base text-gray-300"
       )}
       id={id}
       layoutId={id}
