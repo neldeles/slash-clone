@@ -50,5 +50,4 @@ describe("when I click the pause button", () => {
       screen.getByRole("link", { name: /start slashing/i })
     ).toBeInTheDocument();
   });
-  it.todo("should still display the task in the Today list");
 });

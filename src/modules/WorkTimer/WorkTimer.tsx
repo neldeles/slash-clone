@@ -99,7 +99,7 @@ export function WorkTimer() {
       transition={{ duration: 0.5 }}
     >
       <div className="flex justify-center p-3 w-[40vw]">
-        <h1 className="text-xl font-medium text-black">
+        <h1 className="text-xl font-medium tabular-nums text-black">
           {timerMinutes}:{timerSeconds}
         </h1>
       </div>
