@@ -1,4 +1,7 @@
 /// <reference types="cypress" />
+
+import { db } from "mocks/db";
+
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -16,7 +19,28 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports = (on, config) => {
+export default (
+  on: Cypress.PluginEvents,
+  config: Cypress.PluginConfigOptions
+) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  on("task", {
+    hello({ name }: { name: string }) {
+      console.log(`hello ${name}`);
+      return null;
+    },
+
+    "db:seed": () => {
+      db.task.create({
+        task: "Default task seed",
+        status: "done",
+        priority: 1,
+      });
+
+      return null;
+    },
+  });
+
+  return config;
 };

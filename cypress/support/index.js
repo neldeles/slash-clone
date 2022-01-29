@@ -20,8 +20,6 @@ import "./commands";
 // require('./commands')
 
 import { worker } from "../../src/mocks/browser";
-import { drop } from "@mswjs/data";
-import { db } from "../../src/mocks/db";
 Cypress.on("test:before:run:async", async () => {
   if (window.msw) {
     console.log("MSW is already running.");
