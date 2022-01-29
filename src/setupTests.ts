@@ -7,6 +7,7 @@ import { db } from "mocks/db";
 import { drop } from "@mswjs/data";
 import { server } from "mocks/server";
 
+jest.mock("framer-motion");
 // Establish API mocking before all tests.
 beforeAll(() => {
   server.listen({ onUnhandledRequest: "error" });
@@ -21,7 +22,6 @@ beforeEach(() => {
 // so they don't affect other tests.
 afterEach(() => {
   server.resetHandlers();
-  drop(db);
 });
 // Clean up after the tests are finished.
 afterAll(() => server.close());

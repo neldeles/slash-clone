@@ -17,7 +17,7 @@ test("that app redirects to work timer when Start Slashing button is clicked", a
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
-  userEvent.click(screen.getByRole("button", { name: /start slashing/i }));
+  userEvent.click(screen.getByRole("link", { name: /start slashing/i }));
 
   await waitFor(() => {
     expect(screen.getByRole("button", { name: /pause/i })).toBeInTheDocument();
@@ -30,7 +30,7 @@ test("that next button is disabled if there is only one task left in Today", asy
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
-  userEvent.click(screen.getByRole("button", { name: /start slashing/i }));
+  userEvent.click(screen.getByRole("link", { name: /start slashing/i }));
 
   await waitFor(() => {
     expect(screen.getByRole("button", { name: /skip task/i })).toBeDisabled();
