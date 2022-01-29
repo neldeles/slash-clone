@@ -86,7 +86,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
                 onClick={() => addTaskTodayOnClick()}
               />
             ) : (
-              <Link to="/timer">
+              <Link to="/timer/work">
                 <Button
                   label="Start Slashing"
                   id="start-slashing"

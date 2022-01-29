@@ -82,8 +82,12 @@ export function WorkTimer() {
     setSecondsLeft(workDuration);
   };
 
+  if (tasksQuery.isLoading) {
+    return <h1>Loading</h1>;
+  }
+
   if (toBreakTimer) {
-    return <Redirect to="/break" />;
+    return <Redirect to="/timer/break" />;
   }
 
   return (
