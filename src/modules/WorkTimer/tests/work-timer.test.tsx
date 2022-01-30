@@ -121,3 +121,17 @@ describe("when work timer ends", () => {
     expect(screen.getByText(/break time/i)).toBeInTheDocument();
   });
 });
+
+describe("when I click mark done button", () => {
+  it("navigates to the task completion page", async () => {
+    const task = randText();
+    createTodayTask([task]);
+
+    renderWithProviders(<App />, { route: "/timer/work" });
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+    userEvent.click(screen.getByRole("button", { name: /mark done/i }));
+    expect(
+      screen.getByRole("button", { name: /go celebrate!/i })
+    ).toBeInTheDocument();
+  });
+});
