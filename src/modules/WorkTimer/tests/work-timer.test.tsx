@@ -8,6 +8,7 @@ import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 import { db } from "mocks/db";
 import App from "App";
+import { randText } from "@ngneat/falso";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
@@ -45,7 +46,7 @@ test("that next button is disabled if there is only one task left in Today", asy
 describe("when I click the pause button", () => {
   it("navigates back to the home page", async () => {
     const task = "some task";
-    db.task.create({ task: task, status: "today", priority: 1 });
+    createTodayTask([task]);
     renderWithProviders(<App />, { route: "/timer/work" });
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
@@ -59,4 +60,18 @@ describe("when I click the pause button", () => {
   });
 });
 
-test("clicking next button skips to next task", async () => {});
+describe("when I click the skip task button", () => {
+  it("skips to next task", async () => {
+    const firstTask = randText();
+    const secondTask = randText();
+    createTodayTask([firstTask, secondTask]);
+
+    renderWithProviders(<App />, { route: "/timer/work" });
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+    expect(screen.getByText(firstTask)).toBeInTheDocument();
+    userEvent.click(screen.getByRole("button", { name: /skip task/i }));
+    expect(screen.queryByText(firstTask)).not.toBeInTheDocument();
+    expect(screen.getByText(secondTask)).toBeInTheDocument();
+  });
+});
