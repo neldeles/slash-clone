@@ -9,9 +9,16 @@ import userEvent from "@testing-library/user-event";
 import { db } from "mocks/db";
 import App from "App";
 
+function createTodayTask(taskText: string[]) {
+  for (let i = 0; i < taskText.length; i++) {
+    db.task.create({ task: taskText[i], status: "today", priority: i + 1 });
+  }
+  return null;
+}
+
 test("that app redirects to work timer when Start Slashing button is clicked", async () => {
   const task = "this is the last task";
-  db.task.create({ task: task, status: "today", priority: 1 });
+  createTodayTask([task]);
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
@@ -24,7 +31,7 @@ test("that app redirects to work timer when Start Slashing button is clicked", a
 
 test("that next button is disabled if there is only one task left in Today", async () => {
   const task = "button is disabled";
-  db.task.create({ task: task, status: "today", priority: 1 });
+  createTodayTask([task]);
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
@@ -51,3 +58,5 @@ describe("when I click the pause button", () => {
     ).toBeInTheDocument();
   });
 });
+
+test("clicking next button skips to next task", async () => {});
