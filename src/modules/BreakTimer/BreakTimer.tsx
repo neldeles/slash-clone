@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export function BreakTimer() {
   const [isBreakOver, setIsBreakOver] = useState(false);
 
-  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [secondsLeft, setSecondsLeft] = useState(300);
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -64,11 +64,9 @@ export function BreakTimer() {
           </main>
           <footer>
             <Link to="/">
-              <Link to="/">
-                <button className="py-3 px-6 w-full text-lg font-medium tracking-wide text-white bg-gray-500 hover:bg-gray-350 rounded-md shadow-sm">
-                  Cancel
-                </button>
-              </Link>
+              <button className="py-3 px-6 w-full text-lg font-medium tracking-wide text-white bg-gray-500 hover:bg-gray-350 rounded-md shadow-sm">
+                Cancel
+              </button>
             </Link>
           </footer>
         </>
