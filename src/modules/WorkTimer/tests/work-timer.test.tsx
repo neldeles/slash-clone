@@ -3,6 +3,7 @@ import {
   screen,
   waitFor,
   waitForElementToBeRemoved,
+  act,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
@@ -88,5 +89,35 @@ describe("when I click the skip task button", () => {
     userEvent.click(screen.getByRole("button", { name: /skip task/i }));
     expect(screen.queryByText(secondTask)).not.toBeInTheDocument();
     expect(screen.getByText(firstTask)).toBeInTheDocument();
+  });
+});
+
+describe("when work timer ends", () => {
+  beforeEach(() => {
+    jest.useFakeTimers("modern");
+  });
+
+  afterEach(() => {
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    jest.useRealTimers();
+  });
+
+  it("navigates to the break timer page and starts the break timer", async () => {
+    const task = randText();
+    const workTimerDuration = 1500000;
+    createTodayTask([task]);
+
+    renderWithProviders(<App />, { route: "/timer/work" });
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+    expect(screen.getByText("25:00")).toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(workTimerDuration + 2000);
+    });
+
+    expect(screen.getByText(/break time/i)).toBeInTheDocument();
   });
 });

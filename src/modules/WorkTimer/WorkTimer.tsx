@@ -9,7 +9,7 @@ import { classNames } from "utils/classNames";
 import * as Icons from "./components/Icons";
 
 // in seconds
-const workDuration = 5;
+const workDuration = 1500;
 
 export function WorkTimer() {
   /**
