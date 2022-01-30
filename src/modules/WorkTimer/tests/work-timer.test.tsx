@@ -74,4 +74,19 @@ describe("when I click the skip task button", () => {
     expect(screen.queryByText(firstTask)).not.toBeInTheDocument();
     expect(screen.getByText(secondTask)).toBeInTheDocument();
   });
+
+  it("cycles back to first task if active task is the last task in list", async () => {
+    const firstTask = randText();
+    const secondTask = randText();
+    createTodayTask([firstTask, secondTask]);
+
+    renderWithProviders(<App />, { route: "/timer/work" });
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+    userEvent.click(screen.getByRole("button", { name: /skip task/i }));
+    expect(screen.getByText(secondTask)).toBeInTheDocument();
+    userEvent.click(screen.getByRole("button", { name: /skip task/i }));
+    expect(screen.queryByText(secondTask)).not.toBeInTheDocument();
+    expect(screen.getByText(firstTask)).toBeInTheDocument();
+  });
 });

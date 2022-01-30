@@ -33,14 +33,13 @@ export function WorkTimer() {
     sortByAscPriority
   ) as TTaskToday[];
 
+  const lastTask = tasksToday.length - 1;
+
   /**
    * If the active task is the last task in the array, loop back and make the first item
    * in the array the next task.
    */
-  const nextTask =
-    activeTask === tasksToday.length - 1
-      ? tasksToday[0]
-      : tasksToday[activeTask + 1];
+  const nextTask = activeTask === lastTask ? 0 : activeTask + 1;
 
   const doneLinkState =
     tasksToday.length === 1
@@ -54,7 +53,7 @@ export function WorkTimer() {
           pathname: "/success",
           state: {
             currentTask: tasksToday[activeTask],
-            nextTask: nextTask,
+            nextTask: tasksToday[nextTask],
           },
         };
 
@@ -78,7 +77,12 @@ export function WorkTimer() {
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
   const setToNextTask = () => {
-    setActiveTask((prev) => prev + 1);
+    if (activeTask === lastTask) {
+      setActiveTask(0);
+    } else {
+      setActiveTask((prev) => prev + 1);
+    }
+
     setSecondsLeft(workDuration);
   };
 
