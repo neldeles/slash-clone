@@ -1,11 +1,11 @@
-import { Button } from "modules/_common/components/Button";
-import { AnimatePresence, LayoutGroup, motion, useCycle } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { TodayListItem } from "modules/Main/components/Today/components/TodayListItem";
 import { TTask, TTaskToday } from "modules/_common/types/tasks";
-import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
-import { Link } from "react-router-dom";
+import { useAddTask } from "modules/_common/hooks";
 import { useLayoutEffect, useRef } from "react";
+import { TodayButton } from "./components/TodayButton";
+import { TodayTextarea } from "./components/TodayTextarea";
 
 type TProps = {
   tasksToday: TTaskToday[];
@@ -64,36 +64,33 @@ export function Today({ tasksToday, tasksData }: TProps) {
               <AlwaysScrollToBottom currentListLength={tasksToday.length} />
             </motion.ul>
             <motion.form className="px-8 mt-3" autoComplete="off">
-              <motion.textarea
-                id="addToday"
-                name="Add task Today"
-                aria-label="add task today"
-                maxLength={140}
-                className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
-                placeholder="Add task..."
-                value={newTaskToday}
-                onChange={(e) => setNewTaskToday(e.target.value)}
-                onKeyPress={addTaskToday}
-                ref={todayRef}
-              />
+              {tasksToday.length === 0 ? (
+                <TodayTextarea
+                  addTaskToday={addTaskToday}
+                  newTaskToday={newTaskToday}
+                  setNewTaskToday={setNewTaskToday}
+                  todayRef={todayRef}
+                  placeholder="Add task + hit enter..."
+                />
+              ) : (
+                <TodayTextarea
+                  addTaskToday={addTaskToday}
+                  newTaskToday={newTaskToday}
+                  setNewTaskToday={setNewTaskToday}
+                  todayRef={todayRef}
+                  placeholder="Add task..."
+                />
+              )}
             </motion.form>
           </motion.div>
           <motion.div className="mt-6">
-            {newTaskToday ? (
-              <Button
-                id="save-task"
-                label="Save Task"
-                onClick={() => addTaskTodayOnClick()}
+            <AnimatePresence>
+              <TodayButton
+                newTaskToday={newTaskToday}
+                tasksToday={tasksToday}
+                handleAddTask={addTaskTodayOnClick}
               />
-            ) : (
-              <Link to="/timer/work">
-                <Button
-                  label="Start Slashing"
-                  id="start-slashing"
-                  onClick={() => console.log("slash")}
-                />
-              </Link>
-            )}
+            </AnimatePresence>
           </motion.div>
         </LayoutGroup>
       </div>

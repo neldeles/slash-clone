@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 
 type TButtonProps = {
-  onClick: () => void;
   label: string;
   id: string;
+  onClick?: () => void;
 };
 
 export function Button({ id, onClick, label }: TButtonProps) {
