@@ -37,6 +37,18 @@ test("add a new task from This Week input and display it at bottom of This Week 
   });
 });
 
+test("display the correct placeholder if list is empty", async () => {
+  setScrollIntoView();
+  renderWithProviders(<App />);
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+  const input = await screen.findByRole("textbox", {
+    name: /add task this week/i,
+  });
+  expect(input.getAttribute("placeholder")).toMatchInlineSnapshot(
+    `"Add task + hit enter..."`
+  );
+});
+
 test("adds N tasks and displays N tasks", async () => {
   const numberOfTasks = randNumber({ min: 1, max: 10 });
   const tasks = [...Array(numberOfTasks)].map(() => randText());

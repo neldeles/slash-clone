@@ -81,7 +81,11 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
                 aria-label="add task this week"
                 maxLength={140}
                 className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
-                placeholder="Add task..."
+                placeholder={
+                  tasksThisWeek.length === 0
+                    ? "Add task + hit enter..."
+                    : "Add task..."
+                }
                 value={newTaskThisWeek}
                 onChange={(e) => setNewTaskThisWeek(e.target.value)}
                 onKeyPress={addTaskThisWeek}
