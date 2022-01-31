@@ -1,4 +1,4 @@
-# TaskNinja
+# [WIP] TaskNinja
 
 This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
@@ -12,8 +12,8 @@ Visit this link if you want to play around with the demo right away:
   - [App specifications](#app-specifications)
   - [Visual demo]()
 - [My process]()
-  - [Built with]()
-  - [What I learned]()
+  - [Built with](#built-with)
+  - [Some things learned](#some-things-learned)
   - [Continued development]()
 - [Author]()
 
@@ -25,7 +25,7 @@ Before you dismiss this as just another todo app, the app is more complex
 than what you'd find in cookie cutter tutorials. I talk more about this in the
 [goals](#goals) section.
 
-Now why did I decide to build this specific app? I really love the approach Slash app takes of filling in your tasks for the day...then just slashing your way through them one-by-one. But the app had 2 shortcomings for me:
+Now why did I decide to build this specific app? I love the approach Slash app takes of typing in your tasks for the day...then slashing your way through them one-by-one. But the app had 2 shortcomings for me:
 
 1. It's a paid product that isn't being actively developed any longer (their last reply in the [features roadmap](https://slash.nolt.io/top) was about a year ago and nothing has been checked off since)
 
@@ -53,6 +53,8 @@ Users should be able to:
 
 ### Visual demo
 
+Insert screenshots/gifs here
+
 ## My process
 
 ### Built with
@@ -65,3 +67,14 @@ Users should be able to:
 - [React Router](https://reactrouter.com/) - For page routing
 - [React Query](https://react-query.tanstack.com/) - For data fetching, caching & state management
 - [Axios](https://axios-http.com/docs/intro) - For Api calls
+
+### Some things learned
+
+- [passing state when navigating to different components](https://ui.dev/react-router-v5-pass-props-to-link/)
+- handling React Router routes in unit and integration tests
+
+#### useRef over useMemo
+
+`useRef` over `useMemo` [if you just need a consistent reference](https://blog.logrocket.com/rethinking-hooks-memoization/). You can end up shooting yourself on the foot by relying on `useMemo` for consistent reference as well. Per the official docs:
+
+> You may rely on useMemo as a performance optimization, not as a semantic guarantee. In the future, React may choose to “forget” some previously memoized values and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.

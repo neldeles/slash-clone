@@ -9,11 +9,18 @@ import userEvent from "@testing-library/user-event";
 import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
+import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { randNumber, randText } from "@ngneat/falso";
+
+function createThisWeekTask(taskText: string[]) {
+  for (let i = 0; i < taskText.length; i++) {
+    db.task.create({ task: taskText[i], status: "thisWeek", priority: i + 1 });
+  }
+  return null;
+}
 
 test("add a new task from This Week input and display it at bottom of This Week column", async () => {
-  // We add this because scrollIntoView is not implemented in JSDOM
-  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  setScrollIntoView();
   db.task.create({ task: "First task", status: "thisWeek", priority: 1 });
   const newTask = "new task";
   renderWithProviders(<App />);
@@ -28,4 +35,20 @@ test("add a new task from This Week input and display it at bottom of This Week 
     const items = within(list).getAllByRole("listitem");
     expect(items[items.length - 1]).toHaveTextContent(newTask);
   });
+});
+
+test("adds N tasks and displays N tasks", async () => {
+  const numberOfTasks = randNumber({ min: 1, max: 10 });
+  const tasks = [...Array(numberOfTasks)].map(() => randText());
+  createThisWeekTask(tasks);
+
+  renderWithProviders(<App />);
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+  const withinThisWeekList = within(
+    screen.getByRole("list", { name: /this week/i })
+  );
+  expect(withinThisWeekList.queryAllByRole("listitem")).toHaveLength(
+    numberOfTasks
+  );
 });

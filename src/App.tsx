@@ -19,10 +19,10 @@ function App() {
   return (
     <AnimatePresence exitBeforeEnter initial={false}>
       <Switch location={location} key={location.pathname}>
-        <Route path="/timer">
+        <Route path="/timer/work">
           <WorkTimer />
         </Route>
-        <Route path="/break">
+        <Route path="/timer/break">
           <BreakTimer />
         </Route>
         <Route path="/success">

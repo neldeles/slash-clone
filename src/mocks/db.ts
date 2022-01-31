@@ -26,7 +26,7 @@ export const status = {
   done: db.status.create({ id: 3, type: "done" }),
 };
 
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 2; i++) {
   db.task.create({
     status: status.thisWeek.type,
     priority: i + 1,

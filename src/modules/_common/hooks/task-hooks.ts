@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   useDeleteTaskMutation,
   useUpdateTaskMutation,
@@ -32,19 +32,23 @@ export function useDeleteTask() {
 export function useMarkTaskDone() {
   const [startAnimation, setStartAnimation] = useState(false);
   const updateTaskMutation = useUpdateTaskMutation();
+  const { mutate } = updateTaskMutation;
 
-  const markTaskDone = (task: TTask) => {
-    const payload: TTask = {
-      ...task,
-      status: "done",
-    };
+  const markTaskDone = useCallback(
+    (task: TTask) => {
+      const payload: TTask = {
+        ...task,
+        status: "done",
+      };
 
-    updateTaskMutation.mutate(payload, {
-      onSuccess: () => {
-        setStartAnimation(true);
-      },
-    });
-  };
+      mutate(payload, {
+        onSuccess: () => {
+          setStartAnimation(true);
+        },
+      });
+    },
+    [mutate]
+  );
 
   return {
     markTaskDone,

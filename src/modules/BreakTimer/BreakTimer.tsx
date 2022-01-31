@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export function BreakTimer() {
   const [isBreakOver, setIsBreakOver] = useState(false);
 
-  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [secondsLeft, setSecondsLeft] = useState(300);
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -48,7 +48,7 @@ export function BreakTimer() {
                 Edit Tasks
               </button>
             </Link>
-            <Link to="/timer">
+            <Link to="/timer/work">
               <button className="items-center py-3 px-6 w-full text-lg font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md shadow-sm">
                 Keep Slashing
               </button>
@@ -58,17 +58,15 @@ export function BreakTimer() {
       ) : (
         <>
           <main className="flex flex-1 items-center">
-            <p className="text-[20rem] font-medium text-gray-350">
+            <p className="text-[20rem] font-medium tabular-nums text-gray-350">
               {timerMinutes}:{timerSeconds}
             </p>
           </main>
           <footer>
             <Link to="/">
-              <Link to="/">
-                <button className="py-3 px-6 w-full text-lg font-medium tracking-wide text-white bg-gray-500 hover:bg-gray-350 rounded-md shadow-sm">
-                  Cancel
-                </button>
-              </Link>
+              <button className="py-3 px-6 w-full text-lg font-medium tracking-wide text-white bg-gray-500 hover:bg-gray-350 rounded-md shadow-sm">
+                Cancel
+              </button>
             </Link>
           </footer>
         </>
