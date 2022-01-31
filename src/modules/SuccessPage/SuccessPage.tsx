@@ -82,7 +82,9 @@ export function SuccessPage() {
         </div>
       </main>
       <div className="flex space-x-3">
-        <button className="text-gray-350">Take Break</button>
+        <Link to="/timer/break">
+          <button className="text-gray-350">Take Break</button>
+        </Link>
         <span className="text-gray-350">/</span>
         <Link to="/">
           <button className="text-gray-350">Edit Tasks</button>

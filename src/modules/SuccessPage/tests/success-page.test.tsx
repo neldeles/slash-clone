@@ -56,3 +56,29 @@ test("goes back to WorkTimer when Keep Slashing button is clicked and starts the
   });
   expect(screen.queryByText(task1)).not.toBeInTheDocument();
 });
+
+test("starts break timer when Take Break button is clicked", async () => {
+  const completedTask = randText();
+  const nextTask = randText();
+  createTodayTask([completedTask, nextTask]);
+  const tasksToday = db.task.getAll();
+
+  renderWithProviders(<App />, {
+    route: {
+      pathname: "/success",
+      state: {
+        currentTask: tasksToday[0],
+        nextTask: tasksToday[1],
+      },
+    },
+  });
+
+  const takeBreak = screen.getByRole("button", { name: /take break/i });
+
+  expect(takeBreak).toBeInTheDocument();
+  userEvent.click(takeBreak);
+
+  expect(
+    screen.getByRole("heading", { name: /break time/i })
+  ).toBeInTheDocument();
+});
