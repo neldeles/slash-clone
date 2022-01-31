@@ -1,17 +1,11 @@
-import { Button } from "modules/_common/components/Button";
-import { AnimatePresence, LayoutGroup, motion, useCycle } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { TodayListItem } from "modules/Main/components/Today/components/TodayListItem";
 import { TTask, TTaskToday } from "modules/_common/types/tasks";
-import { useAddTask, useAutoResizeTextarea } from "modules/_common/hooks";
-import { Link } from "react-router-dom";
-import {
-  MutableRefObject,
-  SetStateAction,
-  useLayoutEffect,
-  useRef,
-} from "react";
-import { classNames } from "utils/classNames";
+import { useAddTask } from "modules/_common/hooks";
+import { useLayoutEffect, useRef } from "react";
+import { TodayButton } from "./components/TodayButton";
+import { TodayTextarea } from "./components/TodayTextarea";
 
 type TProps = {
   tasksToday: TTaskToday[];
@@ -71,7 +65,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
             </motion.ul>
             <motion.form className="px-8 mt-3" autoComplete="off">
               {tasksToday.length === 0 ? (
-                <Textarea
+                <TodayTextarea
                   addTaskToday={addTaskToday}
                   newTaskToday={newTaskToday}
                   setNewTaskToday={setNewTaskToday}
@@ -79,7 +73,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
                   placeholder="Add task + hit enter..."
                 />
               ) : (
-                <Textarea
+                <TodayTextarea
                   addTaskToday={addTaskToday}
                   newTaskToday={newTaskToday}
                   setNewTaskToday={setNewTaskToday}
@@ -101,60 +95,5 @@ export function Today({ tasksToday, tasksData }: TProps) {
         </LayoutGroup>
       </div>
     </div>
-  );
-}
-
-type TTextareaProps = {
-  newTaskToday: string;
-  setNewTaskToday: (value: SetStateAction<string>) => void;
-  addTaskToday: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
-  todayRef: MutableRefObject<HTMLTextAreaElement | null>;
-  placeholder: string;
-};
-
-function Textarea({
-  newTaskToday,
-  setNewTaskToday,
-  addTaskToday,
-  todayRef,
-  placeholder,
-}: TTextareaProps) {
-  return (
-    <motion.textarea
-      id="addToday"
-      name="Add task Today"
-      aria-label="add task today"
-      maxLength={140}
-      className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
-      placeholder={placeholder}
-      value={newTaskToday}
-      onChange={(e) => setNewTaskToday(e.target.value)}
-      onKeyPress={addTaskToday}
-      ref={todayRef}
-    />
-  );
-}
-
-function TodayButton({
-  newTaskToday,
-  tasksToday,
-  handleAddTask,
-}: {
-  newTaskToday: string;
-  tasksToday: TProps["tasksToday"];
-  handleAddTask: () => void;
-}) {
-  if (newTaskToday) {
-    return <Button id="save-task" label="Save Task" onClick={handleAddTask} />;
-  }
-
-  if (tasksToday.length === 0) {
-    return null;
-  }
-
-  return (
-    <Link to="/timer/work">
-      <Button id="start-slashing" label="Start Slashing" />
-    </Link>
   );
 }
