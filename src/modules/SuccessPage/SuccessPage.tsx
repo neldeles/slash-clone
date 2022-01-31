@@ -74,7 +74,7 @@ export function SuccessPage() {
           Next up: {forwardedTasks.current.nextTask.task}
         </p>
         <div>
-          <Link to="/timer">
+          <Link to="/timer/work">
             <button className="items-center py-4 px-12 w-full text-2xl font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md shadow-sm">
               Keep Slashing
             </button>

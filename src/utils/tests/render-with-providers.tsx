@@ -14,7 +14,7 @@ const createTestQueryClient = () =>
 
 export function renderWithProviders(
   ui: React.ReactElement,
-  { route = "/", ...renderOptions } = {}
+  { route = "/", ...renderOptions }: { route?: any } = {}
 ) {
   const testQueryClient = createTestQueryClient();
 
