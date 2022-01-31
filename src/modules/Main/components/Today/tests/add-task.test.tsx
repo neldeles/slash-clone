@@ -29,7 +29,48 @@ test("pressing enter adds a new task from Today input and display it at bottom o
   });
 });
 
+describe("when Today list is empty", () => {
+  it("displays the correct placeholder text", async () => {
+    renderWithProviders(<App />);
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+    const input = await screen.findByRole("textbox", {
+      name: /add task today/i,
+    });
+    expect(input.getAttribute("placeholder")).toMatchInlineSnapshot(
+      `"Add task + hit enter..."`
+    );
+  });
+
+  it("only displays the button if text input has a value", async () => {
+    renderWithProviders(<App />);
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+    expect(
+      screen.queryByRole("button", { name: /start slashing/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /save task/i })
+    ).not.toBeInTheDocument();
+
+    const input = await screen.findByRole("textbox", {
+      name: /add task today/i,
+    });
+
+    userEvent.type(input, "testing");
+
+    expect(
+      screen.getByRole("button", { name: /save task/i })
+    ).toBeInTheDocument();
+
+    userEvent.clear(input);
+    expect(
+      screen.queryByRole("button", { name: /save task/i })
+    ).not.toBeInTheDocument();
+  });
+});
+
 test("typing in input changes button to Save Task", async () => {
+  db.task.create({ task: "First task", status: "today", priority: 1 });
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   const input = await screen.findByRole("textbox", {
