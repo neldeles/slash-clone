@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
 import { TTask, TTaskToday } from "modules/_common/types/tasks";
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import goldblum from "./images/goldblum-dance.gif";
 
@@ -10,10 +11,16 @@ type TTasks = {
 
 export function LastTaskPage() {
   const location = useLocation<TTasks>();
-  const { currentTask } = location.state;
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
 
-  console.log(currentTask);
+  const forwardedTasks = useRef({
+    currentTask: location.state.currentTask,
+  });
+
+  useEffect(() => {
+    const { currentTask } = forwardedTasks.current;
+    markTaskDone(currentTask);
+  }, [markTaskDone]);
 
   return (
     <motion.div
@@ -48,7 +55,7 @@ export function LastTaskPage() {
           }}
           className="text-3xl font-medium text-center"
         >
-          {currentTask.task}
+          {forwardedTasks.current.currentTask.task}
         </motion.p>
         <div className="w-full">
           <h2 className="text-base text-center text-gray-400">

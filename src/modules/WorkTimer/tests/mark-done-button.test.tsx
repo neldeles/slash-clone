@@ -3,6 +3,7 @@ import {
   screen,
   waitFor,
   waitForElementToBeRemoved,
+  within,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
@@ -18,7 +19,49 @@ function createTodayTask(taskText: string[]) {
   return null;
 }
 
-describe("when I click mark done button", () => {
+describe("if it's the last task in Today and I click mark done button", () => {
+  it("navigates to the day done page", async () => {
+    createTodayTask([randText()]);
+
+    renderWithProviders(<App />, { route: "/timer/work" });
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+    userEvent.click(screen.getByRole("button", { name: /mark done/i }));
+    expect(
+      screen.getByRole("button", { name: /go celebrate!/i })
+    ).toBeInTheDocument();
+  });
+
+  it("removes task from the Today list and adds it to the Done list", async () => {
+    setScrollIntoView();
+    const lastTask = randText();
+    createTodayTask([lastTask]);
+
+    renderWithProviders(<App />, { route: "/timer/work" });
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+    expect(screen.getByText(lastTask)).toBeInTheDocument();
+    userEvent.click(screen.getByRole("button", { name: /mark done/i }));
+    userEvent.click(screen.getByRole("button", { name: /go celebrate/i }));
+
+    expect(screen.getByRole("heading", { name: /done/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /today/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /this week/i })
+    ).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByRole("list", { name: /done/i })).toHaveTextContent(
+        lastTask
+      );
+    });
+    const withinTodayList = within(
+      screen.getByRole("list", { name: /today/i })
+    );
+    expect(withinTodayList.queryAllByRole("listitem")).toHaveLength(0);
+  });
+});
+
+describe("if it's NOT the last task in Today and I click mark done button", () => {
   it("navigates to the task completion page", async () => {
     createTodayTask([randText(), randText()]);
 
@@ -33,17 +76,6 @@ describe("when I click mark done button", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /edit tasks/i })
-    ).toBeInTheDocument();
-  });
-
-  it("navigates to the day done page if it's the last task in Today", async () => {
-    createTodayTask([randText()]);
-
-    renderWithProviders(<App />, { route: "/timer/work" });
-    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
-    userEvent.click(screen.getByRole("button", { name: /mark done/i }));
-    expect(
-      screen.getByRole("button", { name: /go celebrate!/i })
     ).toBeInTheDocument();
   });
 
