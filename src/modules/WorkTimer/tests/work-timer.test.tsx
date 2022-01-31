@@ -10,6 +10,7 @@ import userEvent from "@testing-library/user-event";
 import { db } from "mocks/db";
 import App from "App";
 import { randText } from "@ngneat/falso";
+import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
@@ -153,9 +154,7 @@ describe("when I click mark done button", () => {
 });
 
 test("marking task as done in WorkTimer removes it from the Today list and adds it to the Done list", async () => {
-  // We add this because scrollIntoView is not implemented in JSDOM
-  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  setScrollIntoView();
   const taskToBeCompleted = randText();
   const fillerTask = randText();
   createTodayTask([taskToBeCompleted, fillerTask]);

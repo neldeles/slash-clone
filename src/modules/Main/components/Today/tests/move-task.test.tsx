@@ -10,11 +10,10 @@ import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
 import { waitForAnimation } from "modules/_common/utils/tests/waitForAnimation";
+import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
 
 test("moves a task from Today column to the bottom of This Week column", async () => {
-  // We add this because scrollIntoView is not implemented in JSDOM
-  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  setScrollIntoView();
 
   const task = "move to This Week";
   db.task.create({ task: task, status: "today", priority: 1 });
@@ -43,9 +42,7 @@ test("moves a task from Today column to the bottom of This Week column", async (
 });
 
 test("clicking right arrow button moves a task from Today column to the Done column", async () => {
-  // We add this because scrollIntoView is not implemented in JSDOM
-  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  setScrollIntoView();
 
   const task = "move to Done";
   db.task.create({ task: task, status: "today", priority: 1 });

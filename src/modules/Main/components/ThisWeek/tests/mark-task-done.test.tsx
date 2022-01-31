@@ -4,15 +4,14 @@ import userEvent from "@testing-library/user-event";
 import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
+import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
 
 async function waitForAnimation() {
   await act(() => new Promise((r) => setTimeout(r, 2000)));
 }
 
 test("moves a task from This Week column to the Done column", async () => {
-  // We add this because scrollIntoView is not implemented in JSDOM
-  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  setScrollIntoView();
 
   const task = "move to Done";
   db.task.create({ task: task, status: "thisWeek", priority: 1 });

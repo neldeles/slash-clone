@@ -9,11 +9,10 @@ import userEvent from "@testing-library/user-event";
 import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
+import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
 
 test("add a new task from This Week input and display it at bottom of This Week column", async () => {
-  // We add this because scrollIntoView is not implemented in JSDOM
-  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
-  window.HTMLElement.prototype.scrollIntoView = function () {};
+  setScrollIntoView();
   db.task.create({ task: "First task", status: "thisWeek", priority: 1 });
   const newTask = "new task";
   renderWithProviders(<App />);
