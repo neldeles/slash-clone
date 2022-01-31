@@ -151,3 +151,34 @@ describe("when I click mark done button", () => {
     ).toBeInTheDocument();
   });
 });
+
+test("marking task as done in WorkTimer removes it from the Today list and adds it to the Done list", async () => {
+  // We add this because scrollIntoView is not implemented in JSDOM
+  // https://stackoverflow.com/questions/53271193/typeerror-scrollintoview-is-not-a-function
+  window.HTMLElement.prototype.scrollIntoView = function () {};
+  const taskToBeCompleted = randText();
+  const fillerTask = randText();
+  createTodayTask([taskToBeCompleted, fillerTask]);
+
+  renderWithProviders(<App />, { route: "/timer/work" });
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+  expect(screen.getByText(taskToBeCompleted)).toBeInTheDocument();
+  userEvent.click(screen.getByRole("button", { name: /mark done/i }));
+  userEvent.click(screen.getByRole("button", { name: /edit tasks/i }));
+
+  expect(screen.getByRole("heading", { name: /done/i })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /today/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: /this week/i })
+  ).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(screen.getByRole("list", { name: /done/i })).toHaveTextContent(
+      taskToBeCompleted
+    );
+  });
+  expect(
+    screen.queryByRole("list", { name: /this week/i })
+  ).not.toHaveTextContent(taskToBeCompleted);
+});

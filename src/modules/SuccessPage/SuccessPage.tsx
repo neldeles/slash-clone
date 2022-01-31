@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
-import { TaskText } from "modules/_common/components/TaskText";
 import { useMarkTaskDone } from "modules/_common/hooks";
-import { tasksService } from "modules/_common/services/tasks-service";
-import { TTask, TTaskToday } from "modules/_common/types/tasks";
-import { filterTasks } from "modules/_common/utils/filterTasks";
-import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
-import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { TTask } from "modules/_common/types/tasks";
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import coolCat from "./images/swag-cool.gif";
 
@@ -23,9 +18,17 @@ type TTasks = {
 
 export function SuccessPage() {
   const location = useLocation<TTasks>();
-  console.log(location.state);
-  const { currentTask, nextTask } = location.state;
   const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
+
+  const forwardedTasks = useRef({
+    currentTask: location.state.currentTask,
+    nextTask: location.state.nextTask,
+  });
+
+  useEffect(() => {
+    const { currentTask } = forwardedTasks.current;
+    markTaskDone(currentTask);
+  }, [markTaskDone]);
 
   return (
     <motion.div
@@ -55,7 +58,7 @@ export function SuccessPage() {
           }}
           className="text-3xl font-medium"
         >
-          {currentTask.task}
+          {forwardedTasks.current.currentTask.task}
         </motion.p>
         <div className="w-full">
           <div className="w-full h-2 bg-gray-300 rounded-full"></div>
@@ -68,7 +71,7 @@ export function SuccessPage() {
           <img src={coolCat} alt="cool cat" className="object-cover h-60" />
         </div>
         <p className="text-2xl font-light text-gray-350">
-          Next up: {nextTask.task}
+          Next up: {forwardedTasks.current.nextTask.task}
         </p>
         <div>
           <Link to="/timer">
@@ -81,7 +84,9 @@ export function SuccessPage() {
       <div className="flex space-x-3">
         <button className="text-gray-350">Take Break</button>
         <span className="text-gray-350">/</span>
-        <button className="text-gray-350">Edit Tasks</button>
+        <Link to="/">
+          <button className="text-gray-350">Edit Tasks</button>
+        </Link>
       </div>
     </motion.div>
   );
