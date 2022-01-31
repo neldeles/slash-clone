@@ -12,8 +12,8 @@ Visit this link if you want to play around with the demo right away:
   - [App specifications](#app-specifications)
   - [Visual demo]()
 - [My process]()
-  - [Built with]()
-  - [What I learned]()
+  - [Built with](#built-with)
+  - [Some things learned](#some-things-learned)
   - [Continued development]()
 - [Author]()
 
@@ -65,3 +65,10 @@ Users should be able to:
 - [React Router](https://reactrouter.com/) - For page routing
 - [React Query](https://react-query.tanstack.com/) - For data fetching, caching & state management
 - [Axios](https://axios-http.com/docs/intro) - For Api calls
+
+### Some things learned
+
+`useRef` over `useMemo` [if you just need a consistent reference](https://blog.logrocket.com/rethinking-hooks-memoization/). You can end up shooting yourself on the foot
+by relying on `useMemo` for consistent reference as well. Per the official docs:
+
+> You may rely on useMemo as a performance optimization, not as a semantic guarantee. In the future, React may choose to “forget” some previously memoized values and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.
