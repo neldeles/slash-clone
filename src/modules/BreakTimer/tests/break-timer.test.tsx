@@ -97,3 +97,22 @@ describe("when break timer ends", () => {
     expect(screen.getByText(task)).toBeInTheDocument();
   });
 });
+
+test("clicking cancel button redirects to Main page", async () => {
+  const task = randText();
+  createTodayTask([task]);
+
+  renderWithProviders(<App />, { route: "/timer/break" });
+  userEvent.click(screen.getByRole("button", { name: /cancel/i }));
+
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
+  expect(
+    screen.getByRole("heading", { name: /this week/i })
+  ).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /today/i })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /done/i })).toBeInTheDocument();
+
+  const withinTodayList = within(screen.getByRole("list", { name: /today/i }));
+  expect(withinTodayList.getByRole("listitem")).toHaveTextContent(task);
+});
