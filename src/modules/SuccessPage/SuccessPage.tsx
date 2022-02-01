@@ -66,7 +66,7 @@ export function SuccessPage() {
       scaleY: 1,
       transition: {
         when: "beforeChildren",
-        staggerChildren: 1,
+        staggerChildren: 0.6,
       },
     },
   };

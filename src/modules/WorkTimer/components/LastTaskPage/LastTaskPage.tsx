@@ -15,6 +15,8 @@ import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 import goldblum from "./images/goldblum-dance.gif";
 import { isToday, isThisWeek, parseISO } from "date-fns";
+import useSound from "use-sound";
+import tada from "assets/sounds/tada.mp3";
 
 type TTasks = {
   currentTask: TTask;
@@ -23,6 +25,12 @@ type TTasks = {
 export function LastTaskPage() {
   const location = useLocation<TTasks>();
   const { markTaskDone } = useMarkTaskDone();
+
+  const [play] = useSound(tada);
+
+  const playAudio = () => {
+    play();
+  };
 
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = tasksQuery.data ?? [];
@@ -130,7 +138,10 @@ export function LastTaskPage() {
         </div>
         <div>
           <Link to="/">
-            <button className="items-center py-4 px-12 w-full text-2xl font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md shadow-sm">
+            <button
+              onClick={playAudio}
+              className="items-center py-4 px-12 w-full text-2xl font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md shadow-sm"
+            >
               Go Celebrate!
             </button>
           </Link>
