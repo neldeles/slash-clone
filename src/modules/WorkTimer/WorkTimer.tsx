@@ -7,6 +7,8 @@ import { useQuery } from "react-query";
 import { Link, Redirect } from "react-router-dom";
 import { classNames } from "utils/classNames";
 import * as Icons from "./components/Icons";
+import useSound from "use-sound";
+import laser from "assets/sounds/laser.mp3";
 
 // in seconds
 const workDuration = 1500;
@@ -25,6 +27,11 @@ export function WorkTimer() {
   const [secondsLeft, setSecondsLeft] = useState(workDuration);
   const [toBreakTimer, setToBreakTimer] = useState(false);
   const [activeTask, setActiveTask] = useState(0);
+  const [play] = useSound(laser, { volume: 0.3 });
+
+  const playAudio = () => {
+    play();
+  };
 
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
@@ -141,6 +148,7 @@ export function WorkTimer() {
           <button
             type="button"
             aria-label="mark done"
+            onClick={playAudio}
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
           >
             <Icons.Check />
