@@ -1,9 +1,18 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
-import { TTask } from "modules/_common/types/tasks";
+import { tasksService } from "modules/_common/services/tasks-service";
+import {
+  isTaskDone,
+  isTaskToday,
+  TTask,
+  TTaskDone,
+  TTaskToday,
+} from "modules/_common/types/tasks";
 import { useEffect, useRef } from "react";
+import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 import coolCat from "./images/swag-cool.gif";
+import { isToday, parseISO } from "date-fns";
 
 const successTitles = [
   {
@@ -18,7 +27,22 @@ type TTasks = {
 
 export function SuccessPage() {
   const location = useLocation<TTasks>();
-  const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
+  const { markTaskDone } = useMarkTaskDone();
+
+  const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
+  const tasksData = tasksQuery.data ?? [];
+
+  const tasksDone: TTaskDone[] = tasksData.filter(isTaskDone);
+  const tasksDoneToday = tasksDone.filter((task) => {
+    return isToday(parseISO(task.date_done!));
+  });
+
+  const tasksToday: TTaskToday[] = tasksData.filter(isTaskToday);
+
+  const tasksTodayCount = tasksToday.length;
+  const doneTodayTaskCount = tasksDoneToday.length;
+  const totalTasksToday = tasksTodayCount + doneTodayTaskCount;
+  const percentDone = Math.floor((doneTodayTaskCount / totalTasksToday) * 100);
 
   const forwardedTasks = useRef({
     currentTask: location.state.currentTask,
@@ -30,11 +54,50 @@ export function SuccessPage() {
     markTaskDone(currentTask);
   }, [markTaskDone]);
 
+  if (tasksQuery.isLoading) {
+    return <h1>loading</h1>;
+  }
+
+  const parentVariants = {
+    hidden: {
+      scaleY: 0,
+    },
+    visible: {
+      scaleY: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 1,
+      },
+    },
+  };
+
+  const taskVariants: Variants = {
+    hidden: { textDecorationLine: "none" },
+    visible: {
+      textDecorationColor: "#01a09e",
+      textDecorationThickness: "4px",
+      textDecorationLine: "line-through",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+  };
+
+  const progressBarVariants = {
+    hidden: { width: "0%" },
+    visible: {
+      width: `${percentDone}%`,
+    },
+  };
+
   return (
     <motion.div
       className="flex flex-col items-center py-8 h-screen"
-      initial={{ scaleY: 0 }}
-      animate={{ scaleY: 1 }}
+      variants={parentVariants}
+      initial="hidden"
+      animate="visible"
       exit={{ scaleY: 0 }}
       transition={{ duration: 0.5 }}
     >
@@ -44,27 +107,19 @@ export function SuccessPage() {
         </h1>
       </header>
       <main className="flex flex-col flex-1 items-center mt-8 space-y-8 max-w-2xl">
-        <motion.p
-          animate={{
-            textDecorationColor: "#01a09e",
-            textDecorationThickness: "4px",
-            textDecorationLine: "line-through",
-            transition: {
-              type: "spring",
-              stiffness: 400,
-              damping: 40,
-              delay: 1,
-            },
-          }}
-          className="text-3xl font-medium"
-        >
+        <motion.p variants={taskVariants} className="text-3xl font-medium">
           {forwardedTasks.current.currentTask.task}
         </motion.p>
         <div className="w-full">
-          <div className="w-full h-2 bg-gray-300 rounded-full"></div>
+          <div className="relative w-full h-2 bg-gray-300 rounded-full">
+            <motion.div
+              className="h-full bg-green rounded-full"
+              variants={progressBarVariants}
+            ></motion.div>
+          </div>
           <div className="flex justify-between px-2 mt-2">
-            <p>9 of 12 done</p>
-            <p>75%</p>
+            <p>{`${doneTodayTaskCount} of ${totalTasksToday} done`}</p>
+            <p>{`${percentDone}%`}</p>
           </div>
         </div>
         <div className="w-40">

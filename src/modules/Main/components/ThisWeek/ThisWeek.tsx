@@ -8,6 +8,7 @@ import { useAddTask } from "modules/_common/hooks";
 import { AnimatedHeading } from "modules/_common/components/AnimatedHeading";
 import { CloseButton } from "modules/_common/components/CloseButton";
 import { useLayoutEffect, useRef } from "react";
+import { classNames } from "utils/classNames";
 
 type TProps = {
   tasksThisWeek: TTaskThisWeek[];
@@ -80,7 +81,11 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
                 name="Add task this week"
                 aria-label="add task this week"
                 maxLength={140}
-                className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none"
+                className={classNames(
+                  "py-2 w-full max-h-full bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none",
+                  "text-lg placeholder:text-base placeholder:font-normal font-bold placeholder:text-gray-300 text-black focus:placeholder:text-gray-400",
+                  tasksThisWeek.length === 0 ? "truncate" : null
+                )}
                 placeholder={
                   tasksThisWeek.length === 0
                     ? "Add task + hit enter..."
