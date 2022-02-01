@@ -1,11 +1,18 @@
 import { motion, Variants } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
 import { tasksService } from "modules/_common/services/tasks-service";
-import { isTaskDone, TTask, TTaskDone } from "modules/_common/types/tasks";
+import {
+  isTaskDone,
+  isTaskToday,
+  TTask,
+  TTaskDone,
+  TTaskToday,
+} from "modules/_common/types/tasks";
 import { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 import coolCat from "./images/swag-cool.gif";
+import { isToday, parseISO } from "date-fns";
 
 const successTitles = [
   {
@@ -26,10 +33,16 @@ export function SuccessPage() {
   const tasksData = tasksQuery.data ?? [];
 
   const tasksDone: TTaskDone[] = tasksData.filter(isTaskDone);
+  const tasksDoneToday = tasksDone.filter((task) => {
+    return isToday(parseISO(task.date_done!));
+  });
 
-  const totalTaskCount = tasksData.length;
-  const doneTaskCount = tasksDone.length;
-  const percentDone = Math.floor((doneTaskCount / totalTaskCount) * 100);
+  const tasksToday: TTaskToday[] = tasksData.filter(isTaskToday);
+
+  const tasksTodayCount = tasksToday.length;
+  const doneTodayTaskCount = tasksDoneToday.length;
+  const totalTasksToday = tasksTodayCount + doneTodayTaskCount;
+  const percentDone = Math.floor((doneTodayTaskCount / totalTasksToday) * 100);
 
   const forwardedTasks = useRef({
     currentTask: location.state.currentTask,
@@ -105,7 +118,7 @@ export function SuccessPage() {
             ></motion.div>
           </div>
           <div className="flex justify-between px-2 mt-2">
-            <p>{`${doneTaskCount} of ${totalTaskCount} done`}</p>
+            <p>{`${doneTodayTaskCount} of ${totalTasksToday} done`}</p>
             <p>{`${percentDone}%`}</p>
           </div>
         </div>

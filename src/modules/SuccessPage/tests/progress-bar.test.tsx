@@ -9,11 +9,12 @@ import userEvent from "@testing-library/user-event";
 import { db } from "mocks/db";
 import App from "App";
 import { randText, randNumber } from "@ngneat/falso";
+import { format } from "date-fns";
 
 function createTasks() {
-  const thisWeekTaskCount = randNumber({ min: 1, max: 30 });
-  const todayTaskCount = randNumber({ min: 1, max: 30 });
-  const doneTaskCount = randNumber({ min: 1, max: 30 });
+  const thisWeekTaskCount = randNumber({ min: 1, max: 10 });
+  const todayTaskCount = randNumber({ min: 1, max: 10 });
+  const doneTodayTaskCount = randNumber({ min: 1, max: 10 });
   for (let i = 0; i < thisWeekTaskCount; i++) {
     db.task.create({ task: randText(), status: "thisWeek", priority: i + 1 });
   }
@@ -22,22 +23,29 @@ function createTasks() {
     db.task.create({ task: randText(), status: "today", priority: i + 1 });
   }
 
-  for (let i = 0; i < doneTaskCount; i++) {
-    db.task.create({ task: randText(), status: "done" });
+  for (let i = 0; i < doneTodayTaskCount; i++) {
+    db.task.create({
+      task: randText(),
+      status: "done",
+      date_done: format(new Date(), "yyyy-MM-dd"),
+    });
   }
+
   return {
     thisWeekTaskCount,
     todayTaskCount,
-    doneTaskCount,
+    doneTodayTaskCount,
   };
 }
 
 test("progress bar increments correctly", async () => {
-  const { doneTaskCount, thisWeekTaskCount, todayTaskCount } = createTasks();
+  const { doneTodayTaskCount, todayTaskCount } = createTasks();
 
-  const totalTasks = doneTaskCount + thisWeekTaskCount + todayTaskCount;
-  const updatedDoneTaskCount = doneTaskCount + 1;
-  const percentDone = Math.floor((updatedDoneTaskCount / totalTasks) * 100);
+  const totalTasksToday = doneTodayTaskCount + todayTaskCount;
+  const updatedDoneTaskCount = doneTodayTaskCount + 1;
+  const percentDone = Math.floor(
+    (updatedDoneTaskCount / totalTasksToday) * 100
+  );
 
   renderWithProviders(<App />, {
     route: {
@@ -50,7 +58,7 @@ test("progress bar increments correctly", async () => {
 
   await waitFor(() => {
     expect(
-      screen.getByText(`${updatedDoneTaskCount} of ${totalTasks} done`)
+      screen.getByText(`${updatedDoneTaskCount} of ${totalTasksToday} done`)
     ).toBeInTheDocument();
   });
 
