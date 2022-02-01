@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
 import { tasksService } from "modules/_common/services/tasks-service";
 import {
@@ -15,6 +15,7 @@ import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
 import { useEffect, useMemo, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
+import { classNames } from "utils/classNames";
 import coolCat from "./images/swag-cool.gif";
 
 const successTitles = [
@@ -55,11 +56,46 @@ export function SuccessPage() {
     return <h1>loading</h1>;
   }
 
+  const parentVariants = {
+    hidden: {
+      scaleY: 0,
+    },
+    visible: {
+      scaleY: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 1,
+      },
+    },
+  };
+
+  const taskVariants: Variants = {
+    hidden: { textDecorationLine: "none" },
+    visible: {
+      textDecorationColor: "#01a09e",
+      textDecorationThickness: "4px",
+      textDecorationLine: "line-through",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+  };
+
+  const progressBarVariants = {
+    hidden: { width: "0%" },
+    visible: {
+      width: `${percentDone}%`,
+    },
+  };
+
   return (
     <motion.div
       className="flex flex-col items-center py-8 h-screen"
-      initial={{ scaleY: 0 }}
-      animate={{ scaleY: 1 }}
+      variants={parentVariants}
+      initial="hidden"
+      animate="visible"
       exit={{ scaleY: 0 }}
       transition={{ duration: 0.5 }}
     >
@@ -69,24 +105,16 @@ export function SuccessPage() {
         </h1>
       </header>
       <main className="flex flex-col flex-1 items-center mt-8 space-y-8 max-w-2xl">
-        <motion.p
-          animate={{
-            textDecorationColor: "#01a09e",
-            textDecorationThickness: "4px",
-            textDecorationLine: "line-through",
-            transition: {
-              type: "spring",
-              stiffness: 400,
-              damping: 40,
-              delay: 1,
-            },
-          }}
-          className="text-3xl font-medium"
-        >
+        <motion.p variants={taskVariants} className="text-3xl font-medium">
           {forwardedTasks.current.currentTask.task}
         </motion.p>
         <div className="w-full">
-          <div className="w-full h-2 bg-gray-300 rounded-full"></div>
+          <div className="relative w-full h-2 bg-gray-300 rounded-full">
+            <motion.div
+              className="h-full bg-green rounded-full"
+              variants={progressBarVariants}
+            ></motion.div>
+          </div>
           <div className="flex justify-between px-2 mt-2">
             <p>{`${doneTaskCount} of ${totalTaskCount} done`}</p>
             <p>{`${percentDone}%`}</p>
