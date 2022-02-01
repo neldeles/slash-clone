@@ -15,7 +15,7 @@ type TTaskBase = {
   id: string;
   task: string;
   priority: number | null;
-  date_done: Date | null;
+  date_done: string | null;
   user_id: string;
 };
 

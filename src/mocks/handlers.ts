@@ -1,6 +1,7 @@
 import { TNewTask, TTask } from "modules/_common/types/tasks";
 import { rest } from "msw";
 import { db } from "./db";
+import { format } from "date-fns";
 
 export const handlers = [
   // fetch all tasks
@@ -88,7 +89,7 @@ export const handlers = [
         },
         data: {
           ...task,
-          date_done: new Date(),
+          date_done: format(new Date(), "yyyy-MM-dd"),
         },
       });
     }

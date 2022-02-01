@@ -1,9 +1,20 @@
 import { motion } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
-import { TTask, TTaskToday } from "modules/_common/types/tasks";
+import { tasksService } from "modules/_common/services/tasks-service";
+import {
+  isTaskDone,
+  isTaskThisWeek,
+  isTaskToday,
+  TTask,
+  TTaskDone,
+  TTaskThisWeek,
+  TTaskToday,
+} from "modules/_common/types/tasks";
 import { useEffect, useRef } from "react";
+import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 import goldblum from "./images/goldblum-dance.gif";
+import { isToday, isThisWeek, parseISO } from "date-fns";
 
 type TTasks = {
   currentTask: TTask;
@@ -11,7 +22,26 @@ type TTasks = {
 
 export function LastTaskPage() {
   const location = useLocation<TTasks>();
-  const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
+  const { markTaskDone } = useMarkTaskDone();
+
+  const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
+  const tasksData = tasksQuery.data ?? [];
+
+  const tasksDone: TTaskDone[] = tasksData.filter(isTaskDone);
+  const tasksDoneToday = tasksDone.filter((task) => {
+    return isToday(parseISO(task.date_done!));
+  });
+  const tasksDoneThisWeek = tasksDone.filter((task) =>
+    isThisWeek(parseISO(task.date_done!))
+  );
+
+  const tasksThisWeek: TTaskThisWeek[] = tasksData.filter(isTaskThisWeek);
+  const tasksToday: TTaskToday[] = tasksData.filter(isTaskToday);
+
+  const totalTaskCount =
+    tasksThisWeek.length + tasksToday.length + tasksDoneThisWeek.length;
+  const doneTodayTaskCount = tasksDoneToday.length;
+  const percentDone = Math.floor((doneTodayTaskCount / totalTaskCount) * 100);
 
   const forwardedTasks = useRef({
     currentTask: location.state.currentTask,
@@ -22,13 +52,47 @@ export function LastTaskPage() {
     markTaskDone(currentTask);
   }, [markTaskDone]);
 
+  const parentVariants = {
+    hidden: {
+      scaleY: 0,
+    },
+    visible: {
+      scaleY: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 1,
+      },
+    },
+  };
+
+  const taskVariants = {
+    hidden: { textDecorationLine: "none" },
+    visible: {
+      textDecorationColor: "#01a09e",
+      textDecorationThickness: "4px",
+      textDecorationLine: "line-through",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+  };
+
+  const progressBarVariants = {
+    hidden: { width: "0%" },
+    visible: {
+      width: `${percentDone}%`,
+    },
+  };
+
   return (
     <motion.div
       className="flex flex-col items-center py-8 h-screen"
-      initial={{ scaleY: 0 }}
-      animate={{ scaleY: 1 }}
+      variants={parentVariants}
+      initial="hidden"
+      animate="visible"
       exit={{ scaleY: 0 }}
-      transition={{ duration: 0.5 }}
     >
       <header>
         <h1 className="text-2xl font-light text-gray-350">
@@ -37,22 +101,7 @@ export function LastTaskPage() {
       </header>
       <main className="flex flex-col flex-1 items-center mt-8 space-y-8 max-w-2xl">
         <motion.p
-          animate={{
-            textDecorationColor: "#01a09e",
-            textDecorationThickness: "4px",
-            textDecorationLine: "line-through",
-            // transition: {
-            //   type: "spring",
-            //   stiffness: 400,
-            //   damping: 40,
-            //   delay: 1,
-            // },
-            transition: {
-              type: "tween",
-              delay: 2,
-              duration: 2,
-            },
-          }}
+          variants={taskVariants}
           className="text-3xl font-medium text-center"
         >
           {forwardedTasks.current.currentTask.task}
@@ -61,10 +110,15 @@ export function LastTaskPage() {
           <h2 className="text-base text-center text-gray-400">
             Progress this week:
           </h2>
-          <div className="mt-4 w-full h-2 bg-gray-300 rounded-full"></div>
+          <div className="relative w-full h-2 bg-gray-300 rounded-full">
+            <motion.div
+              className="h-full bg-green rounded-full"
+              variants={progressBarVariants}
+            ></motion.div>
+          </div>
           <div className="flex justify-between px-2 mt-2">
-            <p className="text-gray-400">9 of 12 done</p>
-            <p className="text-gray-400">75%</p>
+            <p className="text-gray-400">{`${doneTodayTaskCount} of ${totalTaskCount} done`}</p>
+            <p className="text-gray-400">{`${percentDone}%`}</p>
           </div>
         </div>
         <div className="w-40">

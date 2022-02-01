@@ -1,21 +1,10 @@
 import { motion, Variants } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
 import { tasksService } from "modules/_common/services/tasks-service";
-import {
-  isTaskDone,
-  isTaskThisWeek,
-  isTaskToday,
-  TTask,
-  TTaskDone,
-  TTaskThisWeek,
-  TTaskToday,
-} from "modules/_common/types/tasks";
-import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";
-import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
-import { useEffect, useMemo, useRef } from "react";
+import { isTaskDone, TTask, TTaskDone } from "modules/_common/types/tasks";
+import { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
-import { classNames } from "utils/classNames";
 import coolCat from "./images/swag-cool.gif";
 
 const successTitles = [
