@@ -3,7 +3,6 @@ import {
   screen,
   waitFor,
   waitForElementToBeRemoved,
-  act,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
@@ -11,7 +10,6 @@ import { db } from "mocks/db";
 import App from "App";
 import { randText } from "@ngneat/falso";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
-import exp from "constants";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
@@ -45,6 +43,7 @@ test("displays the completed task and the next task", async () => {
       },
     },
   });
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
   expect(screen.getByText(completedTask)).toBeInTheDocument();
   expect(screen.getByText(`Next up: ${nextTask}`)).toBeInTheDocument();
@@ -80,6 +79,7 @@ test("starts break timer when Take Break button is clicked", async () => {
       },
     },
   });
+  await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
   const takeBreak = screen.getByRole("button", { name: /take break/i });
 

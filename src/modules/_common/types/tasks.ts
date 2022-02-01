@@ -34,3 +34,14 @@ export type TTaskDone = TTaskBase & {
 export type TTask = TTaskThisWeek | TTaskToday | TTaskDone;
 
 export type TNewTask = Omit<TTask, "id" | "user_id" | "priority" | "date_done">;
+
+// Type Predicates
+export function isTaskThisWeek(task: TTask): task is TTaskThisWeek {
+  return (task as TTaskThisWeek).status === "thisWeek";
+}
+export function isTaskToday(task: TTask): task is TTaskToday {
+  return (task as TTaskToday).status === "today";
+}
+export function isTaskDone(task: TTask): task is TTaskDone {
+  return (task as TTaskDone).status === "done";
+}

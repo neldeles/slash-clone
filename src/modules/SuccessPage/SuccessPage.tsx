@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 import { useMarkTaskDone } from "modules/_common/hooks";
-import { TTask } from "modules/_common/types/tasks";
-import { useEffect, useRef } from "react";
+import { tasksService } from "modules/_common/services/tasks-service";
+import {
+  isTaskDone,
+  isTaskThisWeek,
+  isTaskToday,
+  TTask,
+  TTaskDone,
+  TTaskThisWeek,
+  TTaskToday,
+} from "modules/_common/types/tasks";
+import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";
+import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
+import { useEffect, useMemo, useRef } from "react";
+import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 import coolCat from "./images/swag-cool.gif";
 
@@ -18,7 +30,16 @@ type TTasks = {
 
 export function SuccessPage() {
   const location = useLocation<TTasks>();
-  const { markTaskDone, startAnimation: isDone } = useMarkTaskDone();
+  const { markTaskDone } = useMarkTaskDone();
+
+  const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
+  const tasksData = tasksQuery.data ?? [];
+
+  const tasksDone: TTaskDone[] = tasksData.filter(isTaskDone);
+
+  const totalTaskCount = tasksData.length;
+  const doneTaskCount = tasksDone.length;
+  const percentDone = Math.floor((doneTaskCount / totalTaskCount) * 100);
 
   const forwardedTasks = useRef({
     currentTask: location.state.currentTask,
@@ -29,6 +50,10 @@ export function SuccessPage() {
     const { currentTask } = forwardedTasks.current;
     markTaskDone(currentTask);
   }, [markTaskDone]);
+
+  if (tasksQuery.isLoading) {
+    return <h1>loading</h1>;
+  }
 
   return (
     <motion.div
@@ -63,8 +88,8 @@ export function SuccessPage() {
         <div className="w-full">
           <div className="w-full h-2 bg-gray-300 rounded-full"></div>
           <div className="flex justify-between px-2 mt-2">
-            <p>9 of 12 done</p>
-            <p>75%</p>
+            <p>{`${doneTaskCount} of ${totalTaskCount} done`}</p>
+            <p>{`${percentDone}%`}</p>
           </div>
         </div>
         <div className="w-40">
