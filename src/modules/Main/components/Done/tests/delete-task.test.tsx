@@ -14,7 +14,11 @@ test("deletes a task from Done column", async () => {
   setScrollIntoView();
 
   const task = "task to be deleted";
-  db.task.create({ task: task, status: "done" });
+  db.task.create({
+    task: task,
+    status: "done",
+    date_done: new Date().toISOString(),
+  });
 
   renderWithProviders(<App />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));

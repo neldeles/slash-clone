@@ -84,12 +84,12 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
                 className={classNames(
                   "py-2 w-full max-h-full bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none",
                   "text-lg placeholder:text-base placeholder:font-normal font-bold placeholder:text-gray-300 text-black focus:placeholder:text-gray-400",
-                  tasksThisWeek.length === 0 ? "truncate" : null
+                  tasksThisWeek.length ? null : "truncate"
                 )}
                 placeholder={
-                  tasksThisWeek.length === 0
-                    ? "Add task + hit enter..."
-                    : "Add task..."
+                  tasksThisWeek.length
+                    ? "Add task..."
+                    : "Add task + hit enter..."
                 }
                 value={newTaskThisWeek}
                 onChange={(e) => setNewTaskThisWeek(e.target.value)}
