@@ -44,9 +44,10 @@ Having said all that, these were my primary goals by building this app:
 
 Users should be able to:
 
-- [ ] Login into the app
-- [ ] Create, read, update and delete tasks
-- [ ] Start slashing through Today's tasks
+- [x] Login into the app
+- [x] Create, read, update and delete tasks
+- [x] Start slashing through Today's tasks
+  - [x] This starts the Pomodoro timer (25 min work, 5 min break)
 - [ ] Track the time each task takes to complete
   - [ ] Time taken synced to Toggl via their API
 - [ ] View how long a task took to complete
@@ -62,16 +63,19 @@ Insert screenshots/gifs here
 - [Create React App](https://create-react-app.dev/) - React CLI
 - [TailwindCSS](https://tailwindcss.com/) - For styles
 - [Testing Library](https://testing-library.com/) - For unit and integration tests
-- [Mock Service Worker]() - To mock Api calls in tests and dev environment
+- [Mock Service Worker](https://mswjs.io/) - To mock Api calls in tests and dev environment
 - [Framer Motion](https://testing-library.com/) - For animations
 - [React Router](https://reactrouter.com/) - For page routing
 - [React Query](https://react-query.tanstack.com/) - For data fetching, caching & state management
 - [Axios](https://axios-http.com/docs/intro) - For Api calls
+- [date-fns](https://date-fns.org/) - for handling dates
 
 ### Some things learned
 
 - [passing state when navigating to different components](https://ui.dev/react-router-v5-pass-props-to-link/)
 - handling React Router routes in unit and integration tests
+- manipulating dates with date-fns lib
+- Framer Motion's variants, orchestration, propagation, exit animations and page transitions
 
 #### useRef over useMemo
 
