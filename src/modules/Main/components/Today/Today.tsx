@@ -64,13 +64,13 @@ export function Today({ tasksToday, tasksData }: TProps) {
               <AlwaysScrollToBottom currentListLength={tasksToday.length} />
             </motion.ul>
             <motion.form className="px-8 mt-3" autoComplete="off">
-              {tasksToday.length === 0 ? (
+              {tasksToday.length ? (
                 <TodayTextarea
                   addTaskToday={addTaskToday}
                   newTaskToday={newTaskToday}
                   setNewTaskToday={setNewTaskToday}
                   todayRef={todayRef}
-                  placeholder="Add task + hit enter..."
+                  placeholder="Add task..."
                 />
               ) : (
                 <TodayTextarea
@@ -78,7 +78,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
                   newTaskToday={newTaskToday}
                   setNewTaskToday={setNewTaskToday}
                   todayRef={todayRef}
-                  placeholder="Add task..."
+                  placeholder="Add task + hit enter..."
                 />
               )}
             </motion.form>
