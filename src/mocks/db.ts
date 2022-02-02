@@ -38,6 +38,6 @@ for (let i = 0; i < 2; i++) {
   });
   db.task.create({
     status: status.done.type,
-    date_done: format(new Date(), "yyyy-MM-dd"),
+    date_done: new Date().toISOString(),
   });
 }

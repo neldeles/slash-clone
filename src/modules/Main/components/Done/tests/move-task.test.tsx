@@ -15,7 +15,12 @@ test("moves a task from Done column to the bottom of Today column", async () => 
   setScrollIntoView();
 
   const task = "move to Today";
-  db.task.create({ task: task, status: "done", priority: 1 });
+  db.task.create({
+    task: task,
+    status: "done",
+    priority: 1,
+    date_done: new Date().toISOString(),
+  });
   db.task.create({ task: "First Item", status: "today", priority: 1 });
   db.task.create({ task: "Second Item", status: "today", priority: 2 });
 

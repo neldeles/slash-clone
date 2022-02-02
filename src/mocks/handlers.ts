@@ -53,7 +53,7 @@ export const handlers = [
     const task = req.body;
 
     // Separate task.status === done flow because done tasks
-    // have no priority i.e. null
+    // have no priority i.e. null.
     if (task.status === "thisWeek" || task.status === "today") {
       const tasksInList = db.task.findMany({
         where: {
@@ -76,6 +76,8 @@ export const handlers = [
         data: {
           ...task,
           priority: largestPriority + 1,
+          // For the scenario of moving from Done to Today or This Week
+          date_done: null,
         },
       });
     }
@@ -89,7 +91,7 @@ export const handlers = [
         },
         data: {
           ...task,
-          date_done: format(new Date(), "yyyy-MM-dd"),
+          date_done: new Date().toISOString(),
         },
       });
     }
