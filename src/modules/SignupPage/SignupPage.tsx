@@ -10,7 +10,7 @@ type TLoginCredentials = {
   password: string;
 };
 
-export function LoginPage() {
+export function SignupPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -48,7 +48,7 @@ export function LoginPage() {
 
   return (
     <>
-      <div className="flex justify-center items-center py-12 px-4 h-screen min-h-full sm:px-6 lg:px-8">
+      <div className="flex justify-center items-center py-12 px-4 min-h-full sm:px-6 lg:px-8">
         <form
           className="mt-8 space-y-6"
           action="#"
@@ -94,13 +94,8 @@ export function LoginPage() {
             </label>
           </div>
 
-          <div className="text-center">
-            <Link
-              to="/signup"
-              className=" text-indigo-100 hover:text-indigo-200 hover:underline"
-            >
-              Create an account
-            </Link>
+          <div>
+            <Link to="/signup" />
           </div>
 
           <button
