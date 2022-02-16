@@ -1,8 +1,16 @@
 import axios from "axios";
+import { api } from "../api";
 
 type TLoginCredentials = {
   username: string;
   password: string;
+};
+
+type TSignupCredentials = {
+  username: string;
+  password1: string;
+  password2: string;
+  email: string;
 };
 
 const baseurl = process.env.REACT_APP_API_ENDPOINT;
@@ -24,10 +32,17 @@ function isAuthenticated() {
 }
 
 async function login(credentials: TLoginCredentials) {
-  const response = await axios.post(
-    `${baseurl}/dj-rest-auth/login/`,
-    credentials
-  );
+  const response = await axios.post(api.auth.login, credentials);
+
+  localStorage.setItem("token", response.data.key);
+
+  return response;
+}
+
+async function signup(credentials: TSignupCredentials) {
+  const response = await axios.post(api.auth.register, credentials);
+
+  localStorage.setItem("token", response.data.key);
 
   return response;
 }
@@ -40,6 +55,7 @@ const authService = {
   isAuthenticated: isAuthenticated(),
   login,
   logout,
+  signup,
 };
 
 export { authAxios, authService };

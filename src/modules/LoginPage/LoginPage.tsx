@@ -13,15 +13,10 @@ type TLoginCredentials = {
 export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const loginUser = useMutation(
-    (credentials: TLoginCredentials) => authService.login(credentials),
-    {
-      onSuccess: (response) => {
-        localStorage.setItem("token", response.data.key);
-      },
-    }
+  const loginUser = useMutation((credentials: TLoginCredentials) =>
+    authService.login(credentials)
   );
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -35,7 +30,7 @@ export function LoginPage() {
       onError: (error) => {
         let message;
         if (axios.isAxiosError(error) && error.response) {
-          message = error.response.data.message;
+          message = JSON.stringify(error.response.data);
         } else message = String(error);
         setErrorMessage(message);
       },
@@ -48,7 +43,14 @@ export function LoginPage() {
 
   return (
     <>
-      <div className="flex justify-center items-center py-12 px-4 h-screen min-h-full sm:px-6 lg:px-8">
+      <div className="flex flex-col justify-center py-12 px-4 mx-auto max-w-sm h-screen">
+        {errorMessage ? (
+          <div className="p-4">
+            <p role="alert" className="font-bold text-red">
+              {errorMessage}
+            </p>
+          </div>
+        ) : null}
         <form
           className="mt-8 space-y-6"
           action="#"
@@ -110,11 +112,6 @@ export function LoginPage() {
             Sign in
           </button>
         </form>
-        {errorMessage ? (
-          <div>
-            <p role="alert">{errorMessage}</p>
-          </div>
-        ) : null}
       </div>
     </>
   );
