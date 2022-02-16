@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { api } from "../api";
 
 type TLoginCredentials = {
@@ -49,6 +50,7 @@ async function signup(credentials: TSignupCredentials) {
 
 function logout() {
   localStorage.removeItem("token");
+  window.location.reload();
 }
 
 const authService = {

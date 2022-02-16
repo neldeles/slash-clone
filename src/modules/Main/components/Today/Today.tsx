@@ -6,6 +6,8 @@ import { useAddTask } from "modules/_common/hooks";
 import { useLayoutEffect, useRef } from "react";
 import { TodayButton } from "./components/TodayButton";
 import { TodayTextarea } from "./components/TodayTextarea";
+import { authService } from "modules/_common/services/auth-service";
+import { Logout, Settings } from "modules/_common/components/Icons";
 
 type TProps = {
   tasksToday: TTaskToday[];
@@ -31,7 +33,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
   } = useAddTask("TODAY");
 
   return (
-    <div className="flex basis-full justify-center py-2 px-8 h-screen border-r border-gray-200">
+    <div className="flex relative basis-full justify-center py-2 px-8 h-screen border-r border-gray-200">
       <div className="w-10/12 max-w-lg">
         <h1
           className="mt-6 text-lg font-medium tracking-wide text-gray-500"
@@ -93,6 +95,18 @@ export function Today({ tasksToday, tasksData }: TProps) {
             </AnimatePresence>
           </motion.div>
         </LayoutGroup>
+      </div>
+      <div className="flex absolute bottom-6 py-2 px-4 space-x-4 bg-gray-100 rounded-full shadow-md">
+        <button className="text-gray-300 hover:text-black" title="settings">
+          <Settings />
+        </button>
+        <button
+          className="text-gray-300 hover:text-black"
+          title="logout"
+          onClick={() => authService.logout()}
+        >
+          <Logout />
+        </button>
       </div>
     </div>
   );

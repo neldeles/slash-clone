@@ -13,6 +13,7 @@ import { Today } from "modules/Main/components/Today";
 import { motion } from "framer-motion";
 import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
 import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";
+import { authService } from "modules/_common/services/auth-service";
 
 export function Main() {
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());

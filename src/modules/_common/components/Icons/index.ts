@@ -1,1 +1,9 @@
-export { Check, LeftArrow, RightArrow, Thrash, Close } from "./Icons";
+export {
+  Check,
+  LeftArrow,
+  RightArrow,
+  Thrash,
+  Close,
+  Settings,
+  Logout,
+} from "./Icons";
