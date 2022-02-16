@@ -100,4 +100,7 @@ export const handlers = [
 
     return res(ctx.status(204));
   }),
+  rest.post(api.auth.login, (req, res, ctx) => {
+    return res(ctx.json({ key: "someRandomToken" }));
+  }),
 ];
