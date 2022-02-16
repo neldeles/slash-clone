@@ -11,10 +11,16 @@ import { db } from "mocks/db";
 import App from "App";
 import { randText } from "@ngneat/falso";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
-    db.task.create({ task: taskText[i], status: "today", priority: i + 1 });
+    db.task.create({
+      task: taskText[i],
+      status: models.task.STATUS.today,
+      priority: i + 1,
+    });
   }
   return null;
 }
@@ -23,7 +29,7 @@ describe("if it's the last task in Today and I click mark done button", () => {
   it("navigates to the day done page", async () => {
     createTodayTask([randText()]);
 
-    renderWithProviders(<App />, { route: "/timer/work" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/work" });
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
     userEvent.click(screen.getByRole("button", { name: /mark done/i }));
     expect(
@@ -36,7 +42,7 @@ describe("if it's the last task in Today and I click mark done button", () => {
     const lastTask = randText();
     createTodayTask([lastTask]);
 
-    renderWithProviders(<App />, { route: "/timer/work" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/work" });
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
     expect(screen.getByText(lastTask)).toBeInTheDocument();
@@ -65,7 +71,7 @@ describe("if it's NOT the last task in Today and I click mark done button", () =
   it("navigates to the task completion page", async () => {
     createTodayTask([randText(), randText()]);
 
-    renderWithProviders(<App />, { route: "/timer/work" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/work" });
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
     userEvent.click(screen.getByRole("button", { name: /mark done/i }));
     expect(
@@ -85,7 +91,7 @@ describe("if it's NOT the last task in Today and I click mark done button", () =
     const fillerTask = randText();
     createTodayTask([taskToBeCompleted, fillerTask]);
 
-    renderWithProviders(<App />, { route: "/timer/work" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/work" });
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
     expect(screen.getByText(taskToBeCompleted)).toBeInTheDocument();

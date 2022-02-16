@@ -1,23 +1,18 @@
-import axios from "axios";
-import { TNewTask, TTask } from "../types/tasks";
-
-const create = async (task: TNewTask) => {
-  const response = await axios.post("/task", task);
-  return response.data;
-};
+import { api } from "../api";
+import { TTask } from "../types/tasks";
+import { authAxios } from "./auth-service";
 
 const deleteTask = async (id: string) => {
-  const response = await axios.delete(`/task/${id}`);
+  const response = await authAxios.delete(api.tasks.delete(id));
   return response;
 };
 
 const updateTask = async (task: TTask) => {
-  const response = await axios.put(`/task/status/${task.id}`, task);
+  const response = await authAxios.put(api.tasks.update(task.id), task);
   return response.data;
 };
 
 export const taskService = {
-  create,
   deleteTask,
   updateTask,
 };

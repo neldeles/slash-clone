@@ -5,12 +5,12 @@ import {
   within,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import userEvent from "@testing-library/user-event";
-import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
 import { randText, randRecentDate, randNumber } from "@ngneat/falso";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 function createTasks() {
   const doneTaskCount = randNumber({ min: 1, max: 30 });
@@ -31,23 +31,23 @@ test("groups the tasks by done date descending order", async () => {
 
   db.task.create({
     task: firstTask,
-    status: "done",
+    status: models.task.STATUS.done,
     date_done: new Date("2022, 01, 05").toISOString(),
   });
 
   db.task.create({
     task: secondTask,
-    status: "done",
+    status: models.task.STATUS.done,
     date_done: new Date("2022, 01, 04").toISOString(),
   });
 
   db.task.create({
     task: thirdTask,
-    status: "done",
+    status: models.task.STATUS.done,
     date_done: new Date("2022, 01, 03").toISOString(),
   });
 
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   const doneList = screen.getByRole("list", { name: /done/i });
 

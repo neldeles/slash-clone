@@ -11,7 +11,7 @@ export function useMoveTaskToToday() {
   const moveTaskToToday = (task: TTask) => {
     const payload: TTask = {
       ...task,
-      status: "today",
+      status: "TODAY",
     };
     updateTaskMutation.mutate(payload);
   };
@@ -38,7 +38,7 @@ export function useMarkTaskDone() {
     (task: TTask) => {
       const payload: TTask = {
         ...task,
-        status: "done",
+        status: "DONE",
       };
 
       mutate(payload, {
@@ -62,7 +62,7 @@ export function useMoveTaskToThisWeek() {
   const moveTaskToToday = (task: TTask) => {
     const payload: TTask = {
       ...task,
-      status: "thisWeek",
+      status: "THIS_WEEK",
     };
     updateTaskMutation.mutate(payload);
   };

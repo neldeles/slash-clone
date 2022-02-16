@@ -1,17 +1,19 @@
 import { TNewTask, TTask } from "modules/_common/types/tasks";
 import { rest } from "msw";
 import { db } from "./db";
-import { format } from "date-fns";
+import { api } from "modules/_common/api";
+
+const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 export const handlers = [
   // fetch all tasks
-  rest.get("/tasks", (req, res, ctx) => {
+  rest.get(api.tasks.list, (req, res, ctx) => {
     const tasks = db.task.getAll();
 
     return res(ctx.json(tasks));
   }),
   // create a new task
-  rest.post<TNewTask>("/task", (req, res, ctx) => {
+  rest.post<TNewTask>(api.tasks.create, (req, res, ctx) => {
     const { task, status } = req.body;
 
     const tasksInList = db.task.findMany({
@@ -35,7 +37,7 @@ export const handlers = [
     return res(ctx.status(201));
   }),
   // delete a task
-  rest.delete("/task/:id", (req, res, ctx) => {
+  rest.delete(`${baseURL}/tasks/delete/:id/`, (req, res, ctx) => {
     const taskId = req.params.id as string;
     db.task.delete({
       where: {
@@ -48,13 +50,13 @@ export const handlers = [
     return res(ctx.status(204));
   }),
   // update status of a task
-  rest.put<TTask>("/task/status/:id", (req, res, ctx) => {
+  rest.put<TTask>(`${baseURL}/tasks/update/:id/`, (req, res, ctx) => {
     const taskId = req.params.id as string;
     const task = req.body;
 
     // Separate task.status === done flow because done tasks
     // have no priority i.e. null.
-    if (task.status === "thisWeek" || task.status === "today") {
+    if (task.status === "THIS_WEEK" || task.status === "TODAY") {
       const tasksInList = db.task.findMany({
         where: {
           status: {
@@ -82,7 +84,7 @@ export const handlers = [
       });
     }
 
-    if (task.status === "done") {
+    if (task.status === "DONE") {
       db.task.update({
         where: {
           id: {

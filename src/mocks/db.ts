@@ -22,9 +22,9 @@ export const db = factory({
 });
 
 export const status = {
-  thisWeek: db.status.create({ id: 1, type: "thisWeek" }),
-  today: db.status.create({ id: 2, type: "today" }),
-  done: db.status.create({ id: 3, type: "done" }),
+  thisWeek: db.status.create({ id: 1, type: "THIS_WEEK" }),
+  today: db.status.create({ id: 2, type: "TODAY" }),
+  done: db.status.create({ id: 3, type: "DONE" }),
 };
 
 for (let i = 0; i < 2; i++) {

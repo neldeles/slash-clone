@@ -36,7 +36,7 @@ export function WorkTimer() {
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
 
-  const tasksToday = filterTasks(tasksData, "today").sort(
+  const tasksToday = filterTasks(tasksData, "TODAY").sort(
     sortByAscPriority
   ) as TTaskToday[];
 

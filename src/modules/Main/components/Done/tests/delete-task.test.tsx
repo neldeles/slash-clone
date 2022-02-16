@@ -9,6 +9,8 @@ import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 test("deletes a task from Done column", async () => {
   setScrollIntoView();
@@ -16,11 +18,12 @@ test("deletes a task from Done column", async () => {
   const task = "task to be deleted";
   db.task.create({
     task: task,
-    status: "done",
+    status: models.task.STATUS.done,
     date_done: new Date().toISOString(),
   });
 
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
+
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   userEvent.click(
     await screen.findByRole("button", { name: /delete done task/i })

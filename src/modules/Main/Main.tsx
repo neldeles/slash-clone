@@ -50,13 +50,13 @@ export function Main() {
 }
 
 function isTaskThisWeek(task: TTask): task is TTaskThisWeek {
-  return (task as TTaskThisWeek).status === "thisWeek";
+  return (task as TTaskThisWeek).status === "THIS_WEEK";
 }
 
 function isTaskToday(task: TTask): task is TTaskToday {
-  return (task as TTaskToday).status === "today";
+  return (task as TTaskToday).status === "TODAY";
 }
 
 function isTaskDone(task: TTask): task is TTaskDone {
-  return (task as TTaskDone).status === "done";
+  return (task as TTaskDone).status === "DONE";
 }

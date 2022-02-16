@@ -10,6 +10,8 @@ import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 test("moves a task from Done column to the bottom of Today column", async () => {
   setScrollIntoView();
@@ -17,14 +19,22 @@ test("moves a task from Done column to the bottom of Today column", async () => 
   const task = "move to Today";
   db.task.create({
     task: task,
-    status: "done",
+    status: models.task.STATUS.done,
     priority: 1,
     date_done: new Date().toISOString(),
   });
-  db.task.create({ task: "First Item", status: "today", priority: 1 });
-  db.task.create({ task: "Second Item", status: "today", priority: 2 });
+  db.task.create({
+    task: "First Item",
+    status: models.task.STATUS.today,
+    priority: 1,
+  });
+  db.task.create({
+    task: "Second Item",
+    status: models.task.STATUS.today,
+    priority: 2,
+  });
 
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   userEvent.click(
     await screen.findByRole("button", { name: /move done task to today/i })

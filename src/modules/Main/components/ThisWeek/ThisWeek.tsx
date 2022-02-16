@@ -31,7 +31,7 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
     newTask: newTaskThisWeek,
     setNewTask: setNewTaskThisWeek,
     addTaskTextarea: addTaskThisWeek,
-  } = useAddTask("thisWeek");
+  } = useAddTask("THIS_WEEK");
 
   return (
     <SideContainer toggleOpen={toggleThisWeekOpen} isOpen={isThisWeekOpen}>

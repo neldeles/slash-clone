@@ -10,16 +10,22 @@ import { db } from "mocks/db";
 import App from "App";
 import { randText } from "@ngneat/falso";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
-    db.task.create({ task: taskText[i], status: "today", priority: i + 1 });
+    db.task.create({
+      task: taskText[i],
+      status: models.task.STATUS.today,
+      priority: i + 1,
+    });
   }
   return null;
 }
 
 async function setupCacheAndRender() {
-  renderWithProviders(<App />, { route: "/timer/work" });
+  renderWithProviders(<AuthenticatedApp />, { route: "/timer/work" });
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
   // The first task is marked as done.
@@ -34,7 +40,7 @@ test("displays the completed task and the next task", async () => {
   createTodayTask([completedTask, nextTask]);
   const tasksToday = db.task.getAll();
 
-  renderWithProviders(<App />, {
+  renderWithProviders(<AuthenticatedApp />, {
     route: {
       pathname: "/success",
       state: {
@@ -70,7 +76,7 @@ test("starts break timer when Take Break button is clicked", async () => {
   createTodayTask([completedTask, nextTask]);
   const tasksToday = db.task.getAll();
 
-  renderWithProviders(<App />, {
+  renderWithProviders(<AuthenticatedApp />, {
     route: {
       pathname: "/success",
       state: {

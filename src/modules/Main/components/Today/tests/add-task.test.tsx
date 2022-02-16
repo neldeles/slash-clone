@@ -10,12 +10,18 @@ import App from "App";
 import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 test("pressing enter adds a new task from Today input and display it at bottom of Today column", async () => {
   setScrollIntoView();
-  db.task.create({ task: "First task", status: "today", priority: 1 });
+  db.task.create({
+    task: "First task",
+    status: models.task.STATUS.today,
+    priority: 1,
+  });
   const newTask = "new task";
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   const input = await screen.findByRole("textbox", {
     name: /add task today/i,
@@ -31,7 +37,7 @@ test("pressing enter adds a new task from Today input and display it at bottom o
 
 describe("when Today list is empty", () => {
   it("displays the correct placeholder text", async () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<AuthenticatedApp />);
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
     const input = await screen.findByRole("textbox", {
       name: /add task today/i,
@@ -42,7 +48,7 @@ describe("when Today list is empty", () => {
   });
 
   it("only displays the button if text input has a value", async () => {
-    renderWithProviders(<App />);
+    renderWithProviders(<AuthenticatedApp />);
     await waitForElementToBeRemoved(screen.queryByText(/loading/i));
 
     expect(
@@ -70,8 +76,12 @@ describe("when Today list is empty", () => {
 });
 
 test("typing in input changes button to Save Task", async () => {
-  db.task.create({ task: "First task", status: "today", priority: 1 });
-  renderWithProviders(<App />);
+  db.task.create({
+    task: "First task",
+    status: models.task.STATUS.today,
+    priority: 1,
+  });
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   const input = await screen.findByRole("textbox", {
     name: /add task today/i,
@@ -88,9 +98,13 @@ test("typing in input changes button to Save Task", async () => {
 
 test("clicking button adds a new task from Today input and display it at bottom of Today column", async () => {
   setScrollIntoView();
-  db.task.create({ task: "First task", status: "today", priority: 1 });
+  db.task.create({
+    task: "First task",
+    status: models.task.STATUS.today,
+    priority: 1,
+  });
   const newTask = "new task";
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   const input = await screen.findByRole("textbox", {
     name: /add task today/i,

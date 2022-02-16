@@ -28,7 +28,7 @@ export function Today({ tasksToday, tasksData }: TProps) {
     setNewTask: setNewTaskToday,
     addTaskTextarea: addTaskToday,
     addTaskOnClick: addTaskTodayOnClick,
-  } = useAddTask("today");
+  } = useAddTask("TODAY");
 
   return (
     <div className="flex basis-full justify-center py-2 px-8 h-screen border-r border-gray-200">

@@ -10,6 +10,8 @@ import { db } from "mocks/db";
 import App from "App";
 import { randText, randNumber } from "@ngneat/falso";
 import { format, subWeeks } from "date-fns";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 function createTasks() {
   const thisWeekTaskCount = randNumber({ min: 1, max: 10 });
@@ -18,17 +20,25 @@ function createTasks() {
   const doneTodayTaskCount = randNumber({ min: 1, max: 10 });
   const doneLastWeekTaskCount = randNumber({ min: 1, max: 10 });
   for (let i = 0; i < thisWeekTaskCount; i++) {
-    db.task.create({ task: randText(), status: "thisWeek", priority: i + 1 });
+    db.task.create({
+      task: randText(),
+      status: models.task.STATUS.thisWeek,
+      priority: i + 1,
+    });
   }
 
   for (let i = 0; i < todayTaskCount; i++) {
-    db.task.create({ task: randText(), status: "today", priority: i + 1 });
+    db.task.create({
+      task: randText(),
+      status: models.task.STATUS.today,
+      priority: i + 1,
+    });
   }
 
   for (let i = 0; i < doneTodayTaskCount; i++) {
     db.task.create({
       task: randText(),
-      status: "done",
+      status: models.task.STATUS.done,
       date_done: format(new Date(), "yyyy-MM-dd"),
     });
   }
@@ -36,7 +46,7 @@ function createTasks() {
   for (let i = 0; i < doneLastWeekTaskCount; i++) {
     db.task.create({
       task: randText(),
-      status: "done",
+      status: models.task.STATUS.done,
       date_done: format(subWeeks(new Date(), 1), "yyyy-MM-dd"),
     });
   }
@@ -56,7 +66,7 @@ test("progress bar correctly calculates tasks done this week over tasks in the w
   const updatedDoneTaskCount = doneTodayTaskCount + 1;
   const percentDone = Math.floor((updatedDoneTaskCount / totalTasks) * 100);
 
-  renderWithProviders(<App />, {
+  renderWithProviders(<AuthenticatedApp />, {
     route: {
       pathname: "/timer/work",
     },

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { taskService } from "../services/task-service";
+import { tasksService } from "../services/tasks-service";
 import { TNewTask } from "../types/tasks";
 
 /**
@@ -13,7 +13,7 @@ export function useAddTask(status: TNewTask["status"]) {
   const queryClient = useQueryClient();
 
   const addTaskMutation = useMutation(
-    (task: TNewTask) => taskService.create(task),
+    (task: TNewTask) => tasksService.create(task),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["tasks"]);

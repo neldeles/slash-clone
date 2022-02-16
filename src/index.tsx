@@ -5,10 +5,12 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import App from "./App";
 import { MemoryRouter as Router } from "react-router-dom";
+import { weakStart } from "mocks/weakStart";
 
 if (process.env.NODE_ENV === "development") {
+  console.log(process.env.REACT_APP_API_ENDPOINT);
   const { worker } = require("./mocks/browser");
-  worker.start();
+  weakStart(worker);
 }
 
 const queryClient = new QueryClient();

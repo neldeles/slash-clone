@@ -10,10 +10,11 @@ import userEvent from "@testing-library/user-event";
 import { db } from "mocks/db";
 import App from "App";
 import { randText } from "@ngneat/falso";
+import { AuthenticatedApp } from "AuthenticatedApp";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
-    db.task.create({ task: taskText[i], status: "today", priority: i + 1 });
+    db.task.create({ task: taskText[i], status: "TODAY", priority: i + 1 });
   }
   return null;
 }
@@ -35,7 +36,7 @@ describe("when break timer ends", () => {
     const breakTimerDuration = 300000;
     createTodayTask([task]);
 
-    renderWithProviders(<App />, { route: "/timer/break" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/break" });
 
     expect(screen.getByText("05:00")).toBeInTheDocument();
     expect(screen.getByText(/break time/i)).toBeInTheDocument();
@@ -58,7 +59,7 @@ describe("when break timer ends", () => {
     const breakTimerDuration = 300000;
     createTodayTask([task]);
 
-    renderWithProviders(<App />, { route: "/timer/break" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/break" });
 
     act(() => {
       jest.advanceTimersByTime(breakTimerDuration + 2000);
@@ -84,7 +85,7 @@ describe("when break timer ends", () => {
     const breakTimerDuration = 300000;
     createTodayTask([task]);
 
-    renderWithProviders(<App />, { route: "/timer/break" });
+    renderWithProviders(<AuthenticatedApp />, { route: "/timer/break" });
 
     act(() => {
       jest.advanceTimersByTime(breakTimerDuration + 2000);
@@ -102,7 +103,7 @@ test("clicking cancel button redirects to Main page", async () => {
   const task = randText();
   createTodayTask([task]);
 
-  renderWithProviders(<App />, { route: "/timer/break" });
+  renderWithProviders(<AuthenticatedApp />, { route: "/timer/break" });
   userEvent.click(screen.getByRole("button", { name: /cancel/i }));
 
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));

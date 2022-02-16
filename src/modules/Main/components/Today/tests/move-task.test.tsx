@@ -11,16 +11,26 @@ import { renderWithProviders } from "utils/tests/render-with-providers";
 import { db } from "mocks/db";
 import { waitForAnimation } from "modules/_common/utils/tests/waitForAnimation";
 import { setScrollIntoView } from "modules/_common/utils/tests/set-scroll-into-view";
+import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 test("moves a task from Today column to the bottom of This Week column", async () => {
   setScrollIntoView();
 
   const task = "move to This Week";
-  db.task.create({ task: task, status: "today", priority: 1 });
-  db.task.create({ task: "First Item", status: "thisWeek", priority: 1 });
-  db.task.create({ task: "Second Item", status: "thisWeek", priority: 2 });
+  db.task.create({ task: task, status: models.task.STATUS.today, priority: 1 });
+  db.task.create({
+    task: "First Item",
+    status: models.task.STATUS.thisWeek,
+    priority: 1,
+  });
+  db.task.create({
+    task: "Second Item",
+    status: models.task.STATUS.thisWeek,
+    priority: 2,
+  });
 
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   userEvent.click(
     await screen.findByRole("button", {
@@ -45,9 +55,9 @@ test("clicking right arrow button moves a task from Today column to the Done col
   setScrollIntoView();
 
   const task = "move to Done";
-  db.task.create({ task: task, status: "today", priority: 1 });
+  db.task.create({ task: task, status: models.task.STATUS.today, priority: 1 });
 
-  renderWithProviders(<App />);
+  renderWithProviders(<AuthenticatedApp />);
   await waitForElementToBeRemoved(screen.queryByText(/loading/i));
   userEvent.click(
     screen.getByRole("button", { name: /move task in Today to Done/i })
