@@ -5,6 +5,7 @@
   "dependencies": {
     "@dnd-kit/core": "^5.0.1",
     "@dnd-kit/sortable": "^6.0.0",
+    "@headlessui/react": "^1.4.3",
     "@mswjs/data": "^0.8.4",
     "@ngneat/falso": "^2.19.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -67,6 +68,9 @@
         }
       }
     ],
+    "rules": {
+      "tailwindcss/migration-from-tailwind-2": "off"
+    },
     "settings": {
       "tailwindcss": {
         "callees": [
@@ -102,7 +106,7 @@
     "@testing-library/cypress": "^8.0.2",
     "autoprefixer": "^10.4.2",
     "cypress": "^9.3.1",
-    "eslint-plugin-tailwindcss": "^3.2.0",
+    "eslint-plugin-tailwindcss": "^3.4.4",
     "husky": ">=6",
     "lint-staged": ">=10",
     "msw": "^0.36.4",

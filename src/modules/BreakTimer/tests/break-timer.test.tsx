@@ -11,10 +11,15 @@ import { db } from "mocks/db";
 import App from "App";
 import { randText } from "@ngneat/falso";
 import { AuthenticatedApp } from "AuthenticatedApp";
+import { models } from "modules/_common/db/constants";
 
 function createTodayTask(taskText: string[]) {
   for (let i = 0; i < taskText.length; i++) {
-    db.task.create({ task: taskText[i], status: "TODAY", priority: i + 1 });
+    db.task.create({
+      task: taskText[i],
+      status: models.task.STATUS.today,
+      priority: i + 1,
+    });
   }
   return null;
 }
