@@ -103,4 +103,14 @@ export const handlers = [
   rest.post(api.auth.login, (req, res, ctx) => {
     return res(ctx.json({ key: "someRandomToken" }));
   }),
+  rest.get(api.auth.user, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        id: 1,
+        toggl_api_token: "1234",
+        username: "test",
+        email: "test@email.com",
+      })
+    );
+  }),
 ];

@@ -53,11 +53,17 @@ function logout() {
   window.location.reload();
 }
 
+async function getUserDetails() {
+  const response = await authAxios.get(api.auth.user);
+  return response.data;
+}
+
 const authService = {
   isAuthenticated: isAuthenticated(),
   login,
   logout,
   signup,
+  getUserDetails,
 };
 
 export { authAxios, authService };

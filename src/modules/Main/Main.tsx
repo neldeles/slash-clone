@@ -16,6 +16,7 @@ import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";
 import { authService } from "modules/_common/services/auth-service";
 
 export function Main() {
+  const userQuery = useQuery(["user"], () => authService.getUserDetails());
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
 

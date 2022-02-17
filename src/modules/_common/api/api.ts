@@ -10,5 +10,9 @@ export const api = {
   auth: {
     register: `${baseURL}/dj-rest-auth/registration/`,
     login: `${baseURL}/dj-rest-auth/login/`,
+    user: `${baseURL}/dj-rest-auth/user/`,
+  },
+  toggl: {
+    setApiKey: (userId: string) => `${baseURL}/accounts/update/${userId}/`,
   },
 };

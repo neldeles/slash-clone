@@ -1,13 +1,34 @@
+import { authService } from "modules/_common/services/auth-service";
+import { togglService } from "modules/_common/services/toggl-service";
 import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useModal } from "../Modal";
 
 export function SettingsForm() {
+  const userQuery = useQuery(["user"], () => authService.getUserDetails());
+  const userData = userQuery.data ?? {};
   const { setIsOpen, initialFocusRef } = useModal();
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState(userData.toggl_api_key);
+
+  const queryClient = useQueryClient();
+
+  const userMutation = useMutation(
+    (data: { userId: string; togglApiKey: string }) =>
+      togglService.setApiKey(data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["user"]);
+      },
+    }
+  );
 
   const saveSettings = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(apiKey);
+    const data = {
+      userId: userData.id,
+      togglApiKey: apiKey,
+    };
+    userMutation.mutate(data);
   };
 
   return (
