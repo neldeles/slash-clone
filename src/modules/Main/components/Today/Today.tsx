@@ -2,15 +2,15 @@ import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { AlwaysScrollToBottom } from "modules/_common/components/AlwaysScrollToBottom";
 import { TodayListItem } from "modules/Main/components/Today/components/TodayListItem";
 import { TTask, TTaskToday } from "modules/_common/types/tasks";
-import { useAddTask } from "modules/_common/hooks";
+import { useAddTask, useAuth } from "modules/_common/hooks";
 import { useLayoutEffect, useRef } from "react";
 import { TodayButton } from "./components/TodayButton";
 import { TodayTextarea } from "./components/TodayTextarea";
-import { authService } from "modules/_common/services/auth-service";
-import { Logout, Settings } from "modules/_common/components/Icons";
+import { Logout, Settings, Time } from "modules/_common/components/Icons";
 import { Modal } from "./components/Modal";
 
 import { SettingsForm } from "./components/SettingsForm";
+import { Link } from "react-router-dom";
 
 type TProps = {
   tasksToday: TTaskToday[];
@@ -19,6 +19,8 @@ type TProps = {
 
 export function Today({ tasksToday, tasksData }: TProps) {
   const todayRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const { handleLogout } = useAuth();
 
   useLayoutEffect(() => {
     if (todayRef && todayRef.current) {
@@ -111,10 +113,16 @@ export function Today({ tasksToday, tasksData }: TProps) {
             </Modal.Content>
           </Modal>
 
+          <button className="text-gray-300 hover:text-black" title="Toggl">
+            <Link to="/toggl-settings">
+              <Time />
+            </Link>
+          </button>
+
           <button
             className="text-gray-300 hover:text-black"
             title="logout"
-            onClick={() => authService.logout()}
+            onClick={handleLogout}
           >
             <Logout />
           </button>

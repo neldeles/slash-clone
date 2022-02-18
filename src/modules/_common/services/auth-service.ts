@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import { api } from "../api";
 
 type TLoginCredentials = {
@@ -14,8 +13,6 @@ type TSignupCredentials = {
   email: string;
 };
 
-const baseurl = process.env.REACT_APP_API_ENDPOINT;
-
 const authAxios = axios.create();
 
 authAxios.interceptors.request.use((config) => {
@@ -26,11 +23,6 @@ authAxios.interceptors.request.use((config) => {
   };
   return newConfig;
 });
-
-function isAuthenticated() {
-  const token = localStorage.getItem("token");
-  return token !== null && token !== undefined;
-}
 
 async function login(credentials: TLoginCredentials) {
   const response = await axios.post(api.auth.login, credentials);
@@ -48,20 +40,14 @@ async function signup(credentials: TSignupCredentials) {
   return response;
 }
 
-function logout() {
-  localStorage.removeItem("token");
-  window.location.reload();
-}
-
 async function getUserDetails() {
   const response = await authAxios.get(api.auth.user);
+
   return response.data;
 }
 
 const authService = {
-  isAuthenticated: isAuthenticated(),
   login,
-  logout,
   signup,
   getUserDetails,
 };

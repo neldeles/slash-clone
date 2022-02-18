@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { AuthenticatedApp } from "AuthenticatedApp";
 import { UnauthenticatedApp } from "UnauthenticatedApp";
 
-import { authService } from "modules/_common/services/auth-service";
+import { useAuth } from "modules/_common/hooks";
 
 function App() {
+  const { isAuthenticated } = useAuth();
+
   useEffect(function setBackgroundColor() {
     document.body.classList.add("bg-alabaster");
 
@@ -14,13 +16,7 @@ function App() {
   }, []);
 
   return (
-    <>
-      {authService.isAuthenticated ? (
-        <AuthenticatedApp />
-      ) : (
-        <UnauthenticatedApp />
-      )}{" "}
-    </>
+    <>{isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />} </>
   );
 }
 
