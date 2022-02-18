@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import { useCombobox, useMultipleSelection } from "downshift";
 
-const items = [
-  "Neptunium",
-  "Plutonium",
-  "Americium",
-  "Curium",
-  "Berkelium",
-  "Californium",
-  "Einsteinium",
-  "Fermium",
-  "Mendelevium",
-];
+type TProps = {
+  items: string[];
+  isWorkspaceSet: boolean;
+};
 
-export function Multiselect() {
+export function Multiselect({ items, isWorkspaceSet }: TProps) {
   const [inputValue, setInputValue] = useState<string | undefined>("");
 
   const {
@@ -22,7 +15,7 @@ export function Multiselect() {
     addSelectedItem,
     removeSelectedItem,
     selectedItems,
-  } = useMultipleSelection({ initialSelectedItems: [items[0], items[1]] });
+  } = useMultipleSelection();
 
   const getFilteredItems = (items: any) =>
     items.filter(
@@ -67,12 +60,22 @@ export function Multiselect() {
     <div className="relative">
       <div>
         <div {...getComboboxProps()}>
-          <input
-            type="text"
-            className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
-            placeholder="Type to select tags..."
-            {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
-          />
+          {isWorkspaceSet ? (
+            <input
+              type="text"
+              className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
+              placeholder="Type to select tags..."
+              {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
+            />
+          ) : (
+            <input
+              type="text"
+              className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
+              placeholder="-- no workspace selected --"
+              disabled
+              {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
+            />
+          )}
         </div>
         <div className="flex flex-wrap justify-center mt-4">
           {selectedItems.map((selectedItem, index) => (

@@ -48,6 +48,7 @@ export function TogglSettingsPage() {
   const workspaces = workspacesQuery.data ?? [];
   const projects = projectsQuery.data ?? [];
   const tagsData = tagsQuery.data ?? [];
+  const tagsNames = tagsData.map((tag: any) => tag.name);
 
   return (
     <motion.div
@@ -139,7 +140,10 @@ export function TogglSettingsPage() {
                     Tags
                   </label>
                   <div className="mt-1">
-                    <Multiselect />
+                    <Multiselect
+                      items={tagsNames}
+                      isWorkspaceSet={workspaceId !== ""}
+                    />
                   </div>
                 </div>
               </div>
