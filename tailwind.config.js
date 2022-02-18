@@ -34,6 +34,6 @@ module.exports = {
       red: "#FF0000",
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
   darkMode: "class",
 };

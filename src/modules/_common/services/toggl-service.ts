@@ -36,7 +36,7 @@ const getWorkspaces = async (apiKey: string) => {
     }
   );
   console.log("toggl", response);
-  return response;
+  return response.data;
 };
 
 export const togglService = {

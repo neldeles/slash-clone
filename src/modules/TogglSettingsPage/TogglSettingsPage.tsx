@@ -1,18 +1,25 @@
+import { useTogglSettings } from "AuthenticatedApp";
 import { motion } from "framer-motion";
 import { useFetchUser } from "modules/_common/queries";
 import { togglService } from "modules/_common/services/toggl-service";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 
 export function TogglSettingsPage() {
+  const { workspaceId, setWorkspaceId } = useTogglSettings();
   const userQuery = useFetchUser();
   const togglApiKey = userQuery.data?.toggl_api_key;
-  const settingsQuery = useQuery(
-    ["settings"],
+  const workspacesQuery = useQuery(
+    ["toggl", "workspaces"],
     () => togglService.getWorkspaces(togglApiKey),
     {
       enabled: !!togglApiKey,
     }
   );
+
+  const workspaces = workspacesQuery.data ?? [];
+
+  console.log(workspaceId);
 
   return (
     <motion.div
@@ -27,55 +34,98 @@ export function TogglSettingsPage() {
           <div>
             <div className="pt-8">
               <div>
-                <h3 className="text-lg font-medium leading-6 text-gray-500">
+                <h3 className="text-lg font-medium leading-6 text-black">
                   Toggl Settings
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
                   {" "}
-                  Your timer will be saved in the specified workspace and
-                  project with the specified tags.
+                  Your timer will be saved with the specified settings.
                 </p>
               </div>
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 mt-6 sm:grid-cols-6">
-                <div className="sm:col-span-4">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className="block w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-
+              <div className="mt-6 w-full">
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-500"
                   >
-                    Country
+                    Workspace
                   </label>
                   <div className="mt-1">
                     <select
-                      id="country"
-                      name="country"
-                      autoComplete="country-name"
-                      className="block w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      id="workspace"
+                      name="workspace"
+                      value={workspaceId}
+                      onChange={(e) => setWorkspaceId(e.target.value)}
+                      className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
                     >
-                      <option>United States</option>
-                      <option>Canada</option>
-                      <option>Mexico</option>
+                      <option value="">-- select an option --</option>
+                      {workspaces.map((workspace: any) => (
+                        <option key={workspace.id} value={workspace.id}>
+                          {workspace.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
               </div>
+
+              {/* <div className="mt-6 w-full">
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-500"
+                  >
+                    Project
+                  </label>
+                  <div className="mt-1">
+                    <select
+                      id="workspace"
+                      name="workspace"
+                      className="block p-4 w-full bg-transparent border-b-2 border-b-black"
+                    >
+                      {workspaces.map((workspace: any) => (
+                        <option value={workspace.id}>{workspace.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 w-full">
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium text-gray-500"
+                  >
+                    Tags
+                  </label>
+                  <div className="mt-1">
+                    <select
+                      id="workspace"
+                      name="workspace"
+                      className="block p-4 w-full bg-transparent border-b-2 border-b-black"
+                    >
+                      {workspaces.map((workspace: any) => (
+                        <option value={workspace.id}>{workspace.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div> */}
+
+              <button
+                className="items-center py-3 px-6 mt-6 w-full text-base font-medium tracking-wide text-black bg-transparent hover:bg-gray-200 rounded-md border-2 border-black"
+                type="button"
+              >
+                <Link to="/">Cancel</Link>
+              </button>
+
+              <button
+                className="items-center py-3 px-6 mt-6 w-full text-base font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 shadow-sm"
+                type="submit"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
