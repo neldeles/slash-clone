@@ -19,6 +19,8 @@ type TTogglContext = {
   setWorkspaceId: Dispatch<SetStateAction<string>>;
   projectId: string;
   setProjectId: Dispatch<SetStateAction<string>>;
+  tags: string[];
+  setTags: any;
 };
 
 const TogglSettingsContext = createContext<TTogglContext | undefined>(
@@ -40,12 +42,15 @@ export function useTogglSettings() {
 export function AuthenticatedApp() {
   const [workspaceId, setWorkspaceId] = useState("");
   const [projectId, setProjectId] = useState("");
+  const [tags, setTags] = useState([]);
   const location = useLocation();
   const value = {
     workspaceId,
     setWorkspaceId,
     projectId,
     setProjectId,
+    tags,
+    setTags,
   };
 
   return (

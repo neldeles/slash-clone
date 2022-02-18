@@ -105,6 +105,8 @@ Possible improvements are:
 
 - support for syncting to different Toggl projects per task
   - right now it's a global setting and all tasks will sync to that specified global setting
+- add ability to create projects and tags in Toggl
+  - right now there is only READ functionality for these
 - build a mobile version using React Native
   - I'll be using this exclusively on the desktop, so mobile support was not a focus
   - also wanted to use it as an opportunity to learn React Native (hence why I used django rest framework so I can use the same backend)
