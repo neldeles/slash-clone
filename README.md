@@ -1,8 +1,8 @@
-# [WIP] TaskNinja
+# [WIP] Slash Clone
 
 This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
-Visit this link if you want to play around with the demo right away:
+Visit this link if you want to play around with the demo right away: [Link to follow once deployed]()
 
 ## Table of contents
 
@@ -74,7 +74,7 @@ Insert screenshots/gifs here
 ##### Backend
 
 - [Django](https://www.djangoproject.com/)
-- [django rest framework](https://www.django-rest-framework.org/)
+- [django rest framework](https://www.django-rest-framework.org/) - for building out the APIs
 
 ### Some things learned
 
@@ -82,6 +82,9 @@ Insert screenshots/gifs here
 - handling React Router routes in unit and integration tests
 - manipulating dates with date-fns lib
 - Framer Motion's variants, orchestration, propagation, exit animations and page transitions
+- building an API and consuming in a React frontend
+- encrypting API keys in the backend
+- working with 3rd party api's (Toggl in this case)
 
 #### useRef over useMemo
 
