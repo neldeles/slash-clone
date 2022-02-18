@@ -14,8 +14,8 @@ Visit this link if you want to play around with the demo right away:
 - [My process]()
   - [Built with](#built-with)
   - [Some things learned](#some-things-learned)
-  - [Continued development]()
-- [Author]()
+  - [Continued development](#continued-development)
+- [Author](#author)
 
 ## Overview
 
@@ -35,22 +35,21 @@ Now why did I decide to build this specific app? I love the approach Slash app t
 
 Having said all that, these were my primary goals by building this app:
 
-- [ ] learn how to create a delightful animation heavy app
-- [ ] learn how to use Django Rest Framework for the backend of the app
+- [x] learn how to create a delightful animation heavy app
+- [x] learn how to use Django Rest Framework for the backend of the app
 - [ ] deploy my first fullstack app
-- [ ] apply the [learnings on React]() I've built up over the past few months
+- [x] apply the [learnings on React]() I've built up over the past few months
 
 ### App specifications
 
 Users should be able to:
 
+- [x] Create an account
 - [x] Login into the app
 - [x] Create, read, update and delete tasks
 - [x] Start slashing through Today's tasks
   - [x] This starts the Pomodoro timer (25 min work, 5 min break)
-- [ ] Track the time each task takes to complete
-  - [ ] Time taken synced to Toggl via their API
-- [ ] View how long a task took to complete
+- [ ] Time taken synced to Toggl via their API
 
 ### Visual demo
 
@@ -59,6 +58,8 @@ Insert screenshots/gifs here
 ## My process
 
 ### Built with
+
+##### Frontend
 
 - [Create React App](https://create-react-app.dev/) - React CLI
 - [TailwindCSS](https://tailwindcss.com/) - For styles
@@ -69,6 +70,11 @@ Insert screenshots/gifs here
 - [React Query](https://react-query.tanstack.com/) - For data fetching, caching & state management
 - [Axios](https://axios-http.com/docs/intro) - For Api calls
 - [date-fns](https://date-fns.org/) - for handling dates
+
+##### Backend
+
+- [Django](https://www.djangoproject.com/)
+- [django rest framework](https://www.django-rest-framework.org/)
 
 ### Some things learned
 
@@ -82,3 +88,24 @@ Insert screenshots/gifs here
 `useRef` over `useMemo` [if you just need a consistent reference](https://blog.logrocket.com/rethinking-hooks-memoization/). You can end up shooting yourself on the foot by relying on `useMemo` for consistent reference as well. Per the official docs:
 
 > You may rely on useMemo as a performance optimization, not as a semantic guarantee. In the future, React may choose to “forget” some previously memoized values and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.
+
+#### DRF and Django
+
+Learning this was its own beast. But I'm surprised with how easy it was to implement common and basic tasks. I remember while learning the MERN stack,
+I had to setup auth, encrypt passwords etc. All of these Django already supports out of the box.
+
+### Continued development
+
+Possible improvements are:
+
+- support for syncting to different Toggl projects per task
+  - right now it's a global setting and all tasks will sync to that specified global setting
+- build a mobile version using React Native
+  - I'll be using this exclusively on the desktop, so mobile support was not a focus
+  - also wanted to use it as an opportunity to learn React Native (hence why I used django rest framework so I can use the same backend)
+
+## Author
+
+- Website - [neldeles.com](https://neldeles.com/)
+- Github - [@neldeles](https://www.github.com/neldeles)
+- Twitter - [@neldeles](https://twitter.com/neldeles)
