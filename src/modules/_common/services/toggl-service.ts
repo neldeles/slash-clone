@@ -35,6 +35,17 @@ const getWorkspaces = async (apiKey: string) => {
       headers: headers,
     }
   );
+  return response.data;
+};
+
+const getProjects = async (apiKey: string, workspaceId: string) => {
+  const headers = generateHeader(apiKey);
+  const response = await axios.get(
+    `https://api.track.toggl.com/api/v8/workspaces/${workspaceId}/projects`,
+    {
+      headers: headers,
+    }
+  );
   console.log("toggl", response);
   return response.data;
 };
@@ -42,4 +53,5 @@ const getWorkspaces = async (apiKey: string) => {
 export const togglService = {
   setApiKey,
   getWorkspaces,
+  getProjects,
 };

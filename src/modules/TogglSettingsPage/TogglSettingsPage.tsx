@@ -6,9 +6,12 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 export function TogglSettingsPage() {
-  const { workspaceId, setWorkspaceId } = useTogglSettings();
+  const { workspaceId, setWorkspaceId, projectId, setProjectId } =
+    useTogglSettings();
+
   const userQuery = useFetchUser();
   const togglApiKey = userQuery.data?.toggl_api_key;
+
   const workspacesQuery = useQuery(
     ["toggl", "workspaces"],
     () => togglService.getWorkspaces(togglApiKey),
@@ -17,9 +20,16 @@ export function TogglSettingsPage() {
     }
   );
 
-  const workspaces = workspacesQuery.data ?? [];
+  const projectsQuery = useQuery(
+    ["toggl", "projects"],
+    () => togglService.getProjects(togglApiKey, workspaceId),
+    {
+      enabled: !!togglApiKey && workspaceId !== "",
+    }
+  );
 
-  console.log(workspaceId);
+  const workspaces = workspacesQuery.data ?? [];
+  const projects = projectsQuery.data ?? [];
 
   return (
     <motion.div
@@ -69,7 +79,7 @@ export function TogglSettingsPage() {
                 </div>
               </div>
 
-              {/* <div className="mt-6 w-full">
+              <div className="mt-6 w-full">
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="country"
@@ -79,34 +89,50 @@ export function TogglSettingsPage() {
                   </label>
                   <div className="mt-1">
                     <select
-                      id="workspace"
-                      name="workspace"
-                      className="block p-4 w-full bg-transparent border-b-2 border-b-black"
+                      id="project"
+                      name="project"
+                      value={projectId}
+                      onChange={(e) => setProjectId(e.target.value)}
+                      className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
                     >
-                      {workspaces.map((workspace: any) => (
-                        <option value={workspace.id}>{workspace.name}</option>
+                      {workspaceId === "" ? (
+                        <option disabled value="">
+                          -- no workspace selected --
+                        </option>
+                      ) : (
+                        <option value="">-- select an option --</option>
+                      )}
+                      {projects.map((project: any) => (
+                        <option key={project.id} value={project.id}>
+                          {project.name}
+                        </option>
                       ))}
                     </select>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 w-full">
+              {/* <div className="mt-6 w-full">
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="country"
                     className="block text-sm font-medium text-gray-500"
                   >
-                    Tags
+                    Workspace
                   </label>
                   <div className="mt-1">
                     <select
                       id="workspace"
                       name="workspace"
-                      className="block p-4 w-full bg-transparent border-b-2 border-b-black"
+                      value={workspaceId}
+                      onChange={(e) => setWorkspaceId(e.target.value)}
+                      className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
                     >
+                      <option value="">-- select an option --</option>
                       {workspaces.map((workspace: any) => (
-                        <option value={workspace.id}>{workspace.name}</option>
+                        <option key={workspace.id} value={workspace.id}>
+                          {workspace.name}
+                        </option>
                       ))}
                     </select>
                   </div>

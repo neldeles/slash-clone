@@ -17,6 +17,8 @@ import { Switch, Route, useLocation } from "react-router-dom";
 type TTogglContext = {
   workspaceId: string;
   setWorkspaceId: Dispatch<SetStateAction<string>>;
+  projectId: string;
+  setProjectId: Dispatch<SetStateAction<string>>;
 };
 
 const TogglSettingsContext = createContext<TTogglContext | undefined>(
@@ -37,10 +39,13 @@ export function useTogglSettings() {
 
 export function AuthenticatedApp() {
   const [workspaceId, setWorkspaceId] = useState("");
+  const [projectId, setProjectId] = useState("");
   const location = useLocation();
   const value = {
     workspaceId,
     setWorkspaceId,
+    projectId,
+    setProjectId,
   };
 
   return (
