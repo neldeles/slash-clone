@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === "development") {
 
 const queryClient = new QueryClient();
 queryClient.setQueryDefaults(["tasks"], { staleTime: Infinity });
+queryClient.setQueryDefaults(["user"], { staleTime: Infinity });
 
 ReactDOM.render(
   <React.StrictMode>
