@@ -70,6 +70,8 @@ Insert screenshots/gifs here
 - [React Query](https://react-query.tanstack.com/) - For data fetching, caching & state management
 - [Axios](https://axios-http.com/docs/intro) - For Api calls
 - [date-fns](https://date-fns.org/) - for handling dates
+- [husky](https://github.com/typicode/huskyhttps://github.com/typicode/husky) - for pre-commit hooks
+- [lintstaged](https://github.com/okonet/lint-staged) - so we only run staged files in husky
 
 ##### Backend
 
