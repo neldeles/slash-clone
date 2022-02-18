@@ -6,4 +6,5 @@ export {
   Close,
   Settings,
   Logout,
+  Time,
 } from "./Icons";

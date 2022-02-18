@@ -13,10 +13,10 @@ import { Today } from "modules/Main/components/Today";
 import { motion } from "framer-motion";
 import { sortByAscPriority } from "modules/_common/utils/sortByPriority";
 import { sortByDoneDate } from "modules/_common/utils/sortByDoneDate";
-import { authService } from "modules/_common/services/auth-service";
+import { useFetchUser } from "modules/_common/queries";
 
 export function Main() {
-  const userQuery = useQuery(["user"], () => authService.getUserDetails());
+  const userQuery = useFetchUser();
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
 

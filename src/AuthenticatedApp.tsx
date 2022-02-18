@@ -2,6 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { BreakTimer } from "modules/BreakTimer";
 import { Main } from "modules/Main";
 import { SuccessPage } from "modules/SuccessPage";
+import { TogglSettingsPage } from "modules/TogglSettingsPage";
 import { WorkTimer } from "modules/WorkTimer";
 import { LastTaskPage } from "modules/WorkTimer/components/LastTaskPage";
 import { Switch, Route, useLocation } from "react-router-dom";
@@ -23,6 +24,9 @@ export function AuthenticatedApp() {
         </Route>
         <Route path="/congrats">
           <LastTaskPage />
+        </Route>
+        <Route path="/toggl-settings">
+          <TogglSettingsPage />
         </Route>
         <Route path="/">
           <Main />
