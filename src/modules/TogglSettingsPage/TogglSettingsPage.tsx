@@ -139,12 +139,14 @@ export function TogglSettingsPage() {
                 </div>
               </div> */}
 
-              <button
-                className="items-center py-3 px-6 mt-6 w-full text-base font-medium tracking-wide text-black bg-transparent hover:bg-gray-200 rounded-md border-2 border-black"
-                type="button"
-              >
-                <Link to="/">Cancel</Link>
-              </button>
+              <Link to="/">
+                <button
+                  className="items-center py-3 px-6 mt-6 w-full text-base font-medium tracking-wide text-black bg-transparent hover:bg-gray-200 rounded-md border-2 border-black"
+                  type="button"
+                >
+                  Cancel
+                </button>
+              </Link>
 
               <button
                 className="items-center py-3 px-6 mt-6 w-full text-base font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 shadow-sm"
