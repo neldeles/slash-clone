@@ -48,12 +48,12 @@ export function SettingsForm() {
           Toggl API Key
         </h3>
         <form onSubmit={saveSettings} className="mt-2">
-          <div className="w-full sm:max-w-xs">
+          <div className="w-full">
             <input
               ref={initialFocusRef}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-b-2 border-gray-400 focus:outline-none"
+              className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-x-0 border-t-0 border-b-2 focus:border-b-black focus:outline-none focus:ring-0"
               placeholder="Enter API key here..."
               required
               autoFocus
