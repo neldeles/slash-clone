@@ -8,3 +8,4 @@ export {
 export { useAutoResizeTextarea } from "./useAutoResizeTextarea";
 export { useAddTask } from "./useAddTask";
 export { useAuth } from "./useAuth";
+export { useTimer } from "./toggl-hooks";
