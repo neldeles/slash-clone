@@ -114,7 +114,7 @@ export function WorkTimer() {
           {timerMinutes}:{timerSeconds}
         </h1>
       </div>
-      <p className="p-3 w-[40vw] max-w-2xl text-4xl font-medium tracking-normal text-center text-black bg-gray-200 hover:bg-gray-100 rounded-lg border border-gray-200">
+      <p className="p-3 w-[40vw] max-w-2xl text-4xl font-medium tracking-normal text-center text-black bg-gray-200 rounded-lg border border-gray-200">
         {tasksToday[activeTask].task}
       </p>
 
