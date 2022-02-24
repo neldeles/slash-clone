@@ -9,6 +9,8 @@ import { classNames } from "utils/classNames";
 import * as Icons from "./components/Icons";
 import useSound from "use-sound";
 import laser from "assets/sounds/laser.mp3";
+import { useTogglSettings } from "AuthenticatedApp";
+import { useTimer } from "modules/_common/hooks";
 
 // in seconds
 const workDuration = 1500;
@@ -29,6 +31,9 @@ export function WorkTimer() {
   const tasksToday = filterTasks(tasksData, "TODAY").sort(
     sortByAscPriority
   ) as TTaskToday[];
+
+  const { timerId } = useTogglSettings();
+  const { stopTimer } = useTimer(tasksToday);
 
   const lastTask = tasksToday.length - 1;
 
@@ -130,6 +135,7 @@ export function WorkTimer() {
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
             title="Pause"
             aria-label="pause"
+            onClick={() => stopTimer(timerId)}
           >
             <Icons.Pause />
           </button>

@@ -15,11 +15,10 @@ export const api = {
   toggl: {
     updateUserSettings: (userId: string) =>
       `${baseURL}/accounts/update/${userId}/`,
-    start: "https://api.track.toggl.com/api/v8/time_entries/start",
-    stop: (time_entry_id: string) =>
-      `https://api.track.toggl.com/api/v8/time_entries/${time_entry_id}/stop`,
     getWorkspaceTags: (workspace_id: string) =>
       `https://api.track.toggl.com/api/v8/workspaces/${workspace_id}/tags`,
     startTimer: "https://api.track.toggl.com/api/v8/time_entries/start",
+    stopTimer: (time_entry_id: string) =>
+      `https://api.track.toggl.com/api/v8/time_entries/${time_entry_id}/stop`,
   },
 };

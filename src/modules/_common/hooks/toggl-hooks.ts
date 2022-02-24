@@ -16,11 +16,20 @@ export const useTimer = (tasksToday: TTaskToday[]) => {
         pid: parseInt(userProjectId),
         created_with: "slash",
       };
-      togglService.startTimer(togglApiKey, data);
+      const res = await togglService.startTimer(togglApiKey, data);
+      return res;
+    }
+  };
+
+  const stopTimer = async (timerId: string) => {
+    if (togglApiKey) {
+      const res = await togglService.stopTimer(togglApiKey, timerId);
+      return res;
     }
   };
 
   return {
     startTimer,
+    stopTimer,
   };
 };

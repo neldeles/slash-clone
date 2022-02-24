@@ -96,6 +96,18 @@ const startTimer = async (apiKey: string, data: TTimerData) => {
   return response.data;
 };
 
+const stopTimer = async (apiKey: string, timeEntryId: string) => {
+  const headers = generateHeader(apiKey);
+  const response = await axios.put(
+    api.toggl.stopTimer(timeEntryId),
+    {},
+    {
+      headers,
+    }
+  );
+  return response.data;
+};
+
 export const togglService = {
   setApiKey,
   getWorkspaces,
@@ -103,4 +115,5 @@ export const togglService = {
   getTags,
   updateTogglSettings,
   startTimer,
+  stopTimer,
 };
