@@ -82,7 +82,7 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
                 aria-label="add task this week"
                 maxLength={140}
                 className={classNames(
-                  "py-2 w-full max-h-full bg-transparent border-b-2 border-gray-400 focus:outline-none resize-none",
+                  "py-2 w-full max-h-full bg-transparent border-x-0 border-t-0 border-b-2 focus:border-b-black focus:outline-none focus:ring-0 resize-none",
                   "text-lg placeholder:text-base placeholder:font-normal font-bold placeholder:text-gray-300 text-black focus:placeholder:text-gray-400",
                   tasksThisWeek.length ? null : "truncate"
                 )}
