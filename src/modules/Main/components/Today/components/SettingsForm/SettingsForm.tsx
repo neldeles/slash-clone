@@ -1,3 +1,4 @@
+import { useFetchUser } from "modules/_common/queries";
 import { authService } from "modules/_common/services/auth-service";
 import { togglService } from "modules/_common/services/toggl-service";
 import { useState } from "react";
@@ -5,10 +6,15 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useModal } from "../Modal";
 
 export function SettingsForm() {
-  const userQuery = useQuery(["user"], () => authService.getUserDetails());
-  const userData = userQuery.data ?? {};
+  // const userQuery = useQuery(["user"], () => authService.getUserDetails());
+  // const userData = userQuery.data ?? {};
+  const userQuery = useFetchUser();
+  // We assert this because user can't login if there is no user data.
+  const userData = userQuery.data!;
+  const initialApi = userData.togglApiKey;
+
   const { setIsOpen, initialFocusRef } = useModal();
-  const [apiKey, setApiKey] = useState(userData.toggl_api_key);
+  const [apiKey, setApiKey] = useState(initialApi);
 
   const queryClient = useQueryClient();
 
@@ -21,6 +27,10 @@ export function SettingsForm() {
       },
     }
   );
+
+  if (userQuery.isLoading) {
+    return <h1>loading</h1>;
+  }
 
   const saveSettings = (e: React.SyntheticEvent) => {
     e.preventDefault();

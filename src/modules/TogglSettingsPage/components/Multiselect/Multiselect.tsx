@@ -4,9 +4,16 @@ import { useCombobox, useMultipleSelection } from "downshift";
 type TProps = {
   items: string[];
   isWorkspaceSet: boolean;
+  selectedTags: string[];
+  setSelectedTags: any;
 };
 
-export function Multiselect({ items, isWorkspaceSet }: TProps) {
+export function Multiselect({
+  items,
+  isWorkspaceSet,
+  selectedTags,
+  setSelectedTags,
+}: TProps) {
   const [inputValue, setInputValue] = useState<string | undefined>("");
 
   const {
@@ -15,7 +22,7 @@ export function Multiselect({ items, isWorkspaceSet }: TProps) {
     addSelectedItem,
     removeSelectedItem,
     selectedItems,
-  } = useMultipleSelection();
+  } = useMultipleSelection({ initialSelectedItems: selectedTags });
 
   const getFilteredItems = (items: any) =>
     items.filter(
@@ -23,10 +30,9 @@ export function Multiselect({ items, isWorkspaceSet }: TProps) {
         selectedItems.indexOf(item) < 0 &&
         item.toLowerCase().startsWith(inputValue!.toLowerCase())
     );
+
   const {
     isOpen,
-    getToggleButtonProps,
-    getLabelProps,
     getMenuProps,
     getInputProps,
     getComboboxProps,
@@ -47,6 +53,7 @@ export function Multiselect({ items, isWorkspaceSet }: TProps) {
           if (selectedItem) {
             setInputValue("");
             addSelectedItem(selectedItem as string);
+            setSelectedTags([...selectedItems, selectedItem]);
             selectItem(null);
           }
 
@@ -56,6 +63,12 @@ export function Multiselect({ items, isWorkspaceSet }: TProps) {
       }
     },
   });
+
+  const handleRemoveTags = (selectedItem: string) => {
+    removeSelectedItem(selectedItem);
+    setSelectedTags(selectedItems.filter((item) => item !== selectedItem));
+  };
+
   return (
     <div className="relative">
       <div>
@@ -83,7 +96,7 @@ export function Multiselect({ items, isWorkspaceSet }: TProps) {
               key={`selected-item-${index}`}
               {...getSelectedItemProps({ selectedItem, index })}
               className="py-2 px-4 m-1 text-xs bg-gray-200 hover:bg-gray-250 rounded-full hover:cursor-pointer"
-              onClick={() => removeSelectedItem(selectedItem)}
+              onClick={() => handleRemoveTags(selectedItem)}
             >
               {selectedItem}
               <span className="ml-2">&#10005;</span>

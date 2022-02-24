@@ -1,27 +1,29 @@
-import { useTogglSettings } from "AuthenticatedApp";
 import { motion } from "framer-motion";
 import { useFetchUser } from "modules/_common/queries";
 import { togglService } from "modules/_common/services/toggl-service";
-import { useQuery } from "react-query";
+import { TTogglSettings } from "modules/_common/types/api";
+import { ChangeEvent, useState } from "react";
+import { useMutation, useQueryClient, useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { Multiselect } from "./components/Multiselect";
 
 export function TogglSettingsPage() {
-  const {
-    workspaceId,
-    setWorkspaceId,
-    projectId,
-    setProjectId,
-    tags,
-    setTags,
-  } = useTogglSettings();
-
   const userQuery = useFetchUser();
-  const togglApiKey = userQuery.data?.toggl_api_key;
+  const togglApiKey = userQuery.data?.togglApiKey;
+  const userWorkspaceId = userQuery.data?.workspaceId;
+  const userProjectId = userQuery.data?.projectId;
+  const userTags = userQuery.data?.tags ?? [];
+  const queryClient = useQueryClient();
+
+  const [workspaceIdInput, setWorkspaceIdInput] = useState(
+    userWorkspaceId ?? ""
+  );
+  const [projectIdInput, setProjectIdInput] = useState(userProjectId ?? "");
+  const [selectedTags, setSelectedTags] = useState(userTags);
 
   const workspacesQuery = useQuery(
     ["toggl", "workspaces"],
-    () => togglService.getWorkspaces(togglApiKey),
+    () => togglService.getWorkspaces(togglApiKey!),
     {
       enabled: !!togglApiKey,
     }
@@ -29,26 +31,51 @@ export function TogglSettingsPage() {
 
   const projectsQuery = useQuery(
     ["toggl", "projects"],
-    () => togglService.getProjects(togglApiKey, workspaceId),
+    () => togglService.getProjects(togglApiKey!, userWorkspaceId!),
     {
-      enabled: !!togglApiKey && workspaceId !== "",
+      enabled: !!togglApiKey && !!userWorkspaceId,
     }
   );
 
   const tagsQuery = useQuery(
     ["toggl", "tags"],
-    () => togglService.getTags(togglApiKey, workspaceId),
+    () => togglService.getTags(togglApiKey!, userWorkspaceId!),
     {
-      enabled: !!togglApiKey && workspaceId !== "",
+      enabled: !!togglApiKey && !!userWorkspaceId,
     }
   );
 
-  console.log(tagsQuery.data);
+  const userMutation = useMutation(
+    (data: TTogglSettings) => togglService.updateTogglSettings(data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["user"]);
+      },
+    }
+  );
 
   const workspaces = workspacesQuery.data ?? [];
   const projects = projectsQuery.data ?? [];
   const tagsData = tagsQuery.data ?? [];
   const tagsNames = tagsData.map((tag: any) => tag.name);
+
+  const saveSettings = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const data = {
+      userId: userQuery.data!.id,
+      workspace_id: parseInt(workspaceIdInput),
+      project_id: parseInt(projectIdInput),
+      tags: selectedTags,
+    };
+    userMutation.mutate(data);
+  };
+
+  const handleWorkspaceIdInput = (e: ChangeEvent<HTMLSelectElement>) => {
+    setWorkspaceIdInput(e.target.value);
+    if (e.target.value === "") {
+      setProjectIdInput("");
+    }
+  };
 
   return (
     <motion.div
@@ -58,7 +85,10 @@ export function TogglSettingsPage() {
       exit={{ scaleY: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <form className="space-y-8 max-w-md divide-y divide-gray-200">
+      <form
+        className="space-y-8 max-w-md divide-y divide-gray-200"
+        onSubmit={saveSettings}
+      >
         <div className="space-y-8 divide-y divide-gray-200">
           <div>
             <div className="pt-8">
@@ -83,8 +113,8 @@ export function TogglSettingsPage() {
                     <select
                       id="workspace"
                       name="workspace"
-                      value={workspaceId}
-                      onChange={(e) => setWorkspaceId(e.target.value)}
+                      value={workspaceIdInput}
+                      onChange={handleWorkspaceIdInput}
                       className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
                     >
                       <option value="">-- select an option --</option>
@@ -110,13 +140,13 @@ export function TogglSettingsPage() {
                     <select
                       id="project"
                       name="project"
-                      value={projectId}
-                      onChange={(e) => setProjectId(e.target.value)}
+                      value={projectIdInput}
+                      onChange={(e) => setProjectIdInput(e.target.value)}
                       className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
                     >
-                      {workspaceId === "" ? (
+                      {workspaceIdInput === "" ? (
                         <option disabled value="">
-                          -- no workspace selected --
+                          -- select workspace first --
                         </option>
                       ) : (
                         <option value="">-- select an option --</option>
@@ -142,7 +172,9 @@ export function TogglSettingsPage() {
                   <div className="mt-1">
                     <Multiselect
                       items={tagsNames}
-                      isWorkspaceSet={workspaceId !== ""}
+                      isWorkspaceSet={userWorkspaceId !== ""}
+                      selectedTags={selectedTags}
+                      setSelectedTags={setSelectedTags}
                     />
                   </div>
                 </div>

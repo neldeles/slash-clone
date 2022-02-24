@@ -13,6 +13,16 @@ type TSignupCredentials = {
   email: string;
 };
 
+type TUserDetails = {
+  id: string;
+  username: string;
+  email: string;
+  togglApiKey: string;
+  workspaceId: string;
+  projectId: string;
+  tags: string[];
+};
+
 const authAxios = axios.create();
 
 authAxios.interceptors.request.use((config) => {
@@ -40,11 +50,21 @@ async function signup(credentials: TSignupCredentials) {
   return response;
 }
 
-async function getUserDetails() {
+const getUserDetails = async (): Promise<TUserDetails> => {
   const response = await authAxios.get(api.auth.user);
 
-  return response.data;
-}
+  const data: TUserDetails = {
+    id: response.data.id,
+    username: response.data.username,
+    email: response.data.email,
+    togglApiKey: response.data.toggl_api_key,
+    workspaceId: response.data.workspace_id.toString(),
+    projectId: response.data.project_id.toString(),
+    tags: response.data.tags,
+  };
+
+  return data;
+};
 
 const authService = {
   login,

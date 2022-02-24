@@ -13,7 +13,8 @@ export const api = {
     user: `${baseURL}/dj-rest-auth/user/`,
   },
   toggl: {
-    setApiKey: (userId: string) => `${baseURL}/accounts/update/${userId}/`,
+    updateUserSettings: (userId: string) =>
+      `${baseURL}/accounts/update/${userId}/`,
     start: "https://api.track.toggl.com/api/v8/time_entries/start",
     stop: (time_entry_id: string) =>
       `https://api.track.toggl.com/api/v8/time_entries/${time_entry_id}/stop`,
