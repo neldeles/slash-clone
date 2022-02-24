@@ -9,6 +9,13 @@ type TData = {
   togglApiKey: string;
 };
 
+type TTimerData = {
+  description: string;
+  tags: string[];
+  pid: number;
+  created_with: string;
+};
+
 function generateHeader(apiKey: string) {
   let string = `${apiKey}:api_token`;
   const encodedString = Buffer.from(string).toString("base64");
@@ -75,10 +82,25 @@ const updateTogglSettings = async (data: TTogglSettings) => {
   return response;
 };
 
+const startTimer = async (apiKey: string, data: TTimerData) => {
+  const headers = generateHeader(apiKey);
+  const response = await axios.post(
+    api.toggl.startTimer,
+    {
+      time_entry: data,
+    },
+    {
+      headers: headers,
+    }
+  );
+  return response.data;
+};
+
 export const togglService = {
   setApiKey,
   getWorkspaces,
   getProjects,
   getTags,
   updateTogglSettings,
+  startTimer,
 };

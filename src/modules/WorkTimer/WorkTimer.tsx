@@ -14,16 +14,6 @@ import laser from "assets/sounds/laser.mp3";
 const workDuration = 1500;
 
 export function WorkTimer() {
-  /**
-   * TODO:
-   * skip, pause, done
-   * skip goes to next task
-   * pause goes back to task list and adds the elapsed time to the task
-   * done goes to a mark task complete full page with a gif
-   *  - can either start the next task or take a break
-   *    - next task goes to timer page
-   *    - take a break goes to break page
-   */
   const [secondsLeft, setSecondsLeft] = useState(workDuration);
   const [toBreakTimer, setToBreakTimer] = useState(false);
   const [activeTask, setActiveTask] = useState(0);
