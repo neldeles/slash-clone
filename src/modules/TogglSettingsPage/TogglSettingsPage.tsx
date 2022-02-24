@@ -4,7 +4,7 @@ import { togglService } from "modules/_common/services/toggl-service";
 import { TTogglSettings } from "modules/_common/types/api";
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient, useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Multiselect } from "./components/Multiselect";
 
 export function TogglSettingsPage() {
@@ -76,6 +76,10 @@ export function TogglSettingsPage() {
       setProjectIdInput("");
     }
   };
+
+  if (userMutation.isSuccess) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <motion.div
