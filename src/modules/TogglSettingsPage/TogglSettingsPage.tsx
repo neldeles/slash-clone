@@ -19,7 +19,7 @@ export function TogglSettingsPage() {
     userWorkspaceId ?? ""
   );
   const [projectIdInput, setProjectIdInput] = useState(userProjectId ?? "");
-  const [selectedTags, setSelectedTags] = useState(userTags);
+  const [selectedTags, setSelectedTags] = useState(togglApiKey ? userTags : []);
 
   const workspacesQuery = useQuery(
     ["toggl", "workspaces"],

@@ -1,6 +1,7 @@
 import { useFetchUser } from "modules/_common/queries";
 import { authService } from "modules/_common/services/auth-service";
 import { togglService } from "modules/_common/services/toggl-service";
+import { TTogglSettings } from "modules/_common/types/api";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useModal } from "../Modal";
@@ -19,8 +20,7 @@ export function SettingsForm() {
   const queryClient = useQueryClient();
 
   const userMutation = useMutation(
-    (data: { userId: string; togglApiKey: string }) =>
-      togglService.setApiKey(data),
+    (data: TTogglSettings) => togglService.updateTogglSettings(data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["user"]);
@@ -34,9 +34,12 @@ export function SettingsForm() {
 
   const saveSettings = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (apiKey) {
+      console.log(apiKey);
+    }
     const data = {
       userId: userData.id,
-      togglApiKey: apiKey,
+      toggl_api_key: apiKey,
     };
     userMutation.mutate(data);
   };
@@ -55,7 +58,6 @@ export function SettingsForm() {
               onChange={(e) => setApiKey(e.target.value)}
               className="py-2 w-full max-h-full text-lg placeholder:text-base font-bold placeholder:font-normal placeholder:text-gray-300 text-black focus:placeholder:text-gray-400 bg-transparent border-x-0 border-t-0 border-b-2 focus:border-b-black focus:outline-none focus:ring-0"
               placeholder="Enter API key here..."
-              required
               autoFocus
               type="text"
             />
