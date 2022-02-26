@@ -15,8 +15,8 @@ export function TodayButton({
   tasksToday: TTaskToday[];
   handleAddTask: () => void;
 }) {
-  const { startTimer } = useTimer(tasksToday);
-  const { setTimerId } = useTogglSettings();
+  const { startTimer, stopTimer } = useTimer(tasksToday);
+  const { timerId, setTimerId } = useTogglSettings();
 
   const handleTimer = async () => {
     const res = await startTimer(0);

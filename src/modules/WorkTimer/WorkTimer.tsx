@@ -16,15 +16,6 @@ import { useTimer } from "modules/_common/hooks";
 const workDuration = 1500;
 
 export function WorkTimer() {
-  const [secondsLeft, setSecondsLeft] = useState(workDuration);
-  const [toBreakTimer, setToBreakTimer] = useState(false);
-  const [activeTask, setActiveTask] = useState(0);
-  const [play] = useSound(laser, { volume: 0.3 });
-
-  const playAudio = () => {
-    play();
-  };
-
   const tasksQuery = useQuery(["tasks"], () => tasksService.getAll());
   const tasksData = useMemo(() => tasksQuery.data ?? [], [tasksQuery.data]);
 
@@ -32,8 +23,16 @@ export function WorkTimer() {
     sortByAscPriority
   ) as TTaskToday[];
 
-  const { timerId } = useTogglSettings();
-  const { stopTimer } = useTimer(tasksToday);
+  const [secondsLeft, setSecondsLeft] = useState(workDuration);
+  const [toBreakTimer, setToBreakTimer] = useState(false);
+  const [activeTask, setActiveTask] = useState(0);
+  const [play] = useSound(laser, { volume: 0.3 });
+  const { timerId, setTimerId } = useTogglSettings();
+  const { startTimer, stopTimer } = useTimer(tasksToday);
+
+  const playAudio = () => {
+    play();
+  };
 
   const lastTask = tasksToday.length - 1;
 
@@ -78,14 +77,27 @@ export function WorkTimer() {
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-  const setToNextTask = () => {
+  const handleStartTimer = async (activeTask: number) => {
+    const res = await startTimer(activeTask);
+    setTimerId(res.data.id.toString());
+  };
+
+  const setToNextTask = async () => {
+    await stopTimer(timerId);
     if (activeTask === lastTask) {
       setActiveTask(0);
+      handleStartTimer(0);
     } else {
       setActiveTask((prev) => prev + 1);
+      handleStartTimer(activeTask + 1);
     }
 
     setSecondsLeft(workDuration);
+  };
+
+  const handleComplete = () => {
+    playAudio();
+    stopTimer(timerId);
   };
 
   if (tasksQuery.isLoading) {
@@ -144,7 +156,7 @@ export function WorkTimer() {
           <button
             type="button"
             aria-label="mark done"
-            onClick={playAudio}
+            onClick={handleComplete}
             className="inline-flex items-center p-3 text-white bg-indigo-200 hover:bg-indigo-100 rounded-full border border-transparent shadow-sm"
           >
             <Icons.Check />
