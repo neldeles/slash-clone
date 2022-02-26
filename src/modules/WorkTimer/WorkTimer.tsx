@@ -79,7 +79,9 @@ export function WorkTimer() {
 
   const handleStartTimer = async (activeTask: number) => {
     const res = await startTimer(activeTask);
-    setTimerId(res.data.id.toString());
+    if (res) {
+      setTimerId(res.data.id.toString());
+    }
   };
 
   const setToNextTask = async () => {
@@ -97,7 +99,9 @@ export function WorkTimer() {
 
   const handleComplete = async () => {
     playAudio();
-    await stopTimer(timerId);
+    if (timerId !== "") {
+      await stopTimer(timerId);
+    }
   };
 
   if (tasksQuery.isLoading) {

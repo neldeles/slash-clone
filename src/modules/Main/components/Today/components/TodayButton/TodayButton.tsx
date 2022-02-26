@@ -15,12 +15,14 @@ export function TodayButton({
   tasksToday: TTaskToday[];
   handleAddTask: () => void;
 }) {
-  const { startTimer, stopTimer } = useTimer(tasksToday);
-  const { timerId, setTimerId } = useTogglSettings();
+  const { startTimer } = useTimer(tasksToday);
+  const { setTimerId } = useTogglSettings();
 
-  const handleTimer = async () => {
+  const handleTogglTimer = async () => {
     const res = await startTimer(0);
-    setTimerId(res.data.id.toString());
+    if (res) {
+      setTimerId(res.data.id.toString());
+    }
   };
 
   if (newTaskToday) {
@@ -36,7 +38,7 @@ export function TodayButton({
       <Button
         id="start-slashing"
         label="Start Slashing"
-        onClick={handleTimer}
+        onClick={handleTogglTimer}
       />
     </Link>
   );

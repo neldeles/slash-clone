@@ -58,8 +58,8 @@ const getUserDetails = async (): Promise<TUserDetails> => {
     username: response.data.username,
     email: response.data.email,
     togglApiKey: response.data.toggl_api_key,
-    workspaceId: response.data.workspace_id.toString(),
-    projectId: response.data.project_id.toString(),
+    workspaceId: response.data.workspace_id?.toString(),
+    projectId: response.data.project_id?.toString(),
     tags: response.data.tags,
   };
 

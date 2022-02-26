@@ -19,6 +19,7 @@ export const useTimer = (tasksToday: TTaskToday[]) => {
       const res = await togglService.startTimer(togglApiKey, data);
       return res;
     }
+    return;
   };
 
   const stopTimer = async (timerId: string) => {
