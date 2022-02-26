@@ -95,9 +95,9 @@ export function WorkTimer() {
     setSecondsLeft(workDuration);
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     playAudio();
-    stopTimer(timerId);
+    await stopTimer(timerId);
   };
 
   if (tasksQuery.isLoading) {
