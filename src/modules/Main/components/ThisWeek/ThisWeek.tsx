@@ -20,11 +20,16 @@ export function ThisWeek({ tasksThisWeek, tasksData }: TProps) {
   const thisWeekRef = useRef<HTMLTextAreaElement | null>(null);
 
   useLayoutEffect(() => {
-    if (thisWeekRef && thisWeekRef.current) {
-      thisWeekRef.current.style.height = "0px";
-      const scrollHeight = thisWeekRef.current.scrollHeight;
-      thisWeekRef.current.style.height = scrollHeight + "px";
-    }
+    // Hacky fix: The height is calculated
+    // before expanding animation is completed. So we add a timeout
+    // so it is calculated after animation completes.
+    setTimeout(() => {
+      if (thisWeekRef && thisWeekRef.current) {
+        thisWeekRef.current.style.height = "0px";
+        const scrollHeight = thisWeekRef.current.scrollHeight;
+        thisWeekRef.current.style.height = scrollHeight + "px";
+      }
+    }, 200);
   });
 
   const {
