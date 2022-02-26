@@ -62,7 +62,7 @@ export function LoginPage() {
             <input
               type="text"
               id="username"
-              className="peer w-full h-10 text-lg font-bold placeholder:text-transparent text-black bg-transparent border-b-2 border-gray-400 focus:border-gray-400 focus:outline-none"
+              className="peer w-full h-10 text-lg font-bold placeholder:text-transparent text-black bg-transparent border-x-0 border-t-0 border-b-2 focus:border-b-black focus:outline-none focus:ring-0"
               placeholder="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -81,7 +81,7 @@ export function LoginPage() {
             <input
               type="password"
               id="password"
-              className="peer w-full h-10 text-lg font-bold placeholder:text-transparent text-black bg-transparent border-b-2 border-gray-400 focus:border-gray-400 focus:outline-none"
+              className="peer w-full h-10 text-lg font-bold placeholder:text-transparent text-black bg-transparent border-x-0 border-t-0 border-b-2 focus:border-b-black focus:outline-none focus:ring-0"
               placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
