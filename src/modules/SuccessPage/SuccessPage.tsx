@@ -1,5 +1,5 @@
 import { motion, Variants } from "framer-motion";
-import { useMarkTaskDone } from "modules/_common/hooks";
+import { useMarkTaskDone, useTimer } from "modules/_common/hooks";
 import { tasksService } from "modules/_common/services/tasks-service";
 import {
   isTaskDone,
@@ -13,6 +13,7 @@ import { useQuery } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 import coolCat from "./images/swag-cool.gif";
 import { isToday, parseISO } from "date-fns";
+import { useTogglSettings } from "AuthenticatedApp";
 
 const successTitles = [
   {
@@ -43,6 +44,9 @@ export function SuccessPage() {
   const doneTodayTaskCount = tasksDoneToday.length;
   const totalTasksToday = tasksTodayCount + doneTodayTaskCount;
   const percentDone = Math.floor((doneTodayTaskCount / totalTasksToday) * 100);
+
+  const { startTimer } = useTimer(tasksToday);
+  const { setTimerId } = useTogglSettings();
 
   const forwardedTasks = useRef({
     currentTask: location.state.currentTask,
@@ -92,6 +96,13 @@ export function SuccessPage() {
     },
   };
 
+  const handleTimer = async () => {
+    const res = await startTimer(0);
+    if (res) {
+      setTimerId(res.data.id.toString());
+    }
+  };
+
   return (
     <motion.div
       className="flex flex-col items-center py-8 h-screen"
@@ -130,7 +141,10 @@ export function SuccessPage() {
         </p>
         <div>
           <Link to="/timer/work">
-            <button className="items-center py-4 px-12 w-full text-2xl font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md shadow-sm">
+            <button
+              onClick={handleTimer}
+              className="items-center py-4 px-12 w-full text-2xl font-medium tracking-wide text-white bg-indigo-200 hover:bg-indigo-100 rounded-md shadow-sm"
+            >
               Keep Slashing
             </button>
           </Link>
