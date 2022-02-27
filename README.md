@@ -1,8 +1,13 @@
-# [WIP] Slash Clone
+# Slash Clone
 
 This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
-Visit this link if you want to play around with the demo right away: [Link to follow once deployed]()
+Visit this link if you want to play around with the demo right away: [Live Deployment](https://slash-clone.netlify.app/). Or take a look at the [visual demo](#visual-demo).
+
+A test account is available if you don't want to create an account:
+
+**username:**: test@email.com
+**password:**: find4DISEUSE8biting
 
 ## Table of contents
 
@@ -10,8 +15,8 @@ Visit this link if you want to play around with the demo right away: [Link to fo
   - [Why I built this](#why-i-built-this)
   - [Goals](#goals)
   - [App specifications](#app-specifications)
-  - [Visual demo]()
-- [My process]()
+  - [Visual demo](#visual-demo)
+- [My process](#my-process)
   - [Built with](#built-with)
   - [Some things learned](#some-things-learned)
   - [Continued development](#continued-development)
@@ -37,8 +42,8 @@ Having said all that, these were my primary goals by building this app:
 
 - [x] learn how to create a delightful animation heavy app
 - [x] learn how to use Django Rest Framework for the backend of the app
-- [ ] deploy my first fullstack app
-- [x] apply the [learnings on React]() I've built up over the past few months
+- [x] deploy my first fullstack app
+- [x] apply the learnings on React I've built up over the past few months
 
 ### App specifications
 
@@ -49,11 +54,37 @@ Users should be able to:
 - [x] Create, read, update and delete tasks
 - [x] Start slashing through Today's tasks
   - [x] This starts the Pomodoro timer (25 min work, 5 min break)
-- [ ] Time taken synced to Toggl via their API
+- [x] Time taken synced to Toggl via their API
 
 ### Visual demo
 
-Insert screenshots/gifs here
+#### Expanding columns animation
+
+![](./demo/expanding-columns.gif)
+
+#### Add task
+
+![](./demo/add-task.gif)
+
+#### Delete task
+
+![](./demo/delete-task.gif)
+
+#### Mark task done
+
+![](./demo/mark-done.gif)
+
+#### Move task
+
+![](./demo/move-task.gif)
+
+#### Start work timer
+
+![](./demo/start-work-timer.gif)
+
+#### Mark task complete from timer
+
+![](./demo/mark-task-complete.gif)
 
 ## My process
 
@@ -80,21 +111,27 @@ Insert screenshots/gifs here
 
 ### Some things learned
 
+#### Frontend
+
 - [passing state when navigating to different components](https://ui.dev/react-router-v5-pass-props-to-link/)
 - handling React Router routes in unit and integration tests
 - manipulating dates with date-fns lib
 - Framer Motion's variants, orchestration, propagation, exit animations and page transitions
-- building an API and consuming in a React frontend
-- encrypting API keys in the backend
 - working with 3rd party api's (Toggl in this case)
 
-#### useRef over useMemo
+##### useRef over useMemo
 
 `useRef` over `useMemo` [if you just need a consistent reference](https://blog.logrocket.com/rethinking-hooks-memoization/). You can end up shooting yourself on the foot by relying on `useMemo` for consistent reference as well. Per the official docs:
 
 > You may rely on useMemo as a performance optimization, not as a semantic guarantee. In the future, React may choose to “forget” some previously memoized values and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.
 
-#### DRF and Django
+#### Backend
+
+- building an API and consuming in a React frontend
+- encrypting API keys in the backend
+- CORS and its interplay with a poly-repo setup
+
+##### DRF and Django
 
 Learning this was its own beast. But I'm surprised with how easy it was to implement common and basic tasks. I remember while learning the MERN stack,
 I had to setup auth, encrypt passwords etc. All of these Django already supports out of the box.
