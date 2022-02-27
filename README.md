@@ -1,5 +1,7 @@
 # Slash Clone
 
+> :warning: **Toggl integration does not currently work due to CORS issues. Waiting on toggl support to whitelist the domain.**
+
 This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
 Visit this link if you want to play around with the demo right away: [Live Deployment](https://slash-clone.netlify.app/). Or take a look at the [visual demo](#visual-demo).
@@ -140,10 +142,14 @@ I had to setup auth, encrypt passwords etc. All of these Django already supports
 
 Possible improvements are:
 
-- support for syncting to different Toggl projects per task
+- support for syncing to different Toggl projects per task
   - right now it's a global setting and all tasks will sync to that specified global setting
 - add ability to create projects and tags in Toggl
   - right now there is only READ functionality for these
+- invest more time on non-happy paths
+  - this includes more robust error handling
+  - writing tests for non-happy paths
+- tests for toggl integration and REST related features
 - build a mobile version using React Native
   - I'll be using this exclusively on the desktop, so mobile support was not a focus
   - also wanted to use it as an opportunity to learn React Native (hence why I used django rest framework so I can use the same backend)
