@@ -1,9 +1,8 @@
 import { useFetchUser } from "modules/_common/queries";
-import { authService } from "modules/_common/services/auth-service";
 import { togglService } from "modules/_common/services/toggl-service";
 import { TTogglSettings } from "modules/_common/types/api";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useModal } from "../Modal";
 
 export function SettingsForm() {
@@ -34,9 +33,6 @@ export function SettingsForm() {
 
   const saveSettings = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (apiKey) {
-      console.log(apiKey);
-    }
     const data = {
       userId: userData.id,
       toggl_api_key: apiKey,

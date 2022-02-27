@@ -70,7 +70,6 @@ const getTags = async (apiKey: string, workspaceId: string) => {
       headers: headers,
     }
   );
-  console.log("toggl", response);
   return response.data;
 };
 

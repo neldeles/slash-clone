@@ -19,8 +19,6 @@ export function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  console.log(errorMessage);
-
   const signupUser = useMutation((credentials: TSignupCredentials) =>
     authService.signup(credentials)
   );
