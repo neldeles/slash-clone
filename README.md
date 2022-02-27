@@ -1,6 +1,6 @@
 # Slash Clone
 
-> :warning: **Toggl integration does not currently work due to CORS issues. Waiting on toggl support to whitelist the domain.**
+> :warning: **Toggl integration on the live site does not currently work due to CORS issues. Waiting on toggl support to whitelist the domain. It works if you run locally.**
 
 This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
