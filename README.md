@@ -1,6 +1,10 @@
 # Slash Clone
 
-> :warning: **Toggl integration on the live site does not currently work due to CORS issues. Waiting on toggl support to whitelist the domain. It works if you run locally.**
+> :warning: **Toggl integration on the live site does not currently work due to CORS issues.**
+>
+> **Waiting on toggl support to whitelist the domain.**
+>
+> **It works if you run locally.**
 
 This is the first deployed full stack app I've built on my own...not following any cookie cutter tutorials. It is heavily inspired by [Slash](https://getslash.co).
 
@@ -8,8 +12,8 @@ Visit this link if you want to play around with the demo right away: [Live Deplo
 
 A test account is available if you don't want to create an account:
 
-**username:**: test@email.com
-**password:**: find4DISEUSE8biting
+**username:** test@email.com <br>
+**password:** find4DISEUSE8biting
 
 ## Table of contents
 
