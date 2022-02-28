@@ -31,17 +31,17 @@ export function TogglSettingsPage() {
 
   const projectsQuery = useQuery(
     ["toggl", "projects"],
-    () => togglService.getProjects(togglApiKey!, userWorkspaceId!),
+    () => togglService.getProjects(togglApiKey!, workspaceIdInput),
     {
-      enabled: !!togglApiKey && !!userWorkspaceId,
+      enabled: !!togglApiKey && workspaceIdInput !== "",
     }
   );
 
   const tagsQuery = useQuery(
     ["toggl", "tags"],
-    () => togglService.getTags(togglApiKey!, userWorkspaceId!),
+    () => togglService.getTags(togglApiKey!, workspaceIdInput),
     {
-      enabled: !!togglApiKey && !!userWorkspaceId,
+      enabled: !!togglApiKey && workspaceIdInput !== "",
     }
   );
 
@@ -147,11 +147,10 @@ export function TogglSettingsPage() {
                       value={projectIdInput}
                       onChange={(e) => setProjectIdInput(e.target.value)}
                       className="block p-4 w-full bg-transparent border-x-0 border-t-0 border-b-2 border-b-black focus:border-b-black focus:ring-0"
+                      disabled={workspaceIdInput === ""}
                     >
                       {workspaceIdInput === "" ? (
-                        <option disabled value="">
-                          -- select workspace first --
-                        </option>
+                        <option value="">-- select workspace first --</option>
                       ) : (
                         <option value="">-- select an option --</option>
                       )}
@@ -176,7 +175,7 @@ export function TogglSettingsPage() {
                   <div className="mt-1">
                     <Multiselect
                       items={tagsNames}
-                      isWorkspaceSet={userWorkspaceId !== ""}
+                      isWorkspaceSet={workspaceIdInput !== ""}
                       selectedTags={selectedTags}
                       setSelectedTags={setSelectedTags}
                     />
