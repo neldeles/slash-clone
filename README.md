@@ -92,6 +92,10 @@ Users should be able to:
 
 ![](./demo/mark-task-complete.gif)
 
+#### Toggl implementation
+
+![](./demo/toggl.gif)
+
 ## My process
 
 ### Built with
