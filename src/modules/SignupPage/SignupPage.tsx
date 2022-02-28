@@ -1,9 +1,8 @@
-import { AuthenticatedApp } from "AuthenticatedApp";
 import axios from "axios";
 import { authService } from "modules/_common/services/auth-service";
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 type TSignupCredentials = {
   username: string;
@@ -19,8 +18,13 @@ export function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const signupUser = useMutation((credentials: TSignupCredentials) =>
-    authService.signup(credentials)
+  const signupUser = useMutation(
+    (credentials: TSignupCredentials) => authService.signup(credentials),
+    {
+      onSuccess: () => {
+        window.location.reload();
+      },
+    }
   );
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -42,10 +46,6 @@ export function SignupPage() {
       },
     });
   };
-
-  if (signupUser.isSuccess) {
-    return <AuthenticatedApp />;
-  }
 
   return (
     <>
