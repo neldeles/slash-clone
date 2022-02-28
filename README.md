@@ -113,6 +113,10 @@ Users should be able to:
 - [Django](https://www.djangoproject.com/)
 - [django rest framework](https://www.django-rest-framework.org/) - for building out the APIs
 
+##### Deployment
+- [netlify](https://netlify.com/) - for the React frontend (free tier)
+- [heroku](https://heroku.com/) - for the Django backend (hobby tier)
+
 ### Some things learned
 
 #### Frontend
